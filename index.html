@@ -26,14 +26,27 @@
         <style>
             #title-name { color: rgb(4 114 173) }
 
-            .hobby-gallery {
+            #gallery {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             }
         </style>
         <script src="https://kit.fontawesome.com/6db0bd16fb.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.slim.min.js"></script>
+        <script>
+            function addGallery() {
+                let imagesHTML = '';
+
+                for(let i=1; i<=50; i++) {
+                    imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg" />';
+                }
+                
+                debugger;
+                document.getElementById("gallery").innerHTML = imagesHTML;
+            }
+        </script>
     </head>
-    <body>
+    <body onLoad="addGallery()">
         <base target="_blank" />
         <main class="container-fluid">
             <h2 id="title-name">Satoshi Kawasaki</h2>
@@ -66,48 +79,7 @@
             </details>
             <details>
                 <summary role="button">My likes (and more pics of me)</summary>
-                <div class="hobby-gallery">
-                    <div class="hobby-pic"><img src="images/hobbies/h1.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h2.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h3.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h4.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h5.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h6.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h7.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h8.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h9.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h10.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h11.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h12.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h13.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h14.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h15.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h16.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h17.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h18.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h19.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h20.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h21.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h22.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h23.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h24.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h25.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h26.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h27.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h28.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h29.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h30.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h31.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h32.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h33.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h34.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h35.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h36.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h37.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h38.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h39.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h40.jpeg"></div>
-                    <div class="hobby-pic"><img src="images/hobbies/h41.jpeg"></div>
+                <div id="gallery">
                 </div>
             </details>
             <details open>
