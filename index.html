@@ -64,7 +64,6 @@
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
             }
-            /* When the container is wide enough for 6 columns (100px × 6 = 600px), switch to exactly 6 columns */
             @media (min-width: 600px) {
                 #gallery {
                     grid-template-columns: repeat(6, 1fr);
@@ -80,22 +79,63 @@
             #talks td:not([colspan="3"]) {
                 text-align: center;
             }
+
+            .tooltip-wrapper {
+                position: relative;
+                display: inline-block;
+                margin-left: 0;
+                border-bottom: none !important;
+                cursor: pointer !important;
+            }
+            .copy-btn {
+                transition: color 0.2s ease;
+            }
+            .copy-btn:hover {
+                color: #0088cc;
+            }
         </style>
 
         <script src="https://kit.fontawesome.com/6db0bd16fb.js" crossorigin="anonymous"></script>
         <script>
-            function addGallery() {
+            function main() {
+                // Gallery
                 let imagesHTML = '';
-
                 for(let i=1; i<=84; i++) {
                     imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg">';
                 }
-
                 document.getElementById("gallery").innerHTML = imagesHTML;
+                
+                // Copy email icon
+                const wrapper = document.querySelector('.tooltip-wrapper');
+
+                if (wrapper) {
+                    wrapper.addEventListener('click', (e) => {
+                        e.preventDefault();
+
+                        // 1. Copy email
+                        navigator.clipboard.writeText('satoshi@hobbes3.com');
+
+                        // 2. Query elements LIVE at the moment of click
+                        const copyIcon = wrapper.querySelector('.copy-btn, [data-icon="copy"]');
+                        const checkIcon = wrapper.querySelector('.check-btn, [data-icon="check"]');
+
+                        // 3. Update tooltip & swap icon visibility
+                        wrapper.setAttribute('data-tooltip', 'Copied!');
+                        if (copyIcon) copyIcon.style.display = 'none';
+                        if (checkIcon) checkIcon.style.display = 'inline-block';
+
+                        // 4. Reset back after 1.5s
+                        setTimeout(() => {
+                            wrapper.setAttribute('data-tooltip', 'Copy email');
+                            if (copyIcon) copyIcon.style.display = 'inline-block';
+                            if (checkIcon) checkIcon.style.display = 'none';
+                        }, 1500);
+                    });
+                }
             }
         </script>
     </head>
-    <body onLoad="addGallery()">
+    <body onLoad="main()">
         <base target="_blank">
         <main class="container-fluid">
             <h1 id="name">Satoshi Kawasaki</h1>
@@ -250,9 +290,13 @@
                 <summary role="button">📃 My resume</summary>
                 <p>View my resume in a <a href="hobbes3_resume_v9.0.pdf">PDF format</a> (ready for printing or copy-and-paste).</p>
                 <p>
-                    <i class="fa-brands fa-linkedin"></i><a href="https://www.linkedin.com/in/hobbes3/">LinkedIn</a><br>
-                    <i class="fa-brands fa-github"></i><a href="https://github.com/hobbes3">Github</a><br>
-                    <i class="fa-solid fa-envelope"></i><a href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online.">satoshi@hobbes3.com</a>
+                    <i class="fa-brands fa-linkedin"></i> <a href="https://www.linkedin.com/in/hobbes3/">LinkedIn</a><br>
+                    <i class="fa-brands fa-github"></i> <a href="https://github.com/hobbes3">Github</a><br>
+                    <i class="fa-solid fa-envelope"></i> <a href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online.">satoshi@hobbes3.com</a>
+                    <span class="tooltip-wrapper" data-tooltip="Copy email">
+                        <i class="fa-regular fa-copy copy-btn"></i>
+                        <i class="fa-solid fa-check check-btn" style="display: none; color: #2ea44f;"></i>
+                    </span>
                 </p>
                 <img src="images/hobbes3_resume_v9.0.svg">
             </details>
