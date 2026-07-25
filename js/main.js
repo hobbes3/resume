@@ -1,7 +1,8 @@
 // Gallery
+const gallery_pics = 96;
 let imagesHTML = "";
-for (let i = 1; i <= 84; i++) {
-  imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg">';
+for (let i = 1; i <= gallery_pics; i++) {
+  imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg" />';
 }
 document.getElementById("my-pics").innerHTML = imagesHTML;
 
