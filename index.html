@@ -4,184 +4,47 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Satoshi Kawasaki's resume and portfolio"
-    />
+    <meta name="description" content="Satoshi Kawasaki's resume and portfolio" />
 
     <meta property="og:type" content="profile" />
     <meta property="og:url" content="https://hobbes3.com" />
     <meta property="og:title" content="Satoshi Kawasaki" />
-    <meta
-      property="og:description"
-      content="Satoshi Kawasaki's resume and portfolio"
-    />
-    <meta
-      property="og:image"
-      content="https://hobbes3.com/images/satoshi.jpeg"
-    />
+    <meta property="og:description" content="Satoshi Kawasaki's resume and portfolio" />
+    <meta property="og:image" content="https://hobbes3.com/images/satoshi.jpeg" />
     <meta property="og:image:width" content="250" />
     <meta property="og:image:height" content="250" />
 
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://hobbes3.com" />
     <meta property="twitter:title" content="Satoshi Kawasaki" />
-    <meta
-      property="twitter:description"
-      content="Satoshi Kawasaki's resume and portfolio"
-    />
-    <meta
-      property="twitter:image"
-      content="https://hobbes3.com/images/satoshi.jpeg"
-    />
+    <meta property="twitter:description" content="Satoshi Kawasaki's resume and portfolio" />
+    <meta property="twitter:image" content="https://hobbes3.com/images/satoshi.jpeg" />
     <meta property="twitter:image:width" content="250" />
     <meta property="twitter:image:height" content="250" />
 
     <title>Satoshi Kawasaki</title>
 
     <link rel="icon" type="image/png" href="/favicon.png" sizes="512x512" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <link rel="stylesheet" href="css/main.css" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-    />
-    <style>
-      html {
-        scrollbar-gutter: stable;
-      }
-
-      body {
-        max-width: 1000px;
-        min-width: 30%;
-        margin: 0 auto;
-        width: 100%;
-      }
-
-      #name {
-        color: rgb(4 114 173);
-        margin-bottom: 0;
-      }
-      #name-sub {
-        margin-bottom: 0;
-      }
-
-      .summary-container {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-      #headshot {
-        width: 150px;
-        height: 150px;
-        border-radius: 10%;
-        object-fit: cover;
-        flex-shrink: 0;
-      }
-
-      #gallery {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      }
-      @media (min-width: 600px) {
-        #gallery {
-          grid-template-columns: repeat(6, 1fr);
-        }
-      }
-      #tools td:not([colspan="2"]) {
-        text-indent: 0.5em;
-      }
-
-      #talks {
-        table-layout: fixed;
-      }
-      #talks td:not([colspan="3"]) {
-        text-align: center;
-      }
-
-      .tooltip-wrapper {
-        position: relative;
-        display: inline-block;
-        margin-left: 0;
-        border-bottom: none !important;
-        cursor: pointer !important;
-      }
-      .copy-btn {
-        transition: color 0.2s ease;
-      }
-      .copy-btn:hover {
-        color: #0088cc;
-      }
-    </style>
-
-    <script
-      src="https://kit.fontawesome.com/6db0bd16fb.js"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-      function main() {
-        // Gallery
-        let imagesHTML = "";
-        for (let i = 1; i <= 84; i++) {
-          imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg">';
-        }
-        document.getElementById("gallery").innerHTML = imagesHTML;
-
-        // Copy email icon
-        const wrapper = document.querySelector(".tooltip-wrapper");
-
-        if (wrapper) {
-          wrapper.addEventListener("click", (e) => {
-            e.preventDefault();
-
-            // 1. Copy email
-            navigator.clipboard.writeText("satoshi@hobbes3.com");
-
-            // 2. Query elements LIVE at the moment of click
-            const copyIcon = wrapper.querySelector(
-              '.copy-btn, [data-icon="copy"]',
-            );
-            const checkIcon = wrapper.querySelector(
-              '.check-btn, [data-icon="check"]',
-            );
-
-            // 3. Update tooltip & swap icon visibility
-            wrapper.setAttribute("data-tooltip", "Copied!");
-            if (copyIcon) copyIcon.style.display = "none";
-            if (checkIcon) checkIcon.style.display = "inline-block";
-
-            // 4. Reset back after 1.5s
-            setTimeout(() => {
-              wrapper.setAttribute("data-tooltip", "Copy email");
-              if (copyIcon) copyIcon.style.display = "inline-block";
-              if (checkIcon) checkIcon.style.display = "none";
-            }, 1500);
-          });
-        }
-      }
-    </script>
+    <script src="https://kit.fontawesome.com/6db0bd16fb.js" crossorigin="anonymous"></script>
+    <script src="js/main.js" defer></script>
   </head>
-  <body onLoad="main()">
+  <body>
     <base target="_blank" />
     <main class="container-fluid">
       <h1 id="name">Satoshi Kawasaki</h1>
       <p id="name-sub">河崎聡</p>
       <div class="summary-container">
-        <img
-          src="images/satoshi.jpeg"
-          id="headshot"
-          alt="Satoshi Kawasaki"
-          width="200"
-          height="200"
-        />
+        <img src="images/satoshi.jpeg" id="headshot" alt="Satoshi Kawasaki" width="200" height="200" />
         <blockquote>
-          A self-taught coder who went on to study rocket science, I now bring
-          8+ years of expertise in enterprise software and client-facing roles.
+          A self-taught coder who went on to study rocket science, I now bring 8+ years of expertise in enterprise
+          software and client-facing roles.
           <footer>
             <cite
               >US citizen based in
-              <a
-                href="https://www.google.com/maps/place/Duboce+Triangle,+San+Francisco,+CA,+USA"
-                class="secondary"
+              <a href="https://www.google.com/maps/place/Duboce+Triangle,+San+Francisco,+CA,+USA" class="secondary"
                 >San Francisco, CA 94114</a
               ></cite
             >
@@ -193,53 +56,40 @@
         <article>
           <header>2016 Trump vs Clinton</header>
           <p>
-            <a href="https://fec.hobbes3.com"
-              ><img src="images/trump-vs-clinton-preview.png"
-            /></a>
+            <a href="https://fec.hobbes3.com"><img src="images/trump-vs-clinton-preview.png" /></a>
           </p>
           <p>
             Check out my
-            <a href="https://fec.hobbes3.com">visualization project</a> that I
-            created during my tenure at Splunk (now part of Cisco).
+            <a href="https://fec.hobbes3.com">visualization project</a> that I created during my tenure at Splunk (now
+            part of Cisco).
           </p>
         </article>
         <article>
           <header>
             Selected projects from
-            <a href="https://www.splunk.com/en_us/blog/splunk-for-good.html"
-              >Splunk for Good</a
-            >:
+            <a href="https://www.splunk.com/en_us/blog/splunk-for-good.html">Splunk for Good</a>:
           </header>
           <ul>
             <li>
               Anti-human trafficking using data scraping and
-              <a
-                href="https://portal.vision.cognitive.azure.com/demo/face-detection"
-                class="secondary"
+              <a href="https://portal.vision.cognitive.azure.com/demo/face-detection" class="secondary"
                 >Microsoft Azure Face</a
               >
               with
-              <a href="https://www.globalemancipation.ngo"
-                >Global Emancipation Network</a
-              >.
+              <a href="https://www.globalemancipation.ngo">Global Emancipation Network</a>.
             </li>
             <li>
               Detecting wildfires with IoT ground sensors with the
-              <a href="https://www.mofd.org"
-                >Moraga-Orinda Fire District of CA</a
-              >.
+              <a href="https://www.mofd.org">Moraga-Orinda Fire District of CA</a>.
             </li>
             <li>
               Refugee tracking and connectivity using
-              <a href="https://meraki.cisco.com" class="secondary"
-                >Cisco Meraki devices</a
-              >
+              <a href="https://meraki.cisco.com" class="secondary">Cisco Meraki devices</a>
               with <a href="https://www.nethope.org">NetHope</a>.
             </li>
             <li>
               City tree maintenance using machine learning with
-              <a href="https://sfpublicworks.org">San Francisco Public Works</a
-              >.
+              <a href="https://sfpublicworks.org">San Francisco Public Works</a>.
             </li>
           </ul>
         </article>
@@ -253,9 +103,7 @@
               <tr>
                 <td>Hosting</td>
                 <td>
-                  <a href="https://docs.github.com/en/pages" class="secondary"
-                    >GitHub Pages</a
-                  >
+                  <a href="https://docs.github.com/en/pages" class="secondary">GitHub Pages</a>
                 </td>
               </tr>
               <tr>
@@ -267,19 +115,13 @@
               <tr>
                 <td>Icons</td>
                 <td>
-                  <a href="https://fontawesome.com/" class="secondary"
-                    >Font Awesome</a
-                  >
+                  <a href="https://fontawesome.com/" class="secondary">Font Awesome</a>
                 </td>
               </tr>
               <tr>
                 <td>Resume</td>
                 <td>
-                  <a
-                    href="https://workspace.google.com/products/slides/"
-                    class="secondary"
-                    >Google Slides</a
-                  >
+                  <a href="https://workspace.google.com/products/slides/" class="secondary">Google Slides</a>
                 </td>
               </tr>
             </tbody>
@@ -290,36 +132,36 @@
               <tr>
                 <td>Domain name</td>
                 <td>
-                  <a
-                    href="https://www.cloudflare.com/products/registrar/"
-                    class="secondary"
-                    >Cloudflare Registrar</a
-                  >
+                  <a href="https://www.cloudflare.com/products/registrar/" class="secondary">Cloudflare Registrar</a>
                 </td>
               </tr>
             </tbody>
           </table>
           <footer>
             Source files at my
-            <a href="https://github.com/hobbes3/site-resume" class="secondary"
-              >GitHub repo</a
-            >.
+            <a href="https://github.com/hobbes3/site-resume" class="secondary">GitHub repo</a>.
           </footer>
         </article>
         <p>
-          My other code and projects: <i class="fa-brands fa-github"></i
-          ><a href="https://github.com/hobbes3">Github</a>
+          My other code and projects: <i class="fa-brands fa-github"></i>
+          <a href="https://github.com/hobbes3">Github</a>
         </p>
       </details>
       <details>
         <summary role="button">💁🏻‍♂️ My talks</summary>
         <p>
           Selected to present at
-          <a href="https://conf.splunk.com/"
-            >Splunk's annual user conferences</a
-          >
+          <a href="https://conf.splunk.com/">Splunk's annual user conferences</a>
           (Splunk is now part of Cisco):
         </p>
+        <div class="gallery">
+          <img src="images/conf1.jpeg" />
+          <img src="images/conf2.jpeg" />
+          <img src="images/conf3.jpeg" />
+          <img src="images/conf4.jpeg" />
+          <img src="images/conf5.jpeg" />
+          <img src="images/conf6.jpeg" />
+        </div>
         <table id="talks">
           <tbody>
             <tr>
@@ -328,14 +170,10 @@
             <tr>
               <td>.conf19</td>
               <td>
-                <a href="slides/2019-DEVS4G2287.pdf" class="secondary"
-                  >slides</a
-                >
+                <a href="slides/2019-DEVS4G2287.pdf" class="secondary">slides</a>
               </td>
               <td>
-                <a href="https://youtu.be/7WCVdxc82s8" class="secondary"
-                  >video</a
-                >
+                <a href="https://youtu.be/7WCVdxc82s8" class="secondary">video</a>
               </td>
             </tr>
             <tr>
@@ -347,9 +185,7 @@
                 <a href="slides/2019-FN2192.pdf" class="secondary">slides</a>
               </td>
               <td>
-                <a href="https://youtu.be/SWlIPq7GHDU" class="secondary"
-                  >video</a
-                >
+                <a href="https://youtu.be/SWlIPq7GHDU" class="secondary">video</a>
               </td>
             </tr>
             <tr>
@@ -361,15 +197,11 @@
                 <a href="slides/2019-FN2188.pdf" class="secondary">slides</a>
               </td>
               <td>
-                <a href="https://youtu.be/87UAqsJPo8A" class="secondary"
-                  >video</a
-                >
+                <a href="https://youtu.be/87UAqsJPo8A" class="secondary">video</a>
               </td>
             </tr>
             <tr>
-              <td colspan="3">
-                🗣️ "Splunking refugees with help from NetHope and Cisco"
-              </td>
+              <td colspan="3">🗣️ "Splunking refugees with help from NetHope and Cisco"</td>
             </tr>
             <tr>
               <td>.conf19</td>
@@ -377,9 +209,7 @@
                 <a href="slides/2019-FN2188.pdf" class="secondary">slides</a>
               </td>
               <td>
-                <a href="https://youtu.be/9XG11ka28UU" class="secondary"
-                  >video</a
-                >
+                <a href="https://youtu.be/9XG11ka28UU" class="secondary">video</a>
               </td>
             </tr>
             <tr>
@@ -388,9 +218,7 @@
             <tr>
               <td>.conf17</td>
               <td>
-                <a
-                  href="slides/2017-splunking-the-2016-presidential-election-data-panel.pdf"
-                  class="secondary"
+                <a href="slides/2017-splunking-the-2016-presidential-election-data-panel.pdf" class="secondary"
                   >slides</a
                 >
               </td>
@@ -402,11 +230,7 @@
             <tr>
               <td>.conf17</td>
               <td>
-                <a
-                  href="slides/2017-splunking-to-fight-human-trafficking.pdf"
-                  class="secondary"
-                  >slides</a
-                >
+                <a href="slides/2017-splunking-to-fight-human-trafficking.pdf" class="secondary">slides</a>
               </td>
               <td></td>
             </tr>
@@ -416,11 +240,7 @@
             <tr>
               <td>.conf17</td>
               <td>
-                <a
-                  href="slides/2017-speed-up-your-searches.pdf"
-                  class="secondary"
-                  >slides</a
-                >
+                <a href="slides/2017-speed-up-your-searches.pdf" class="secondary">slides</a>
               </td>
               <td></td>
             </tr>
@@ -442,15 +262,14 @@
         </table>
       </details>
       <details>
-        <summary role="button">📸 My likes (pics)</summary>
-        <div id="gallery"></div>
+        <summary role="button">📸 My likes (gallery)</summary>
+        <div id="my-pics" class="gallery"></div>
       </details>
       <details open>
         <summary role="button">📃 My resume</summary>
         <p>
           View my resume in a
-          <a href="hobbes3_resume_v9.0.pdf">PDF format</a> (ready for printing
-          or copy-and-paste).
+          <a href="hobbes3_resume_v9.0.pdf">PDF format</a> (ready for printing or copy-and-paste).
         </p>
         <p>
           <i class="fa-brands fa-linkedin"></i>
@@ -458,16 +277,10 @@
           <i class="fa-brands fa-github"></i>
           <a href="https://github.com/hobbes3">Github</a><br />
           <i class="fa-solid fa-envelope"></i>
-          <a
-            href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online."
-            >satoshi@hobbes3.com</a
-          >
+          <a href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online.">satoshi@hobbes3.com</a>
           <span class="tooltip-wrapper" data-tooltip="Copy email">
             <i class="fa-solid fa-copy copy-btn"></i>
-            <i
-              class="fa-solid fa-check check-btn"
-              style="display: none; color: #2ea44f"
-            ></i>
+            <i class="fa-solid fa-check check-btn" style="display: none; color: #2ea44f"></i>
           </span>
         </p>
         <img src="images/hobbes3_resume_v9.0.svg" />

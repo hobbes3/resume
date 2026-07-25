@@ -1,0 +1,83 @@
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  max-width: 1000px;
+  min-width: 30%;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#name {
+  color: rgb(4 114 173);
+  margin-bottom: 0;
+}
+#name-sub {
+  margin-bottom: 0;
+}
+
+.summary-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+#headshot {
+  width: 150px;
+  height: 150px;
+  border-radius: 10%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+}
+@media (min-width: 600px) {
+  .gallery {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+#tools td:not([colspan="2"]) {
+  text-indent: 0.5em;
+}
+
+.force-single-row {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important; /* Prevents wrapping onto a 2nd line */
+  width: 100%;
+  gap: 0.5rem; /* Adjust space between images as needed */
+  align-items: center;
+}
+.force-single-row img {
+  /* Forces each image to take up equal space (approx 1/6th) */
+  flex: 1 1 0;
+  min-width: 0; /* CRITICAL: Allows flex items to shrink smaller than image's native width */
+  width: 100%;
+  height: auto;
+  object-fit: cover; /* Prevents image distortion */
+}
+
+#talks {
+  table-layout: fixed;
+}
+#talks td:not([colspan="3"]) {
+  text-align: center;
+}
+
+.tooltip-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 0;
+  border-bottom: none !important;
+  cursor: pointer !important;
+}
+.copy-btn {
+  transition: color 0.2s ease;
+}
+.copy-btn:hover {
+  color: #0088cc;
+}
