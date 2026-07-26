@@ -5,7 +5,7 @@ const resumeImg = document.getElementById("resume");
 function renderGallery() {
   let imagesHTML = "";
   for (let i = 1; i <= gallery_pics; i++) {
-    imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg" fetchpriority="low" loading="lazy" />';
+    imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg" fetchpriority="low" />';
   }
   document.getElementById("my-pics").innerHTML = imagesHTML;
 }
