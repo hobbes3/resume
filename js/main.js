@@ -1,10 +1,27 @@
 // Gallery
 const gallery_pics = 96;
-let imagesHTML = "";
-for (let i = 1; i <= gallery_pics; i++) {
-  imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg" />';
+const resumeImg = document.getElementById("resume");
+
+function renderGallery() {
+  let imagesHTML = "";
+  for (let i = 1; i <= gallery_pics; i++) {
+    imagesHTML += '\n<img src="images/gallery/' + i + '.jpeg" fetchpriority="low" loading="lazy" />';
+  }
+  document.getElementById("my-pics").innerHTML = imagesHTML;
 }
-document.getElementById("my-pics").innerHTML = imagesHTML;
+
+if (resumeImg && resumeImg.complete) {
+  renderGallery();
+} else if (resumeImg) {
+  // Otherwise, wait until it fires the 'load' event
+  resumeImg.addEventListener("load", renderGallery);
+
+  // Optional fallback: load gallery anyway if resume image fails to load
+  resumeImg.addEventListener("error", renderGallery);
+} else {
+  // Fallback in case resume image element isn't found
+  renderGallery();
+}
 
 // Copy email icon
 const wrapper = document.querySelector(".tooltip-wrapper");
