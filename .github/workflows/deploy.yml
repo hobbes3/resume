@@ -1,4 +1,4 @@
-name: Update Symlink & Deploy Pages
+name: Update Assets & Deploy Pages
 
 on:
   push:
@@ -11,22 +11,22 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  update-symlink:
+  build-assets:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Install dependencies (Poppler for PDF conversion)
+      - name: Install dependencies (Poppler)
         run: |
           sudo apt-get update
           sudo apt-get install -y poppler-utils
 
-      - name: Create or update symlink and generate PNG
+      - name: Step 1 - Create or update PDF symlink
         run: |
           LATEST_FILE=$(ls hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
 
@@ -36,36 +36,38 @@ jobs:
           fi
 
           echo "Latest resume file identified: $LATEST_FILE"
-
           ln -sf "$LATEST_FILE" hobbes3_resume_latest.pdf
 
-          # -png: Output format PNG
-          # -f 1 -l 1: First page only (page 1)
-          # -r 150: DPI resolution (150-300 dpi gives crisp text)
+      - name: Step 2 - Convert PDF to PNG preview
+        run: |
+          LATEST_FILE=$(ls hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
+
+          mkdir -p images
+
+          # Convert page 1 of the latest PDF to PNG at 150 DPI
           pdftoppm -png -f 1 -l 1 -r 150 "$LATEST_FILE" images/hobbes3_resume_latest
 
-          # pdftoppm appends '-1.png' to single-page exports, so we rename it
+          # Rename default output (hobbes3_resume_latest-1.png) to standard target
           if [ -f images/hobbes3_resume_latest-1.png ]; then
             mv images/hobbes3_resume_latest-1.png images/hobbes3_resume_latest.png
           fi
 
-      - name: Commit and push updated symlink and image
+      - name: Step 3 - Commit and push updated assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Stage both the symlink and the new PNG image
           git add hobbes3_resume_latest.pdf images/hobbes3_resume_latest.png
 
           if git diff --staged --quiet; then
-            echo "Symlink and PNG are already up to date."
+            echo "Assets are already up to date."
           else
             git commit -m "chore: auto-update resume symlink and PNG preview [skip ci]"
             git push
           fi
 
   deploy:
-    needs: update-symlink
+    needs: build-assets
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
