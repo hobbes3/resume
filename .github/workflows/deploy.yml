@@ -28,7 +28,7 @@ jobs:
 
       - name: Step 1 - Create or update PDF symlink
         run: |
-          LATEST_FILE=$(ls hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
+          LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
 
           if [ -z "$LATEST_FILE" ]; then
             echo "No matching resume file found!"
@@ -36,28 +36,29 @@ jobs:
           fi
 
           echo "Latest resume file identified: $LATEST_FILE"
-          ln -sf "$LATEST_FILE" hobbes3_resume_latest.pdf
+          ln -sf "$LATEST_FILE" resumes/hobbes3_resume_latest.pdf
 
       - name: Step 2 - Convert PDF to PNG preview
         run: |
-          LATEST_FILE=$(ls hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
+          LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
 
           mkdir -p images
 
           # Convert page 1 of the latest PDF to PNG at 150 DPI
-          pdftoppm -png -f 1 -l 1 -r 150 "$LATEST_FILE" images/hobbes3_resume_latest
+          pdftoppm -png -f 1 -l 1 -r 150 "$LATEST_FILE" resumes/hobbes3_resume_latest
 
           # Rename default output (hobbes3_resume_latest-1.png) to standard target
-          if [ -f images/hobbes3_resume_latest-1.png ]; then
-            mv images/hobbes3_resume_latest-1.png images/hobbes3_resume_latest.png
+          if [ -f resumes/hobbes3_resume_latest-1.png ]; then
+            mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
           fi
 
       - name: Step 3 - Commit and push updated assets
+        if: ${{ !env.ACT }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add hobbes3_resume_latest.pdf images/hobbes3_resume_latest.png
+          git add resumes/hobbes3_resume_latest.pdf resumes/hobbes3_resume_latest.png
 
           if git diff --staged --quiet; then
             echo "Assets are already up to date."
@@ -68,6 +69,7 @@ jobs:
 
   deploy:
     needs: build-assets
+    if: ${{ github.actor != 'nektos/act' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
