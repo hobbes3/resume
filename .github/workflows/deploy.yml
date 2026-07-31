@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -44,8 +48,8 @@ jobs:
 
           mkdir -p images
 
-          # Convert page 1 of the latest PDF to PNG at 150 DPI
-          pdftoppm -png -f 1 -l 1 -r 150 "$LATEST_FILE" resumes/hobbes3_resume_latest
+          # Convert page 1 of the latest PDF to PNG at 300 DPI
+          pdftoppm -png -f 1 -l 1 -r 300 "$LATEST_FILE" resumes/hobbes3_resume_latest
 
           # Rename default output (hobbes3_resume_latest-1.png) to standard target
           if [ -f resumes/hobbes3_resume_latest-1.png ]; then
@@ -53,7 +57,7 @@ jobs:
           fi
 
       - name: Step 3 - Commit and push updated assets
-        if: ${{ !env.ACT }}
+        if: ${{ !env.ACT && github.event_name != 'pull_request' }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -69,7 +73,7 @@ jobs:
 
   deploy:
     needs: build-assets
-    if: ${{ github.actor != 'nektos/act' }}
+    if: ${{ github.actor != 'nektos/act' && github.event_name != 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
