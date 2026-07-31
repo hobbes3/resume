@@ -3,7 +3,7 @@ name: Update Symlink & Deploy Pages
 on:
   push:
     branches:
-      - main # Change to master if your default branch is master
+      - main
 
 permissions:
   contents: write
@@ -21,7 +21,12 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Create or update symlink
+      - name: Install dependencies (Poppler for PDF conversion)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y poppler-utils
+
+      - name: Create or update symlink and generate PNG
         run: |
           LATEST_FILE=$(ls hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
 
@@ -31,21 +36,31 @@ jobs:
           fi
 
           echo "Latest resume file identified: $LATEST_FILE"
+
           ln -sf "$LATEST_FILE" hobbes3_resume_latest.pdf
 
-      - name: Commit and push updated symlink
+          # -png: Output format PNG
+          # -f 1 -l 1: First page only (page 1)
+          # -r 150: DPI resolution (150-300 dpi gives crisp text)
+          pdftoppm -png -f 1 -l 1 -r 150 "$LATEST_FILE" images/hobbes3_resume_latest
+
+          # pdftoppm appends '-1.png' to single-page exports, so we rename it
+          if [ -f images/hobbes3_resume_latest-1.png ]; then
+            mv images/hobbes3_resume_latest-1.png images/hobbes3_resume_latest.png
+          fi
+
+      - name: Commit and push updated symlink and image
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add hobbes3_resume_latest.pdf
+          # Stage both the symlink and the new PNG image
+          git add hobbes3_resume_latest.pdf images/hobbes3_resume_latest.png
 
-          # Only commit if the symlink actually changed
-          # Uses [skip ci] so the bot's commit doesn't trigger a duplicate workflow run
           if git diff --staged --quiet; then
-            echo "Symlink is already up to date."
+            echo "Symlink and PNG are already up to date."
           else
-            git commit -m "chore: auto-update resume symlink [skip ci]"
+            git commit -m "chore: auto-update resume symlink and PNG preview [skip ci]"
             git push
           fi
 
@@ -61,8 +76,6 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4.0.0
-        with:
-          path: "." # Deploys the root directory
 
       - name: Deploy to GitHub Pages
         id: deployment
