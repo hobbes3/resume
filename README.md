@@ -5,7 +5,7 @@
 [![HTML5 Validation](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=html5%20validation&logo=html5&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
 [![Link Checker](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=link%20checker&logo=githubactions&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
 
-My personal portfolio and resume website built with lightweight semantic HTML5, Pico CSS, and modern performance optimizations.
+My personal portfolio and resume website built with lightweight semantic HTML5.
 
 Website at https://hobbes3.com.
 
