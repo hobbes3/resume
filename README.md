@@ -1,0 +1,41 @@
+# site-resume
+
+[![CI Checks](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml/badge.svg)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
+[![Prettier](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=prettier&logo=prettier&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
+[![HTML5 Validation](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=html5%20validation&logo=html5&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
+[![Link Checker](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=link%20checker&logo=githubactions&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
+
+My personal portfolio and resume website built with lightweight semantic HTML5, Pico CSS, and modern performance optimizations.
+
+Website at https://hobbes3.com.
+
+Tools used to build this site:
+
+<table>
+  <tr>
+    <th colspan="2" align="left">🆓 Free</th>
+  </tr>
+  <tr>
+    <td><b>Hosting</b></td>
+    <td><a href="https://pages.github.com/">GitHub Pages</a></td>
+  </tr>
+  <tr>
+    <td><b>Style</b></td>
+    <td><a href="https://picocss.com/">Pico CSS</a></td>
+  </tr>
+  <tr>
+    <td><b>Icons</b></td>
+    <td><a href="https://fontawesome.com/">Font Awesome</a></td>
+  </tr>
+  <tr>
+    <td><b>Resume</b></td>
+    <td><a href="https://workspace.google.com/products/slides/">Google Slides</a></td>
+  </tr>
+  <tr>
+    <th colspan="2" align="left">💵 Paid</th>
+  </tr>
+  <tr>
+    <td><b>Domain name</b></td>
+    <td><a href="https://www.cloudflare.com/products/registrar/">Cloudflare Registrar</a></td>
+  </tr>
+</table>
