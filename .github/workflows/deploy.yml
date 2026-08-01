@@ -9,14 +9,14 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
   pages: write
   id-token: write
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 jobs:
   build-assets:
@@ -26,9 +26,11 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Step 0 - Install dependencies (Poppler)
+        env:
+          DEBIAN_FRONTEND: noninteractive
         run: |
-          sudo apt-get update
-          sudo apt-get install -y poppler-utils
+          sudo apt-get update -y -o Acquire::Retries=3
+          sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Step 1 - Create or update PDF symlink
         run: |
