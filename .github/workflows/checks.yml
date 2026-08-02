@@ -18,12 +18,10 @@ jobs:
       issues: write # required for peter-evans/create-issue-from-file
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20"
+        uses: actions/setup-node@v7
 
       - name: Prettier Check
         run: npx prettier --check .
@@ -42,7 +40,7 @@ jobs:
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: Link Checker Report
           content-filepath: ./lychee/out.md
