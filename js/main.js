@@ -1,6 +1,7 @@
 // Gallery
 const gallery_pics = 96;
 const resumeImg = document.getElementById("resume");
+const unusedTestVariable = "This will trigger no-unused-vars";
 
 function renderGallery() {
   let imagesHTML = "";
