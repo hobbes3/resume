@@ -1,7 +1,6 @@
 name: Update Assets & Deploy Pages
 
 on:
-  pull_request:
   push:
     branches:
       - main
