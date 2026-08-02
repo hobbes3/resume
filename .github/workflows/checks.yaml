@@ -43,8 +43,8 @@ jobs:
       - run: npm ci
       - uses: sibiraj-s/action-eslint@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }} # optional
-          eslint-args: "--ignore-path=.gitignore --quiet"
+          token: ${{ secrets.GITHUB_TOKEN }}
+          eslint-args: "js/ --ignore-path=.gitignore --quiet"
           extensions: "js,jsx,ts,tsx"
           annotations: true
   html5validator:
