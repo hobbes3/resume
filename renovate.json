@@ -3,7 +3,7 @@
   "extends": ["config:recommended"],
   "packageRules": [
     {
-      "matchMatchers": ["github-actions"],
+      "matchManagers": ["github-actions"],
       "groupName": "github-actions dependencies"
     }
   ]
