@@ -1,0 +1,22 @@
+{
+  "name": "site-resume",
+  "version": "1.0.0",
+  "type": "module",
+  "prettier": {
+    "printWidth": 9999,
+    "bracketSameLine": true
+  },
+  "stylelint": {
+    "extends": [
+      "stylelint-config-standard"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.8.0",
+    "globals": "^17.8.0",
+    "html-validate": "^11.6.0",
+    "stylelint": "^17.14.1",
+    "stylelint-config-standard": "^40.0.0"
+  }
+}
