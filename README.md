@@ -1,6 +1,8 @@
 # [hobbes3.com](https://hobbes3.com)
 
 [![Prettier](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=prettier&logo=prettier&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
+[![ESLint](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=eslint&logo=eslint&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
+[![Stylelint](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=stylelint&logo=stylelint&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
 [![HTML5 Validation](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=html5%20validation&logo=html5&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
 [![Link Checker](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yml?branch=main&label=link%20checker&logo=githubactions&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yml)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?logo=renovate&logoColor=white)](https://github.com/hobbes3/site-resume/issues/6)
