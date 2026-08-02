@@ -13,6 +13,7 @@ body {
   color: rgb(4 114 173);
   margin-bottom: 0;
 }
+
 #name-sub {
   margin-bottom: 0;
 }
@@ -22,6 +23,7 @@ body {
   align-items: center;
   gap: 1rem;
 }
+
 #headshot {
   width: 150px;
   height: 150px;
@@ -34,7 +36,8 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
-@media (min-width: 600px) {
+
+@media (width >= 600px) {
   .gallery {
     grid-template-columns: repeat(6, 1fr);
   }
@@ -46,12 +49,12 @@ body {
 
 .force-single-row {
   display: flex !important;
-  flex-direction: row !important;
-  flex-wrap: nowrap !important; /* Prevents wrapping onto a 2nd line */
+  flex-flow: row nowrap !important; /* Prevents wrapping onto a 2nd line */
   width: 100%;
   gap: 0.5rem; /* Adjust space between images as needed */
   align-items: center;
 }
+
 .force-single-row img {
   /* Forces each image to take up equal space (approx 1/6th) */
   flex: 1 1 0;
@@ -64,6 +67,7 @@ body {
 #talks {
   table-layout: fixed;
 }
+
 #talks td:not([colspan="3"]) {
   text-align: center;
 }
@@ -75,9 +79,11 @@ body {
   border-bottom: none !important;
   cursor: pointer !important;
 }
+
 .copy-btn {
   transition: color 0.2s ease;
 }
+
 .copy-btn:hover {
-  color: #0088cc;
+  color: #08c;
 }
