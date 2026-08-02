@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: creyD/prettier_action@v4
+      - uses: creyD/prettier_action@v4.6
   stylelint:
     runs-on: ubuntu-latest
     steps:
@@ -37,20 +37,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-      - run: npm ci # or yarn install
-      - uses: sibiraj-s/action-eslint@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          eslint-args: "--ignore-path=.gitignore --quiet"
-          extensions: "js,jsx,ts,tsx"
-          annotations: true
+      - uses: bradennapier/eslint-plus-action@v3.4.2
   html5validator:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7.2.0
       - uses: Cyb3r-Jak3/html5validator-action@v7
         with:
           root: .
