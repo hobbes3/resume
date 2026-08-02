@@ -26,13 +26,20 @@ jobs:
       - name: Prettier Check
         run: npx prettier --check .
 
+      - name: Lint CSS
+        if: ${{ !cancelled() }}
+        run: npx stylelint "css/**/*.css"
+
+      - name: Lint JS
+        if: ${{ !cancelled() }}
+        run: npx eslint js/
+
       - name: HTML5 Validation
-        if: always()
+        if: ${{ !cancelled() }}
         run: npx html-validate "**/*.html"
 
       - name: Link Checker
-        id: lychee
-        if: always()
+        if: ${{ !cancelled() }}
         uses: lycheeverse/lychee-action@v2
         with:
           fail: false
