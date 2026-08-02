@@ -6,7 +6,7 @@
     "printWidth": 9999,
     "bracketSameLine": true
   },
-  "styleline": {
+  "stylelint": {
     "extends": [
       "stylelint-config-standard"
     ]
