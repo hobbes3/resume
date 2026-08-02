@@ -24,12 +24,17 @@ jobs:
         uses: actions/setup-go@v7
         with:
           go-version: "1.26"
+          cache: false
 
       - name: Install Betterleaks
         run: go install github.com/betterleaks/betterleaks@latest
 
       - name: Run Betterleaks
         run: betterleaks git . -v
+
+      - name: Install Node.js for act
+        if: ${{ env.ACT == 'true' }}
+        run: apt-get update && apt-get install -y --no-install-recommends nodejs npm
 
       - name: Setup Node.js
         uses: actions/setup-node@v7
@@ -62,6 +67,13 @@ jobs:
         with:
           fail: false
           args: --offline '.'
+          jobSummary: false
+
+      - name: Output Link Check Summary
+        if: ${{ !cancelled() }}
+        run: |
+          echo "# Lychee Link Check Summary" >> $GITHUB_STEP_SUMMARY
+          cat ./lychee/out.md >> $GITHUB_STEP_SUMMARY
 
       - name: Create Issue From File
         if: steps.lychee.outputs.exit_code != 0
