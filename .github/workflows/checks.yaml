@@ -44,7 +44,6 @@ jobs:
       - uses: sibiraj-s/action-eslint@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          eslint-args: "--quiet"
           all-files: true
           annotations: true
   html5validator:
