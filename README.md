@@ -1,5 +1,6 @@
 # [hobbes3.com](https://hobbes3.com)
 
+[![BetterLeaks](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yaml?branch=main&label=betterleaks&logo=githubactions&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yaml)
 [![Prettier](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yaml?branch=main&label=prettier&logo=prettier&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yaml)
 [![ESLint](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yaml?branch=main&label=eslint&logo=eslint&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yaml)
 [![Stylelint](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/checks.yaml?branch=main&label=stylelint&logo=stylelint&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/checks.yaml)
