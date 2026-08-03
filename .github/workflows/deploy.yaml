@@ -1,6 +1,10 @@
 name: Build & Deploy Page
 
-on: [pull_request, push]
+on:
+  workflow_run:
+    workflows: ["checks.yaml"]
+    types:
+      - completed
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
