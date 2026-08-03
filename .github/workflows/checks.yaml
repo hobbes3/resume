@@ -11,27 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: dortort/betterleaks-action@v0.1.0
+      - uses: actions/setup-go@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          go-version: 1.26
+          cache: false
+      - run: go install github.com/betterleaks/betterleaks@latest
+      - run: betterleaks git . -v
   prettier:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: creyD/prettier_action@v4.6
-  stylelint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: reviewdog/action-stylelint@v1
-        with:
-          reporter: github-pr-review # Change reporter.
-          stylelint_input: "css/**/*.css"
-  eslint:
-    runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      pull-requests: read
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -39,18 +26,38 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx eslint . --output-file eslint_report.json --format json
-        continue-on-error: true
-      - uses: ataylorme/eslint-annotate-action@v4
+      - uses: npx prettier --check .
+  stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: npx stylelint "css/**/*.css"
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx eslint .
+        continue-on-error: true
   html5validator:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+      - uses: actions/setup-node@v7
         with:
-          root: .
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx html-validate "**/*.html"
   link-checker:
     name: Link Checker
     runs-on: ubuntu-latest
