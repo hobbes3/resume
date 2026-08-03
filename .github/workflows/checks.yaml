@@ -1,84 +1,70 @@
 name: CI Checks
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+on: [pull_request, push]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  checks:
+  betterleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: 1.26
+          cache: false
+      - run: go install github.com/betterleaks/betterleaks@latest
+      - run: betterleaks git . -v
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx prettier --check .
+  stylelint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx stylelint "css/**/*.css"
+  eslint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx eslint .
+  html5validator:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx html-validate "**/*.html"
+  link-checker:
+    name: Link Checker
     runs-on: ubuntu-latest
     permissions:
-      issues: write # required for peter-evans/create-issue-from-file
+      issues: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Set up Go
-        uses: actions/setup-go@v7
+      - uses: actions/checkout@v7
+      - uses: lycheeverse/lychee-action@v2
+        id: lychee
         with:
-          go-version: "1.26"
-          cache: false
-
-      - name: Install Betterleaks
-        run: go install github.com/betterleaks/betterleaks@latest
-
-      - name: Run Betterleaks
-        run: betterleaks git . -v
-
-      - name: Install Node.js for act
-        if: ${{ env.ACT == 'true' }}
-        run: apt-get update && apt-get install -y --no-install-recommends nodejs npm
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: "24"
-          cache: "npm"
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Prettier Check
-        if: ${{ !cancelled() }}
-        run: npx prettier --check .
-
-      - name: Lint CSS
-        if: ${{ !cancelled() }}
-        run: npx stylelint "css/**/*.css"
-
-      - name: Lint JS
-        if: ${{ !cancelled() }}
-        run: npx eslint js/
-
-      - name: HTML5 Validation
-        if: ${{ !cancelled() }}
-        run: npx html-validate "**/*.html"
-
-      - name: Link Checker
-        if: ${{ !cancelled() }}
-        uses: lycheeverse/lychee-action@v2
-        with:
-          fail: false
           args: --offline '.'
-          jobSummary: false
-
-      - name: Output Link Check Summary
-        if: ${{ !cancelled() }}
-        run: |
-          echo "# Lychee Link Check Summary" >> $GITHUB_STEP_SUMMARY
-          cat ./lychee/out.md >> $GITHUB_STEP_SUMMARY
-
-      - name: Create Issue From File
-        if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@v6
-        with:
-          title: Link Checker Report
-          content-filepath: ./lychee/out.md
-          labels: report, automated issue
