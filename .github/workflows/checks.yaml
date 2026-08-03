@@ -47,7 +47,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx eslint .
-        continue-on-error: true
   html5validator:
     runs-on: ubuntu-latest
     steps:
