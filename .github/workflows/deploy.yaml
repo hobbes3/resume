@@ -7,8 +7,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
     steps:
       - uses: actions/checkout@v7
 
@@ -35,31 +38,14 @@ jobs:
         run: |
           LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
 
-          # Convert page 1 of the latest PDF to PNG at 300 DPI
           pdftoppm -png -f 1 -l 1 -r 300 "$LATEST_FILE" resumes/hobbes3_resume_latest
 
-          # Rename default output (hobbes3_resume_latest-1.png) to standard target
           if [ -f resumes/hobbes3_resume_latest-1.png ]; then
             mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
           fi
 
-      - name: Step 3 - Upload assets for GitHub Pages
-        uses: actions/upload-artifact@v4
-        with:
-          name: built-site
-          path: .
-
-  deploy:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-    steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: built-site
-          path: .
-      - uses: cloudflare/wrangler-action@v4
+      - name: Step 3 - Publish to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
