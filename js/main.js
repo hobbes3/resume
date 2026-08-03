@@ -1,11 +1,3 @@
-// Prettier formatting violations: irregular spacing, multiple statements on one line
-const testBadPrettierVar  =   'double quotes mixed with single" ;
-function badFormatting( x,y ){
-console.log(x);return x+y;
-}
-badFormatting( 1 , 2 )
-
-
 // Gallery
 const gallery_pics = 96;
 const resumeImg = document.getElementById("resume");

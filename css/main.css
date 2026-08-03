@@ -1,22 +1,3 @@
-/* Bad CSS test snippet for Stylelint */
-.bad-selector {
-  color: #gg0000;
-  font-size: 16;
-  padding: 10px 20px 10px 20px;
-  unknown-property: true;
-}
-#headshot {
-  display: inline;
-  display: flex;
-}
-.bad-selector {
-  margin: 0px;
-}
-.bad-prettier-css{
-color:#fff;display:inline-block;
-   margin:   0px 10px 0px 10px  ;
-    padding:5px;}
-
 html {
   scrollbar-gutter: stable;
 }
