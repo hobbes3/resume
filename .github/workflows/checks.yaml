@@ -1,12 +1,6 @@
 name: CI Checks
 
-on:
-  pull_request:
-  push:
-    branches:
-      - main
-      - "**"
-  workflow_dispatch:
+on: [pull_request, push]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -35,14 +29,21 @@ jobs:
           stylelint_input: "css/**/*.css"
   eslint:
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: read
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
-          node-version: 22
-          cache: "npm"
+          node-version: 24
+          cache: npm
       - run: npm ci
-      - run: npx eslint . -f markdown >> $GITHUB_STEP_SUMMARY
+      - run: npm run lint:report
+        continue-on-error: true
+      - uses: ataylorme/eslint-annotate-action@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
   html5validator:
     runs-on: ubuntu-latest
     steps:
