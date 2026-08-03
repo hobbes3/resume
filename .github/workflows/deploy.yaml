@@ -1,4 +1,4 @@
-name: Update Assets & Deploy Pages
+name: Build & Deploy Page
 
 on: [push]
 
@@ -12,20 +12,17 @@ permissions:
   id-token: write
 
 jobs:
-  build-assets:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
 
       - name: Step 0 - Install dependencies (Poppler)
-        env:
-          DEBIAN_FRONTEND: noninteractive
         run: |
           sudo apt-get update -y -o Acquire::Retries=3
           sudo apt-get install -y --no-install-recommends poppler-utils
 
-      - name: Step 1 - Create or update PDF symlink
+      - name: Step 1 - Create resume PDF symlink
         run: |
           LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
 
@@ -39,11 +36,9 @@ jobs:
           TARGET_FILENAME=$(basename "$LATEST_FILE")
           ln -sf "$TARGET_FILENAME" "resumes/hobbes3_resume_latest.pdf"
 
-      - name: Step 2 - Convert PDF to PNG preview
+      - name: Step 2 - Convert resume PDF to PNG preview
         run: |
           LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
-
-          mkdir -p images
 
           # Convert page 1 of the latest PDF to PNG at 300 DPI
           pdftoppm -png -f 1 -l 1 -r 300 "$LATEST_FILE" resumes/hobbes3_resume_latest
@@ -53,40 +48,19 @@ jobs:
             mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
           fi
 
-      - name: Step 3 - Commit and push updated assets
-        if: ${{ !env.ACT && github.event_name != 'pull_request' }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-          git add resumes/hobbes3_resume_latest.pdf resumes/hobbes3_resume_latest.png
-
-          if git diff --staged --quiet; then
-            echo "Assets are already up to date."
-          else
-            git commit -m "chore: auto-update resume symlink and PNG preview [skip ci]"
-            git push
-          fi
+      - name: Step 3 - Upload assets for GitHub Pages
+        uses: actions/upload-pages-artifact@v5
 
   deploy:
-    needs: build-assets
-    if: ${{ github.actor != 'nektos/act' }}
+    needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          ref: main
-          fetch-depth: 0
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v6
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v5
-        with:
-          path: "."
-
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
