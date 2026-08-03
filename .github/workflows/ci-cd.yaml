@@ -1,4 +1,4 @@
-name: Check & Build & Deploy Page
+name: CI/CD
 
 on: [pull_request, push]
 
