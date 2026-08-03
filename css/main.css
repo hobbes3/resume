@@ -12,6 +12,10 @@
 .bad-selector {
   margin: 0px;
 }
+.bad-prettier-css{
+color:#fff;display:inline-block;
+   margin:   0px 10px 0px 10px  ;
+    padding:5px;}
 
 html {
   scrollbar-gutter: stable;
