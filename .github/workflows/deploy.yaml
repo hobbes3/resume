@@ -6,11 +6,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,20 +44,25 @@ jobs:
           fi
 
       - name: Step 3 - Upload assets for GitHub Pages
-        uses: actions/upload-pages-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
-          path: "."
+          name: built-site
+          path: .
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      pages: write # to deploy to Pages
-      id-token: write # to verify the deployment originates from an appropriate source
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+deploy:
+  runs-on: ubuntu-latest
+  permissions:
+    contents: read
+    deployments: write
+  steps:
+  steps:
+    - uses: actions/download-artifact@v4
+      with:
+        name: built-site
+        path: .
+    - uses: cloudflare/wrangler-action@v4
+      with:
+        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        command: pages deploy . --project-name=site-resume
+        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
