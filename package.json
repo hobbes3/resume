@@ -14,11 +14,9 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.8.0",
-    "eslint-formatter-github": "^1.1.4",
     "globals": "^17.8.0",
     "html-validate": "^11.6.0",
     "stylelint": "^17.14.1",
-    "stylelint-config-standard": "^40.0.0",
-    "stylelint-formatter-github": "^1.0.1"
+    "stylelint-config-standard": "^40.0.0"
   }
 }

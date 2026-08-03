@@ -26,7 +26,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx prettier --check . --format github
+      - run: npx prettier --check .
   stylelint:
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx stylelint "css/**/*.css" -f github
+      - run: npx stylelint "css/**/*.css"
   eslint:
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +46,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx eslint . -f github
+      - run: npx eslint .
   html5validator:
     runs-on: ubuntu-latest
     steps:
@@ -68,9 +68,3 @@ jobs:
         id: lychee
         with:
           args: --offline '.'
-      - uses: peter-evans/create-issue-from-file@v6
-        if: steps.lychee.outputs.exit_code != 0
-        with:
-          title: Link Checker Report
-          content-filepath: ./lychee/out.md
-          labels: report, automated issue
