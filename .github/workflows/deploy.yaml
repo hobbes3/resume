@@ -50,6 +50,8 @@ jobs:
 
       - name: Step 3 - Upload assets for GitHub Pages
         uses: actions/upload-pages-artifact@v5
+        with:
+          path: "."
 
   deploy:
     needs: build
