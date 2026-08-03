@@ -44,10 +44,15 @@ jobs:
             mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
           fi
 
-      - name: Step 3 - Publish to Cloudflare Pages
+      - name: Step 3 - Create dist folder and organize assets
+        run: |
+          mkdir -p dist
+          cp -r index.html favicon.png css js images resumes slides dist/ 2>/dev/null || true
+
+      - name: Step 4 - Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy . --project-name=site-resume
+          command: pages deploy dist --project-name=site-resume
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
