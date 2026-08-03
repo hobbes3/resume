@@ -18,7 +18,7 @@ Tools used to build this site:
   </tr>
   <tr>
     <td><b>Hosting</b></td>
-    <td><a href="https://pages.github.com/">GitHub Pages</a></td>
+    <td><a href="https://pages.cloudflare.com/">Cloudflare Pages</a></td>
   </tr>
   <tr>
     <td><b>Style</b></td>
