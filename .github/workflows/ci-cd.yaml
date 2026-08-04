@@ -90,7 +90,7 @@ jobs:
         with:
           args: --offline '.'
   build-and-deploy:
-    needs: [betterleaks, misspell, prettier, stylelint, eslint, html5validator, link-checker]
+    needs: [betterleaks, misspell, prettier, stylelint, eslint, markdownlint, actionlint, html5validator, link-checker]
     runs-on: ubuntu-latest
     permissions:
       contents: read
