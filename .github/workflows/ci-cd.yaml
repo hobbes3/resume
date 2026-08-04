@@ -22,7 +22,7 @@ jobs:
       - uses: EPMatt/reviewdog-action-prettier@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-annotations
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           level: warning
   stylelint:
     runs-on: ubuntu-latest
@@ -31,7 +31,7 @@ jobs:
       - uses: reviewdog/action-stylelint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-annotations
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           stylelint_inputs: "css/**/*.css"
   eslint:
     runs-on: ubuntu-latest
@@ -40,7 +40,7 @@ jobs:
       - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-annotations
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           eslint_flags: "js/"
   markdownlint:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
       - uses: reviewdog/action-markdownlint@v0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-annotations
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
   actionlint:
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +57,7 @@ jobs:
       - uses: reviewdog/action-actionlint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-annotations
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
   betterleaks:
     runs-on: ubuntu-latest
     steps:
