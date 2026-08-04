@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-go@v7
         with:
           go-version: 1.26
-          cache: false
+          cache: false # Otherwise looks for go.mod.
       - run: go install github.com/betterleaks/betterleaks@latest
       - run: betterleaks git . -v
   prettier:
@@ -26,7 +26,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx prettier --check .
+      - uses: reviewdog/action-prettier@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          fail_on_error: true
   stylelint:
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +40,12 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx stylelint "css/**/*.css"
+      - uses: reviewdog/action-stylelint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          stylelint_inputs: "**/*.{css,scss}"
+          fail_on_error: true
   eslint:
     runs-on: ubuntu-latest
     steps:
@@ -46,7 +55,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx eslint .
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          fail_on_error: true
   html5validator:
     runs-on: ubuntu-latest
     steps:
