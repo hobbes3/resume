@@ -20,7 +20,7 @@ jobs:
   misspell:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@7
+      - uses: actions/checkout@v7
       - uses: reviewdog/action-misspell@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
         with:
           args: --offline '.'
   build-and-deploy:
-    needs: [betterleaks, prettier, stylelint, eslint, html5validator, link-checker]
+    needs: [betterleaks, misspell, prettier, stylelint, eslint, html5validator, link-checker]
     runs-on: ubuntu-latest
     permissions:
       contents: read
