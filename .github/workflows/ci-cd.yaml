@@ -7,16 +7,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  betterleaks:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-go@v7
-        with:
-          go-version: 1.26
-          cache: false # Otherwise looks for go.mod.
-      - run: go install github.com/betterleaks/betterleaks@latest
-      - run: betterleaks git . -v
   misspell:
     runs-on: ubuntu-latest
     steps:
@@ -68,6 +58,16 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
+  betterleaks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-go@v7
+        with:
+          go-version: 1.26
+          cache: false # Otherwise looks for go.mod.
+      - run: go install github.com/betterleaks/betterleaks@latest
+      - run: betterleaks git . -v
   html5validator:
     runs-on: ubuntu-latest
     steps:
@@ -90,7 +90,7 @@ jobs:
         with:
           args: --offline '.'
   build-and-deploy:
-    needs: [betterleaks, misspell, prettier, stylelint, eslint, markdownlint, actionlint, html5validator, link-checker]
+    needs: [misspell, prettier, stylelint, eslint, markdownlint, actionlint, betterleaks, html5validator, link-checker]
     runs-on: ubuntu-latest
     permissions:
       contents: read
