@@ -11,16 +11,9 @@
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0"
   },
-  "prettier": {
-    "printWidth": 9999,
-    "bracketSameLine": true
-  },
   "stylelint": {
     "extends": [
       "stylelint-config-standard"
     ]
-  },
-  "markdownlint": {
-    "MD033": false
   }
 }
