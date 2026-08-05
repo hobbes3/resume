@@ -28,6 +28,7 @@ jobs:
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
           filter_mode: nofilter
+          prettier_flags: "--loglevel debug ."
   stylelint:
     runs-on: ubuntu-latest
     steps:
