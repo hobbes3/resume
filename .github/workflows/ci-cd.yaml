@@ -38,7 +38,7 @@ jobs:
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
           filter_mode: nofilter
-          prettier_flags: "--loglevel debug ."
+          prettier_flags: --log-level debug .
   stylelint:
     runs-on: ubuntu-latest
     steps:
@@ -113,7 +113,18 @@ jobs:
         with:
           args: --offline '.'
   build-and-deploy:
-    needs: [misspell, prettier, stylelint, eslint, markdownlint, actionlint, betterleaks, html5validator, link-checker]
+    needs:
+      [
+        misspell,
+        prettier,
+        stylelint,
+        eslint,
+        markdownlint,
+        actionlint,
+        betterleaks,
+        html5validator,
+        link-checker,
+      ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
