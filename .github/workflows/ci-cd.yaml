@@ -29,7 +29,8 @@ jobs:
           cache: npm
       - run: npm ci
       # Temporary step to view all scanned files in GitHub Actions log
-      - run: npx prettier --list-different .
+      - run: npx prettier --check --list-different .
+        continue-on-error: true
 
       - uses: EPMatt/reviewdog-action-prettier@v1
         with:
