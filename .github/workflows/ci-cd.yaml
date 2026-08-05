@@ -15,7 +15,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
-          level: warning
+          fail_level: warning
           filter_mode: nofilter
           locale: "US"
   prettier:
@@ -26,7 +26,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
-          level: warning
+          fail_level: warning
           filter_mode: nofilter
   stylelint:
     runs-on: ubuntu-latest
