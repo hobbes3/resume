@@ -28,7 +28,7 @@ jobs:
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
           filter_mode: nofilter
-          prettier_flags: "--check **/*.{html,js,css,md,json}"
+          prettier_flags: "**/*.{html,js,css,md,json}"
   stylelint:
     runs-on: ubuntu-latest
     steps:
