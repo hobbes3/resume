@@ -16,7 +16,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
-          filter_mode: nofilter
           locale: "US"
   prettier:
     runs-on: ubuntu-latest
@@ -38,7 +37,6 @@ jobs:
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           level: warning
           fail_level: warning
-          filter_mode: nofilter
           #prettier_flags: --log-level debug .
   stylelint:
     runs-on: ubuntu-latest
@@ -50,7 +48,6 @@ jobs:
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           stylelint_inputs: "css/**/*.css"
           fail_level: warning
-          filter_mode: nofilter
   eslint:
     runs-on: ubuntu-latest
     steps:
@@ -61,7 +58,6 @@ jobs:
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           eslint_flags: "js/"
           fail_level: warning
-          filter_mode: nofilter
   markdownlint:
     runs-on: ubuntu-latest
     steps:
@@ -71,7 +67,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
-          filter_mode: nofilter
   actionlint:
     runs-on: ubuntu-latest
     steps:
@@ -81,7 +76,6 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
-          filter_mode: nofilter
   betterleaks:
     runs-on: ubuntu-latest
     steps:

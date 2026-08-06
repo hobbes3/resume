@@ -1,6 +1,7 @@
 function calculateTotal(price, tax) {
     // Syntax error: missing closing parenthesis
-    if (price > 0 {
+    if (price > 0
+        {
         return price + (price * tax);
     }
 
