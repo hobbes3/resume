@@ -1,54 +1,104 @@
 name: CI/CD
 
-on: [pull_request, push]
+on: [push, pull_request]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
+
 jobs:
+  misspell:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: reviewdog/action-misspell@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          fail_level: warning
+          locale: "US"
+  prettier:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - if: github.event_name == 'pull_request'
+        uses: EPMatt/reviewdog-action-prettier@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          fail_level: warning
+      - if: github.event_name != 'pull_request'
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - if: github.event_name != 'pull_request'
+        run: |
+          npm ci
+          npx prettier --check .
+  stylelint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: reviewdog/action-stylelint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          stylelint_inputs: "css/**/*.css"
+          fail_level: warning
+  eslint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: reviewdog/action-eslint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          eslint_flags: "js/"
+          fail_level: warning
+  markdownlint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: reviewdog/action-markdownlint@v0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          fail_level: warning
+  actionlint:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: reviewdog/action-actionlint@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-go@v7
         with:
           go-version: 1.26
-          cache: false
+          cache: false # Otherwise it looks for go.mod.
       - run: go install github.com/betterleaks/betterleaks@latest
       - run: betterleaks git . -v
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npx prettier --check .
-  stylelint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npx stylelint "css/**/*.css"
-  eslint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - run: npx eslint .
   html5validator:
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -58,8 +108,8 @@ jobs:
       - run: npm ci
       - run: npx html-validate "**/*.html"
   link-checker:
-    name: Link Checker
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     permissions:
       issues: write
     steps:
@@ -69,7 +119,18 @@ jobs:
         with:
           args: --offline '.'
   build-and-deploy:
-    needs: [betterleaks, prettier, stylelint, eslint, html5validator, link-checker]
+    needs:
+      [
+        misspell,
+        prettier,
+        stylelint,
+        eslint,
+        markdownlint,
+        actionlint,
+        betterleaks,
+        html5validator,
+        link-checker,
+      ]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -84,13 +145,14 @@ jobs:
 
       - name: Step 1 - Create resume PDF symlink
         run: |
-          LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
+          files=(resumes/hobbes3_resume_v*.pdf)
 
-          if [ -z "$LATEST_FILE" ]; then
+          if [ ${#files[@]} -eq 0 ]; then
             echo "No matching resume file found!"
             exit 1
           fi
 
+          LATEST_FILE=$(printf '%s\n' "${files[@]}" | sort -V | tail -n1)
           echo "Latest resume file identified: $LATEST_FILE"
 
           TARGET_FILENAME=$(basename "$LATEST_FILE")
@@ -98,12 +160,11 @@ jobs:
 
       - name: Step 2 - Convert resume PDF to PNG preview
         run: |
-          LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
+          pdftoppm -png -r 150 -f 1 -l 1 "resumes/hobbes3_resume_latest.pdf" "resumes/hobbes3_resume_latest_preview"
 
-          pdftoppm -png -f 1 -l 1 -r 300 "$LATEST_FILE" resumes/hobbes3_resume_latest
-
-          if [ -f resumes/hobbes3_resume_latest-1.png ]; then
-            mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
+          if [ -f "resumes/hobbes3_resume_latest_preview-1.png" ]; then
+            mv "resumes/hobbes3_resume_latest_preview-1.png" "resumes/hobbes3_resume_latest_preview.png"
+            echo "Successfully generated resumes/hobbes3_resume_latest_preview.png"
           fi
 
       - name: Step 3 - Create dist folder and organize assets
