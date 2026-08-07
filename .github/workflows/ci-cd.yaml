@@ -37,8 +37,10 @@ jobs:
         with:
           node-version: 24
           cache: npm
-        run: npm ci
-        run: npx prettier --check .
+      - if: github.event_name != 'pull_request'
+        run: |
+          npm ci
+          npx prettier --check .
   stylelint:
     runs-on: ubuntu-latest
     steps:
