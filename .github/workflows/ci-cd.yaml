@@ -193,8 +193,25 @@ jobs:
           title: Link Checker Report
           content-filepath: ./lychee/out.md
           labels: report, automated issue
+  lighthouse:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist-build
+          path: dist
+      - name: Audit Static Site using Lighthouse
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          staticDistDir: ./dist
+          budgetPath: ./budget.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
   deploy:
-    needs: [build, link-checker]
+    needs: [link-checker, lighthouse]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     permissions:
