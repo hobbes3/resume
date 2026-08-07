@@ -2,12 +2,9 @@ name: CI/CD
 
 on:
   push:
+    branches:
+      - main
   pull_request:
-    types: [opened, synchronize, reopened]
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -22,28 +19,16 @@ jobs:
       - uses: reviewdog/action-misspell@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
           locale: "US"
   prettier:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - if: github.event_name == 'pull_request'
         uses: EPMatt/reviewdog-action-prettier@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: github-pr-review
           fail_level: warning
-      - if: github.event_name != 'pull_request'
-        uses: actions/setup-node@v7
-        with:
-          node-version: 24
-          cache: npm
-      - if: github.event_name != 'pull_request'
-        run: |
-          npm ci
-          npx prettier --check .
   stylelint:
     runs-on: ubuntu-latest
     steps:
@@ -51,7 +36,6 @@ jobs:
       - uses: reviewdog/action-stylelint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           stylelint_inputs: "src/css/**/*.css"
           fail_level: warning
   eslint:
@@ -61,7 +45,6 @@ jobs:
       - uses: reviewdog/action-eslint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           eslint_flags: "src/js/"
           fail_level: warning
   markdownlint:
@@ -71,7 +54,6 @@ jobs:
       - uses: reviewdog/action-markdownlint@v0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
   actionlint:
     runs-on: ubuntu-latest
@@ -80,7 +62,6 @@ jobs:
       - uses: reviewdog/action-actionlint@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
@@ -196,6 +177,8 @@ jobs:
           name: dist-build
           path: dist
       - uses: treosh/lighthouse-ci-action@v12
+        with:
+          staticDistDir: ./dist
   deploy:
     needs: [link-checker, lighthouse]
     runs-on: ubuntu-latest
