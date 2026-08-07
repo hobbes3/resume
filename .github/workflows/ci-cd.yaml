@@ -136,26 +136,27 @@ jobs:
 
       - name: Step 1 - Create resume PDF symlink
         run: |
-          LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
-
-          if [ -z "$LATEST_FILE" ]; then
+          shopt -s extglob nullglob
+          files=(resumes/hobbes3_resume_v*.pdf)
+          if [ ${#files[@]} -eq 0 ]; then
             echo "No matching resume file found!"
             exit 1
           fi
-
+          LATEST_FILE="${files[-1]}"
           echo "Latest resume file identified: $LATEST_FILE"
-
           TARGET_FILENAME=$(basename "$LATEST_FILE")
           ln -sf "$TARGET_FILENAME" "resumes/hobbes3_resume_latest.pdf"
 
       - name: Step 2 - Convert resume PDF to PNG preview
         run: |
-          LATEST_FILE=$(ls resumes/hobbes3_resume_v*.pdf 2>/dev/null | sort -V | tail -n 1)
-
-          pdftoppm -png -f 1 -l 1 -r 300 "$LATEST_FILE" resumes/hobbes3_resume_latest
-
-          if [ -f resumes/hobbes3_resume_latest-1.png ]; then
-            mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
+          shopt -s extglob nullglob
+          files=(resumes/hobbes3_resume_v*.pdf)
+          if [ ${#files[@]} -gt 0 ]; then
+            LATEST_FILE="${files[-1]}"
+            pdftoppm -png -f 1 -l 1 -r 300 "$LATEST_FILE" resumes/hobbes3_resume_latest
+            if [ -f resumes/hobbes3_resume_latest-1.png ]; then
+              mv resumes/hobbes3_resume_latest-1.png resumes/hobbes3_resume_latest.png
+            fi
           fi
 
       - name: Step 3 - Create dist folder and organize assets
