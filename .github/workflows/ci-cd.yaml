@@ -158,13 +158,13 @@ jobs:
 
       - name: Step 3 - Convert resume PDF to PNG preview
         run: |
-          pdftoppm -png -r 300 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest_preview"
+          pdftoppm -png -r 300 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest"
 
-          mv "dist/resumes/hobbes3_resume_latest_preview-1.png" "dist/resumes/hobbes3_resume_latest_preview.png"
-          echo "Successfully generated resumes/hobbes3_resume_latest_preview.png"
+          mv "dist/resumes/hobbes3_resume_latest-1.png" "dist/resumes/hobbes3_resume_latest.png"
+          echo "Successfully generated resumes/hobbes3_resume_latest.png"
 
       - name: Step 4 - Upload dist directory as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: dist-build
           path: dist/
@@ -177,7 +177,7 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: dist-build
           path: dist
@@ -202,7 +202,7 @@ jobs:
       deployments: write
       issues: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           name: dist-build
           path: dist
@@ -211,5 +211,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          projectName: site-resume
-          directory: dist
+          workingDirectory: dist
