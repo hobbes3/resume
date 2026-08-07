@@ -14,10 +14,10 @@ permissions:
   pull-requests: write
   checks: write
 
+# a
 jobs:
   misspell:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: reviewdog/action-misspell@v1
@@ -28,7 +28,6 @@ jobs:
           locale: "US"
   prettier:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - if: github.event_name == 'pull_request'
@@ -48,7 +47,6 @@ jobs:
           npx prettier --check .
   stylelint:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: reviewdog/action-stylelint@v1
@@ -59,7 +57,6 @@ jobs:
           fail_level: warning
   eslint:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: reviewdog/action-eslint@v1
@@ -70,7 +67,6 @@ jobs:
           fail_level: warning
   markdownlint:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: reviewdog/action-markdownlint@v0
@@ -80,7 +76,6 @@ jobs:
           fail_level: warning
   actionlint:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: reviewdog/action-actionlint@v1
@@ -90,7 +85,6 @@ jobs:
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     permissions:
       contents: read
     steps:
@@ -103,7 +97,6 @@ jobs:
       - run: betterleaks git . -v
   html5validator:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     permissions:
       contents: read
     steps:
@@ -116,7 +109,6 @@ jobs:
       - run: npx html-validate "**/*.html"
   build:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     needs:
       [
         misspell,
@@ -175,7 +167,6 @@ jobs:
   link-checker:
     needs: [build]
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     permissions:
       contents: read
       issues: write
@@ -199,7 +190,6 @@ jobs:
   lighthouse:
     needs: [build]
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
@@ -216,7 +206,6 @@ jobs:
   deploy:
     needs: [link-checker, lighthouse]
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     permissions:
       contents: read
       deployments: write
