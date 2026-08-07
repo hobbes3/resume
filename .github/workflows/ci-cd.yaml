@@ -31,6 +31,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
           fail_level: warning
+          prettier_flags: "**/*.{html,js,css,md,yaml,json}"
   stylelint:
     runs-on: ubuntu-latest
     steps:
@@ -90,7 +91,6 @@ jobs:
       - run: npm ci
       - run: npx html-validate "**/*.html"
   link-checker:
-    name: Link Checker
     runs-on: ubuntu-latest
     permissions:
       issues: write
