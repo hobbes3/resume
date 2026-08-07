@@ -177,7 +177,7 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: dist-build
           path: dist
@@ -188,7 +188,7 @@ jobs:
           args: --offline --verbose --no-progress './**/*.md' './**/*.html'
           fail: false
       - if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: Link Checker Report
           content-filepath: ./lychee/out.md
@@ -202,7 +202,7 @@ jobs:
       deployments: write
       issues: write
     steps:
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: dist-build
           path: dist
