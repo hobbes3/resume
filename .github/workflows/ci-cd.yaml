@@ -177,6 +177,8 @@ jobs:
           name: dist-build
           path: dist
       - uses: treosh/lighthouse-ci-action@v12
+        with:
+          uploadArtifacts: true
   deploy:
     needs: [link-checker, lighthouse]
     runs-on: ubuntu-latest
