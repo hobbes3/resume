@@ -10,10 +10,5 @@
     "prettier": "^3.9.6",
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0"
-  },
-  "stylelint": {
-    "extends": [
-      "stylelint-config-standard"
-    ]
   }
 }
