@@ -111,7 +111,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx html-validate "**/*.html"
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
     needs:
@@ -127,8 +127,6 @@ jobs:
       ]
     permissions:
       contents: read
-      deployments: write
-      issues: write
     steps:
       - uses: actions/checkout@v7
 
@@ -138,7 +136,9 @@ jobs:
           sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Step 1 - Copy all static src files to dist
-        run: cp -r src/* dist/
+        run: |
+          mkdir -p dist
+          cp -r src/* dist/
 
       - name: Step 2 - Create resume PDF symlink
         run: |
@@ -163,13 +163,50 @@ jobs:
           mv "dist/resumes/hobbes3_resume_latest_preview-1.png" "dist/resumes/hobbes3_resume_latest_preview.png"
           echo "Successfully generated resumes/hobbes3_resume_latest_preview.png"
 
-      - name: Step 4 - Check for broken links in the dist directory
+      - name: Step 4 - Upload dist directory as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-build
+          path: dist/
+          retention-days: 1
+  link-checker:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-build
+          path: dist
+      - id: lychee
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --offline --base dist dist/index.html
-
-      - name: Step 5 - Publish to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v4
+          workingDirectory: dist
+          args: --offline --verbose --no-progress './**/*.md' './**/*.html'
+          fail: false
+      - if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          labels: report, automated issue
+  deploy:
+    needs: [build, link-checker]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/main'
+    permissions:
+      contents: read
+      deployments: write
+      issues: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist-build
+          path: dist
+      - uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
