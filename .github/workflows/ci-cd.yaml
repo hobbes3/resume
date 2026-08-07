@@ -143,9 +143,12 @@ jobs:
           sudo apt-get update -y -o Acquire::Retries=3
           sudo apt-get install -y --no-install-recommends poppler-utils
 
-      - name: Step 1 - Create resume PDF symlink
+      - name: Step 1 - Copy all static src files to dist
+        run: cp -r src/* dist/
+
+      - name: Step 2 - Create resume PDF symlink
         run: |
-          files=(resumes/hobbes3_resume_v*.pdf)
+          files=(dist/resumes/hobbes3_resume_v*.pdf)
 
           if [ ${#files[@]} -eq 0 ]; then
             echo "No matching resume file found!"
@@ -156,26 +159,21 @@ jobs:
           echo "Latest resume file identified: $LATEST_FILE"
 
           TARGET_FILENAME=$(basename "$LATEST_FILE")
-          ln -sf "$TARGET_FILENAME" "resumes/hobbes3_resume_latest.pdf"
+          ln -sf "$TARGET_FILENAME" "dist/resumes/hobbes3_resume_latest.pdf"
+          echo "Successfully created symlink: dist/resumes/hobbes3_resume_latest.pdf -> $TARGET_FILENAME"
 
-      - name: Step 2 - Convert resume PDF to PNG preview
+      - name: Step 3 - Convert resume PDF to PNG preview
         run: |
-          pdftoppm -png -r 150 -f 1 -l 1 "resumes/hobbes3_resume_latest.pdf" "resumes/hobbes3_resume_latest_preview"
+          pdftoppm -png -r 300 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest_preview"
 
-          if [ -f "resumes/hobbes3_resume_latest_preview-1.png" ]; then
-            mv "resumes/hobbes3_resume_latest_preview-1.png" "resumes/hobbes3_resume_latest_preview.png"
-            echo "Successfully generated resumes/hobbes3_resume_latest_preview.png"
-          fi
-
-      - name: Step 3 - Create dist folder and organize assets
-        run: |
-          mkdir -p dist
-          cp -r index.html favicon.png css js images resumes slides dist/ 2>/dev/null || true
+          mv "dist/resumes/hobbes3_resume_latest_preview-1.png" "dist/resumes/hobbes3_resume_latest_preview.png"
+          echo "Successfully generated resumes/hobbes3_resume_latest_preview.png"
 
       - name: Step 4 - Publish to Cloudflare Pages
         uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=site-resume
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          projectName: site-resume
+          directory: dist
