@@ -1,4 +1,4 @@
-// Gallery Lazy Loading State
+// --- 1. Gallery Lazy Loading (Optimized for TBT) ---
 const totalPhotos = 96;
 const chunkSize = 6;
 let currentIndex = 1;
@@ -6,12 +6,12 @@ let currentIndex = 1;
 const galleryContainer = document.getElementById("my-pics");
 
 function loadMorePhotos() {
-  if (currentIndex > totalPhotos) return;
+  if (!galleryContainer || currentIndex > totalPhotos) return;
 
   const endIndex = Math.min(currentIndex + chunkSize - 1, totalPhotos);
   let imagesHTML = "";
 
-  // Keep chunk execution extremely lightweight to avoid blocking the main thread
+  // Keep chunk execution lightweight to avoid blocking the main thread
   for (let i = currentIndex; i <= endIndex; i++) {
     imagesHTML += `
       <img
@@ -19,6 +19,7 @@ function loadMorePhotos() {
         width="500"
         height="500"
         alt="Gallery image #${i}"
+        loading="lazy"
       />
     `;
   }
@@ -50,60 +51,38 @@ const observer = new IntersectionObserver((entries, observer) => {
   });
 }, observerOptions);
 
-// Initialize the first chunk non-blockingly
+// Initialize the first gallery chunk non-blockingly
 requestAnimationFrame(() => {
   loadMorePhotos();
 });
 
-// Copy email icon
-const wrapper = document.querySelector(".tooltip-wrapper");
-if (wrapper) {
-  wrapper.addEventListener("click", (e) => {
-    e.preventDefault();
-    navigator.clipboard.writeText("satoshi@hobbes3.com");
-
-    const copyIcon = wrapper.querySelector('.copy-btn, [data-icon="copy"]');
-    const checkIcon = wrapper.querySelector('.check-btn, [data-icon="check"]');
-
-    wrapper.setAttribute("data-tooltip", "Copied!");
-    if (copyIcon) copyIcon.style.display = "none";
-    if (checkIcon) checkIcon.style.display = "inline-block";
-
-    setTimeout(() => {
-      wrapper.setAttribute("data-tooltip", "Copy email");
-      if (copyIcon) copyIcon.style.display = "inline-block";
-      if (checkIcon) checkIcon.style.display = "none";
-    }, 1500);
-  });
-}
-
-// Preload high-res resume image after page load and silently swap the low-res version out
-function initPreloadAndSwap() {
+// --- 2. Progressive Resume Image Swap (LQIP Strategy) ---
+function initResumeProgressiveLoad() {
   const highResUrl = "/resumes/hobbes3_resume_latest.webp";
   const resumeImg = document.getElementById("resume");
 
-  // 1. Silently preload in the background via <link> header tag
+  if (!resumeImg) return;
+
+  // Silently preload in the background via a <link> header tag for network priority
   const preloadLink = document.createElement("link");
   preloadLink.rel = "preload";
   preloadLink.as = "image";
   preloadLink.href = highResUrl;
   document.head.appendChild(preloadLink);
 
-  // 2. Once the image is cached, swap the <img> src attribute
-  if (resumeImg) {
-    const bgLoader = new Image();
-    bgLoader.src = highResUrl;
-    bgLoader.onload = () => {
-      resumeImg.src = highResUrl;
-    };
-  }
+  // Once cached in the background, swap the low-res mobile src with the high-res asset
+  const bgLoader = new Image();
+  bgLoader.src = highResUrl;
+  bgLoader.onload = () => {
+    resumeImg.src = highResUrl;
+  };
 }
 
+// Trigger the high-res preload and swap shortly after the full DOM/assets load
 if (document.readyState === "complete") {
-  // A tight 150ms buffer is plenty for post-load settling
-  setTimeout(initPreloadAndSwap, 100);
+  setTimeout(initResumeProgressiveLoad, 150);
 } else {
   window.addEventListener("load", () => {
-    setTimeout(initPreloadAndSwap, 100);
+    setTimeout(initResumeProgressiveLoad, 150);
   });
 }
