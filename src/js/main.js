@@ -10,7 +10,7 @@ function renderGallery() {
       i +
       '.webp" alt="Gallery image #' +
       i +
-      '" fetchpriority="low" />';
+      '" fetchpriority="low" loading="lazy"/>';
   }
   document.getElementById("my-pics").innerHTML = imagesHTML;
 }
