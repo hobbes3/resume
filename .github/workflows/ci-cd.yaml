@@ -197,6 +197,7 @@ jobs:
       deployments: write
       issues: write
     steps:
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
           name: dist-build
@@ -207,4 +208,3 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           command: pages deploy dist --project-name=site-resume
-          branch: ${{ github.head_ref || github.ref_name }}
