@@ -133,9 +133,9 @@ jobs:
 
       - name: Step 3 - Convert resume PDF to PNG preview
         run: |
-          pdftoppm -png -r 150 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest_temp"
-          cwebp -q 80 "dist/resumes/hobbes3_resume_temp-1.png" -o "dist/resumes/hobbes3_resume_latest.webp"
-          #rm "dist/resumes/hobbes3_resume_temp-1.png"
+          pdftoppm -png -r 150 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest"
+          cwebp -q 80 "dist/resumes/hobbes3_resume_latest-1.png" -o "dist/resumes/hobbes3_resume_latest.webp"
+          #rm "dist/resumes/hobbes3_resume_latest-1.png"
           echo "Successfully generated resumes/hobbes3_resume_latest.webp"
 
       - name: Step 4 - Upload dist directory as artifact
@@ -178,7 +178,9 @@ jobs:
           path: dist
       - uses: treosh/lighthouse-ci-action@v12
         with:
-          uploadArtifacts: true
+          configPath: ./.lighthouserc.json
+      - if: always()
+        run: cp .lighthouseci/lhr-*.html dist/lhr-latest.html
   deploy:
     needs: [link-checker, lighthouse]
     runs-on: ubuntu-latest
