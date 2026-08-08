@@ -14,22 +14,23 @@ body {
   margin-bottom: 0;
 }
 
-#name-sub {
-  margin-bottom: 0;
+.summary-container {
+  content: "";
+  display: table;
+  clear: both;
 }
 
-.summary-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+.summary-container img {
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  height: auto;
 }
 
 #headshot {
-  width: 150px;
-  height: 150px;
   border-radius: 10%;
-  object-fit: cover;
   flex-shrink: 0;
+  object-fit: cover;
 }
 
 .gallery {
