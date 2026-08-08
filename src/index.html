@@ -55,25 +55,7 @@
         href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
       />
     </noscript>
-    <link
-      rel="preload"
-      href="/css/main.css"
-      as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      "
-    />
-    <noscript>
-      <link rel="stylesheet" href="/css/main.css" />
-    </noscript>
-
-    <link
-      rel="preload"
-      as="image"
-      fetchpriority="high"
-      href="/resumes/hobbes3_resume_latest.webp"
-    />
+    <link rel="stylesheet" href="/css/main.css" />
 
     <script src="js/main.js" defer></script>
     <base target="_blank" />
@@ -489,11 +471,6 @@
 
         <img
           src="/resumes/hobbes3_resume_latest_mobile.webp"
-          srcset="
-            /resumes/hobbes3_resume_latest_mobile.webp  600w,
-            /resumes/hobbes3_resume_latest.webp        1275w
-          "
-          sizes="(max-width: 768px) 100vw, 1275px"
           alt="Satoshi Kawasaki Resume"
           width="1275"
           height="1650"

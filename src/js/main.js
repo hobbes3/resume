@@ -11,6 +11,7 @@ function loadMorePhotos() {
   const endIndex = Math.min(currentIndex + chunkSize - 1, totalPhotos);
   let imagesHTML = "";
 
+  // Keep chunk execution extremely lightweight to avoid blocking the main thread
   for (let i = currentIndex; i <= endIndex; i++) {
     imagesHTML += `
       <img
@@ -22,12 +23,15 @@ function loadMorePhotos() {
     `;
   }
 
-  galleryContainer.insertAdjacentHTML("beforeend", imagesHTML);
-  currentIndex = endIndex + 1;
+  // Use requestAnimationFrame to ensure DOM insertion happens during a safe paint window
+  requestAnimationFrame(() => {
+    galleryContainer.insertAdjacentHTML("beforeend", imagesHTML);
+    currentIndex = endIndex + 1;
 
-  if (currentIndex <= totalPhotos) {
-    observer.observe(galleryContainer.lastElementChild);
-  }
+    if (currentIndex <= totalPhotos && galleryContainer.lastElementChild) {
+      observer.observe(galleryContainer.lastElementChild);
+    }
+  });
 }
 
 // Set up Intersection Observer for subsequent batches on scroll
@@ -46,8 +50,10 @@ const observer = new IntersectionObserver((entries, observer) => {
   });
 }, observerOptions);
 
-// Force-load the first 6 photos immediately on script execution
-loadMorePhotos();
+// Initialize the first chunk non-blockingly
+requestAnimationFrame(() => {
+  loadMorePhotos();
+});
 
 // Copy email icon
 const wrapper = document.querySelector(".tooltip-wrapper");
@@ -68,5 +74,36 @@ if (wrapper) {
       if (copyIcon) copyIcon.style.display = "inline-block";
       if (checkIcon) checkIcon.style.display = "none";
     }, 1500);
+  });
+}
+
+// Preload high-res resume image after page load and silently swap the low-res version out
+function initPreloadAndSwap() {
+  const highResUrl = "/resumes/hobbes3_resume_latest.webp";
+  const resumeImg = document.getElementById("resume");
+
+  // 1. Silently preload in the background via <link> header tag
+  const preloadLink = document.createElement("link");
+  preloadLink.rel = "preload";
+  preloadLink.as = "image";
+  preloadLink.href = highResUrl;
+  document.head.appendChild(preloadLink);
+
+  // 2. Once the image is cached, swap the <img> src attribute
+  if (resumeImg) {
+    const bgLoader = new Image();
+    bgLoader.src = highResUrl;
+    bgLoader.onload = () => {
+      resumeImg.src = highResUrl;
+    };
+  }
+}
+
+if (document.readyState === "complete") {
+  // A tight 150ms buffer is plenty for post-load settling
+  setTimeout(initPreloadAndSwap, 100);
+} else {
+  window.addEventListener("load", () => {
+    setTimeout(initPreloadAndSwap, 100);
   });
 }
