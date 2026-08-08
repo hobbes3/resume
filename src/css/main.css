@@ -36,10 +36,7 @@ body {
 }
 
 #my-pics {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 5px;
-  min-height: 500px; /* Locks down layout height to prevent CLS */
+  min-height: 500px;
 }
 
 .gallery-placeholder {
@@ -56,6 +53,7 @@ body {
 
 .gallery {
   display: grid;
+  gap: 5px;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 
