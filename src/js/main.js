@@ -1,4 +1,4 @@
-// --- 1. Independent Progressive Resume Image Swap ---
+// --- Progressive Resume Image Swap (Non-Blocking) ---
 function initResumeProgressiveLoad() {
   const highResUrl = "/resumes/hobbes3_resume_latest.webp";
   const resumeImg = document.getElementById("resume");
