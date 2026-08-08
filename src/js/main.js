@@ -5,12 +5,15 @@ const resumeImg = document.getElementById("resume");
 function renderGallery() {
   let imagesHTML = "";
   for (let i = 1; i <= gallery_pics; i++) {
+    const loadingAttr = i <= 6 ? "" : ' loading="lazy"';
     imagesHTML +=
       '\n<img src="images/gallery/' +
       i +
       '.webp" alt="Gallery image #' +
       i +
-      '" fetchpriority="low" loading="lazy"/>';
+      '" width="500" height="500" fetchpriority="low"' +
+      loadingAttr +
+      " />";
   }
   document.getElementById("my-pics").innerHTML = imagesHTML;
 }
