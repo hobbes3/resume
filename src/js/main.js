@@ -1,62 +1,71 @@
-// --- 1. Gallery Lazy Loading (Optimized for TBT) ---
+// Swapping placeholder gallery images
 const totalPhotos = 96;
-const chunkSize = 6;
-let currentIndex = 1;
-
 const galleryContainer = document.getElementById("my-pics");
+const galleryDetails = document.getElementById("gallery-details");
 
-function loadMorePhotos() {
-  if (!galleryContainer || currentIndex > totalPhotos) return;
+let isGalleryLoaded = false;
 
-  const endIndex = Math.min(currentIndex + chunkSize - 1, totalPhotos);
-  let imagesHTML = "";
+// 1. Populate initial 96 blank placeholder divs on startup
+function initPlaceholders() {
+  if (!galleryContainer) return;
+  let placeholdersHTML = "";
+  for (let i = 1; i <= totalPhotos; i++) {
+    placeholdersHTML += `<div class="gallery-placeholder" id="placeholder-${i}"></div>`;
+  }
+  galleryContainer.innerHTML = placeholdersHTML;
+}
 
-  // Keep chunk execution lightweight to avoid blocking the main thread
-  for (let i = currentIndex; i <= endIndex; i++) {
-    imagesHTML += `
-      <img
-        src="images/gallery/${i}.webp"
-        width="500"
-        height="500"
-        alt="Gallery image #${i}"
-        loading="lazy"
-      />
-    `;
+// 2. Sequentially swap placeholders with real images when opened
+function loadGalleryImages() {
+  if (isGalleryLoaded || !galleryContainer) return;
+  isGalleryLoaded = true;
+
+  let index = 1;
+  const batchSize = 12; // Load in smooth chunks to keep main thread light
+
+  function loadNextBatch() {
+    if (index > totalPhotos) return;
+
+    requestAnimationFrame(() => {
+      const endIndex = Math.min(index + batchSize - 1, totalPhotos);
+
+      for (let i = index; i <= endIndex; i++) {
+        const placeholder = document.getElementById(`placeholder-${i}`);
+        if (placeholder) {
+          const img = document.createElement("img");
+          img.src = `images/gallery/${i}.webp`;
+          img.width = 500;
+          img.height = 500;
+          img.alt = `Gallery image #${i}`;
+          img.loading = "lazy";
+
+          placeholder.replaceWith(img);
+        }
+      }
+
+      index = endIndex + 1;
+      if (index <= totalPhotos) {
+        setTimeout(loadNextBatch, 50); // Small yield interval between batches
+      }
+    });
   }
 
-  // Use requestAnimationFrame to ensure DOM insertion happens during a safe paint window
-  requestAnimationFrame(() => {
-    galleryContainer.insertAdjacentHTML("beforeend", imagesHTML);
-    currentIndex = endIndex + 1;
+  loadNextBatch();
+}
 
-    if (currentIndex <= totalPhotos && galleryContainer.lastElementChild) {
-      observer.observe(galleryContainer.lastElementChild);
+// Initialize placeholders immediately on page load
+initPlaceholders();
+
+// Listen for the user opening the <details> accordion
+if (galleryDetails) {
+  galleryDetails.addEventListener("toggle", () => {
+    if (galleryDetails.open) {
+      loadGalleryImages();
     }
   });
 }
 
-// Set up Intersection Observer for subsequent batches on scroll
-const observerOptions = {
-  root: null,
-  rootMargin: "200px",
-  threshold: 0.1,
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
-      loadMorePhotos();
-    }
-  });
-}, observerOptions);
-
-// Initialize the first gallery chunk non-blockingly
-requestAnimationFrame(() => {
-  loadMorePhotos();
-});
-
-// --- 2. Progressive Resume Image Swap (LQIP Strategy) ---
+// Progressive resume image swap (LQIP strategy)
 function initResumeProgressiveLoad() {
   const highResUrl = "/resumes/hobbes3_resume_latest.webp";
   const resumeImg = document.getElementById("resume");
