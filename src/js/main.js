@@ -8,7 +8,7 @@ function renderGallery() {
     imagesHTML +=
       '\n<img src="images/gallery/' +
       i +
-      '.jpeg" alt="Gallery image #' +
+      '.webp" alt="Gallery image #' +
       i +
       '" fetchpriority="low" />';
   }

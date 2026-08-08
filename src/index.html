@@ -18,7 +18,7 @@
     />
     <meta
       property="og:image"
-      content="https://hobbes3.com/images/satoshi.jpeg"
+      content="https://hobbes3.com/images/satoshi.webp"
     />
     <meta property="og:image:width" content="250" />
     <meta property="og:image:height" content="250" />
@@ -32,23 +32,47 @@
     />
     <meta
       property="twitter:image"
-      content="https://hobbes3.com/images/satoshi.jpeg"
+      content="https://hobbes3.com/images/satoshi.webp"
     />
     <meta property="twitter:image:width" content="250" />
     <meta property="twitter:image:height" content="250" />
 
     <title>Satoshi Kawasaki</title>
 
-    <link rel="icon" type="image/png" href="favicon.png" sizes="512x512" />
+    <link rel="icon" type="image/webp" href="favicon.webp" sizes="512x512" />
     <link
-      rel="stylesheet"
+      rel="preload"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
     />
-    <link rel="stylesheet" href="css/main.css" />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+      />
+    </noscript>
+    <link
+      rel="preload"
+      href="/css/main.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript>
+      <link rel="stylesheet" href="/css/main.css" />
+    </noscript>
 
+    <link rel="preconnect" href="https://ka-f.fontawesome.com" crossorigin />
     <script
       src="https://kit.fontawesome.com/6db0bd16fb.js"
       crossorigin="anonymous"
+      async
     ></script>
     <script src="js/main.js" defer></script>
     <base target="_blank" />
@@ -59,7 +83,7 @@
       <p id="name-sub">US Citizen • Japanese &amp; Chinese speaker</p>
       <div class="summary-container">
         <img
-          src="images/satoshi.jpeg"
+          src="images/satoshi.webp"
           id="headshot"
           alt="Satoshi Kawasaki"
           width="200"
@@ -89,7 +113,7 @@
           <p>
             <a href="https://fec.hobbes3.com"
               ><img
-                src="images/trump-vs-clinton-preview.png"
+                src="images/trump-vs-clinton-preview.webp"
                 alt="2016 Trump vs Clinton"
             /></a>
           </p>
@@ -214,12 +238,12 @@
           <a href="https://conf.splunk.com/">Splunk annual user conferences</a>.
         </p>
         <div class="gallery">
-          <img src="images/conf1.jpeg" fetchpriority="low" alt=".conf19" />
-          <img src="images/conf2.jpeg" fetchpriority="low" alt=".conf15" />
-          <img src="images/conf3.jpeg" fetchpriority="low" alt=".conf19" />
-          <img src="images/conf4.jpeg" fetchpriority="low" alt=".conf19" />
-          <img src="images/conf5.jpeg" fetchpriority="low" alt=".conf17" />
-          <img src="images/conf6.jpeg" fetchpriority="low" alt=".conf18" />
+          <img src="images/conf1.webp" fetchpriority="low" alt=".conf19" />
+          <img src="images/conf2.webp" fetchpriority="low" alt=".conf15" />
+          <img src="images/conf3.webp" fetchpriority="low" alt=".conf19" />
+          <img src="images/conf4.webp" fetchpriority="low" alt=".conf19" />
+          <img src="images/conf5.webp" fetchpriority="low" alt=".conf17" />
+          <img src="images/conf6.webp" fetchpriority="low" alt=".conf18" />
         </div>
         <table id="talks">
           <tbody>
@@ -372,7 +396,7 @@
           <a href="https://github.com/hobbes3">Github</a>
         </p>
         <img
-          src="resumes/hobbes3_resume_latest.png"
+          src="resumes/hobbes3_resume_latest.webp"
           id="resume"
           alt="resume"
           fetchpriority="high"
