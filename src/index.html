@@ -87,8 +87,8 @@
           src="images/satoshi.webp"
           id="headshot"
           alt="Satoshi Kawasaki"
-          width="200"
-          height="200"
+          width="150"
+          height="150"
           fetchpriority="high"
           loading="eager"
         />
@@ -488,7 +488,12 @@
         </p>
 
         <img
-          src="/resumes/hobbes3_resume_latest.webp"
+          src="/resumes/hobbes3_resume_mobile.webp"
+          srcset="
+            /resumes/hobbes3_resume_latest_mobile.webp  600w,
+            /resumes/hobbes3_resume_latest.webp        1275w
+          "
+          sizes="(max-width: 768px) 100vw, 1275px"
           alt="Satoshi Kawasaki Resume"
           width="1275"
           height="1650"
