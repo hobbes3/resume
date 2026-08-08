@@ -68,6 +68,13 @@
       <link rel="stylesheet" href="/css/main.css" />
     </noscript>
 
+    <link
+      rel="preload"
+      as="image"
+      fetchpriority="high"
+      href="/resumes/hobbes3_resume_latest.webp"
+    />
+
     <script src="js/main.js" defer></script>
     <base target="_blank" />
   </head>
@@ -480,23 +487,13 @@
           <a href="https://github.com/hobbes3">Github</a>
         </p>
 
-        <link
-          rel="preload"
-          as="image"
-          fetchpriority="high"
-          media="(min-width: 769px)"
+        <img
+          src="/resumes/hobbes3_resume_latest.webp"
+          alt="Satoshi Kawasaki Resume"
           width="1275"
           height="1650"
-          href="/resumes/hobbes3_resume_latest.webp"
-        />
-        <link
-          rel="preload"
-          as="image"
+          id="resume"
           fetchpriority="high"
-          media="(max-width: 768px)"
-          width="600"
-          height="776"
-          href="/resumes/hobbes3_resume_latest_mobile.webp"
         />
       </details>
     </main>

@@ -135,9 +135,8 @@ jobs:
         run: |
           pdftoppm -png -r 150 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest"
           cwebp -q 80 "dist/resumes/hobbes3_resume_latest-1.png" -o "dist/resumes/hobbes3_resume_latest.webp"
-          cwebp -q 80 "dist/resumes/hobbes3_resume_latest-1.png" -o "dist/resumes/hobbes3_resume_latest_mobile.webp" -resize 600 0
           rm "dist/resumes/hobbes3_resume_latest-1.png"
-          echo "Successfully generated resumes/hobbes3_resume_latest.webp and _mobile.webp"
+          echo "Successfully generated resumes/hobbes3_resume_latest.webp"
 
       - name: Step 4 - Upload dist directory as artifact
         uses: actions/upload-artifact@v7
