@@ -28,9 +28,15 @@ body {
 }
 
 #headshot {
+  width: 100px;
+  height: 100px;
   border-radius: 10%;
   flex-shrink: 0;
   object-fit: cover;
+}
+
+#my-pics {
+  min-height: 500px;
 }
 
 .gallery {
@@ -50,19 +56,18 @@ body {
 
 .force-single-row {
   display: flex !important;
-  flex-flow: row nowrap !important; /* Prevents wrapping onto a 2nd line */
+  flex-flow: row nowrap !important;
   width: 100%;
-  gap: 0.5rem; /* Adjust space between images as needed */
+  gap: 0.5rem;
   align-items: center;
 }
 
 .force-single-row img {
-  /* Forces each image to take up equal space (approx 1/6th) */
   flex: 1 1 0;
-  min-width: 0; /* CRITICAL: Allows flex items to shrink smaller than image's native width */
+  min-width: 0;
   width: 100%;
   height: auto;
-  object-fit: cover; /* Prevents image distortion */
+  object-fit: cover;
 }
 
 #talks {
