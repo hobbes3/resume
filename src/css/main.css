@@ -35,22 +35,6 @@ body {
   object-fit: cover;
 }
 
-#my-pics {
-  min-height: 500px;
-}
-
-.gallery-placeholder {
-  aspect-ratio: 1 / 1;
-  background-color: var(--pico-muted-border-color);
-}
-
-#my-pics img {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
 .gallery {
   display: grid;
   gap: 5px;
@@ -61,6 +45,13 @@ body {
   .gallery {
     grid-template-columns: repeat(6, 1fr);
   }
+}
+
+.gallery img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
 }
 
 #tools td:not([colspan="2"]) {
