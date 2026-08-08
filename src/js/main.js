@@ -1,36 +1,53 @@
-// Gallery
-const gallery_pics = 96;
-const resumeImg = document.getElementById("resume");
+// Gallery Lazy Loading State
+const totalPhotos = 96;
+const chunkSize = 6;
+let currentIndex = 1;
 
-function renderGallery() {
+const galleryContainer = document.getElementById("my-pics");
+
+function loadMorePhotos() {
+  if (currentIndex > totalPhotos) return;
+
+  const endIndex = Math.min(currentIndex + chunkSize - 1, totalPhotos);
   let imagesHTML = "";
-  for (let i = 1; i <= gallery_pics; i++) {
-    //const loadingAttr = i <= 6 ? "" : ' loading="lazy"';
-    imagesHTML +=
-      '\n<img src="images/gallery/' +
-      i +
-      '.webp" alt="Gallery image #' +
-      i +
-      '" width="500" height="500" fetchpriority="low"' +
-      //loadingAttr +
-      " />";
+
+  for (let i = currentIndex; i <= endIndex; i++) {
+    imagesHTML += `
+      <img
+        src="images/gallery/${i}.webp"
+        width="500"
+        height="500"
+        alt="Gallery image #${i}"
+      />
+    `;
   }
-  document.getElementById("my-pics").innerHTML = imagesHTML;
+
+  galleryContainer.insertAdjacentHTML("beforeend", imagesHTML);
+  currentIndex = endIndex + 1;
+
+  if (currentIndex <= totalPhotos) {
+    observer.observe(galleryContainer.lastElementChild);
+  }
 }
 
-// If the resume image is already loaded, render the gallery immediately
-if (resumeImg && resumeImg.complete) {
-  renderGallery();
-} else if (resumeImg) {
-  // Otherwise, wait until it fires the 'load' event
-  resumeImg.addEventListener("load", renderGallery);
+// Set up Intersection Observer for subsequent batches on scroll
+const observerOptions = {
+  root: null,
+  rootMargin: "200px",
+  threshold: 0.1,
+};
 
-  // Optional fallback: load gallery anyway if resume image fails to load
-  resumeImg.addEventListener("error", renderGallery);
-} else {
-  // Fallback in case resume image element isn't found
-  renderGallery();
-}
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      observer.unobserve(entry.target);
+      loadMorePhotos();
+    }
+  });
+}, observerOptions);
+
+// Force-load the first 6 photos immediately on script execution
+loadMorePhotos();
 
 // Copy email icon
 const wrapper = document.querySelector(".tooltip-wrapper");
