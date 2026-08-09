@@ -10,8 +10,15 @@ body {
 }
 
 #name {
-  color: rgb(4 114 173);
   margin-bottom: 0;
+}
+
+.blue {
+  color: rgb(1 114 173);
+}
+
+.grey {
+  color: #999;
 }
 
 .summary-container {
@@ -95,5 +102,143 @@ body {
 }
 
 .copy-btn:hover {
-  color: #08c;
+  color: rgb(1 170 255);
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Carlito;
+  font-style: normal;
+  font-weight: normal;
+  src: url("/fonts/carlito-v4-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Carlito;
+  font-style: italic;
+  font-weight: normal;
+  src: url("/fonts/carlito-v4-latin-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Carlito;
+  font-style: normal;
+  font-weight: bold;
+  src: url("/fonts/carlito-v4-latin-700.woff2") format("woff2");
+}
+
+#resume {
+  font-family: Carlito, sans-serif;
+  font-size: 13pt;
+  line-height: 1.2;
+  background-color: #fff;
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  overflow: visible;
+  padding: 10mm 20mm 20mm;
+  margin: 1.5rem auto;
+}
+
+#resume header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+#resume section {
+  margin-bottom: 0.7rem;
+}
+
+#resume h1 {
+  font-size: 1.92em;
+  font-weight: bold;
+  margin-bottom: 0;
+  letter-spacing: 0.05rem;
+}
+
+#resume h2 {
+  font-size: 1em;
+  color: #999;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-bottom: 0;
+}
+
+#resume .contact {
+  font-size: 0.85em;
+  letter-spacing: 0.01rem;
+}
+
+#resume .small {
+  font-size: 0.54em;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#resume a {
+  color: #999;
+  text-decoration: none;
+}
+
+#resume a:hover {
+  text-decoration: underline;
+}
+
+#resume .skills {
+  margin-bottom: 0;
+}
+
+#resume .event {
+  font-size: 1em;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+#resume .role {
+  font-size: 1em;
+  font-style: italic;
+  margin-bottom: 0;
+  padding-left: 1rem;
+}
+
+#resume .normal {
+  font-size: 0.92em;
+  font-style: normal;
+}
+
+#resume .date-loc {
+  font-size: 0.85em;
+  color: #999;
+  padding-left: 0.5rem;
+  letter-spacing: 0.01rem;
+}
+
+#resume p {
+  color: #000;
+  margin-bottom: 0;
+}
+
+#resume ul {
+  margin-bottom: 0;
+  padding-left: 2rem;
+}
+
+#resume li::marker {
+  color: #999;
+}
+
+#resume li {
+  color: #000;
+  list-style-type: disc !important;
+  margin-bottom: 0;
+}
+
+#resume footer {
+  font-size: 0.69em;
+  color: #f1f1f1;
+  text-align: center;
 }

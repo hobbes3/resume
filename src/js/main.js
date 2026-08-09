@@ -1,45 +1,33 @@
-// --- Progressive Resume Image Swap (Non-Blocking) ---
-function initResumeProgressiveLoad() {
-  const highResUrl = "/resumes/hobbes3_resume_latest.webp";
-  const resumeImg = document.getElementById("resume");
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Load the 6 conference pictures first with high priority
+  const confContainer = document.getElementById("conf-pics");
+  if (confContainer) {
+    for (let i = 1; i <= 6; i++) {
+      const img = document.createElement("img");
+      img.src = `images/conf${i}.webp`;
+      img.alt = "Splunk .conf";
+      img.width = 200;
+      img.height = 200;
+      img.fetchPriority = "high";
+      confContainer.appendChild(img);
+    }
+  }
 
-  if (!resumeImg) return;
-
-  const bgLoader = new Image();
-  bgLoader.src = highResUrl;
-
-  bgLoader.onload = () => {
-    resumeImg.src = highResUrl;
-  };
-}
-
-if (document.readyState === "complete") {
-  initResumeProgressiveLoad();
-} else {
-  window.addEventListener("load", initResumeProgressiveLoad);
-}
-
-// --- 2. Decoupled Static Markup Generator for 102 Lazy-Loaded Images ---
-//document.addEventListener("DOMContentLoaded", () => {
-//  const confContainer = document.getElementById("conf-pics");
-//  const galleryContainer = document.getElementById("my-pics");
-//
-//  if (confContainer && !confContainer.hasChildNodes()) {
-//    let confHTML = "";
-//    for (let i = 1; i <= 6; i++) {
-//      confHTML += `<img src="images/conf${i}.webp" width="500" height="500" alt="Conference image #${i}" loading="lazy">`;
-//    }
-//    confContainer.innerHTML = confHTML;
-//  }
-//
-//  if (galleryContainer && !galleryContainer.hasChildNodes()) {
-//    let galleryHTML = "";
-//    for (let i = 1; i <= 96; i++) {
-//      galleryHTML += `<img src="images/gallery/${i}.webp" width="500" height="500" alt="Gallery image #${i}" loading="lazy">`;
-//    }
-//    galleryContainer.innerHTML = galleryHTML;
-//  }
-//});
+  // 2. Load the 96 gallery pictures with low priority and async/lazy loading
+  const galleryContainer = document.getElementById("my-pics");
+  if (galleryContainer) {
+    for (let i = 1; i <= 96; i++) {
+      const img = document.createElement("img");
+      img.src = `images/gallery/${i}.webp`; // Adjust path/naming convention to match your files
+      img.alt = `Gallery picture ${i}`;
+      img.width = 200;
+      img.height = 200;
+      img.fetchPriority = "low";
+      img.decoding = "async";
+      galleryContainer.appendChild(img);
+    }
+  }
+});
 
 // --- 3. Copy Email Icon Animation ---
 const wrapper = document.querySelector(".tooltip-wrapper");

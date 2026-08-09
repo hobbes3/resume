@@ -104,42 +104,21 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
 
-      - name: Step 0 - Install dependencies (Poppler)
-        run: |
-          sudo apt-get update -y -o Acquire::Retries=3
-          sudo apt-get install -y --no-install-recommends poppler-utils webp
+      - name: Step 1 - Generate resume pdf
+        run: node scripts/generate-resume-pdf.js
 
-      - name: Step 1 - Copy all static src files to dist
+      - name: Step 2 - Copy all static src files to dist
         run: |
           mkdir -p dist
           cp -r src/* dist/
 
-      - name: Step 2 - Create resume PDF symlink
-        run: |
-          files=(dist/resumes/hobbes3_resume_v*.pdf)
-
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No matching resume file found!"
-            exit 1
-          fi
-
-          LATEST_FILE=$(printf '%s\n' "${files[@]}" | sort -V | tail -n1)
-          echo "Latest resume file identified: $LATEST_FILE"
-
-          TARGET_FILENAME=$(basename "$LATEST_FILE")
-          ln -sf "$TARGET_FILENAME" "dist/resumes/hobbes3_resume_latest.pdf"
-          echo "Successfully created symlink: dist/resumes/hobbes3_resume_latest.pdf -> $TARGET_FILENAME"
-
-      - name: Step 3 - Convert resume PDF to PNG preview
-        run: |
-          pdftoppm -png -r 150 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest"
-          cwebp -q 80 "dist/resumes/hobbes3_resume_latest-1.png" -o "dist/resumes/hobbes3_resume_latest.webp"
-          cwebp -q 80 "dist/resumes/hobbes3_resume_latest-1.png" -o "dist/resumes/hobbes3_resume_latest_mobile.webp" -resize 600 0
-          rm "dist/resumes/hobbes3_resume_latest-1.png"
-          echo "Successfully generated resumes/hobbes3_resume_latest.webp and _mobile.webp"
-
-      - name: Step 4 - Upload dist directory as artifact
+      - name: Step 3 - Upload dist directory as artifact
         uses: actions/upload-artifact@v7
         with:
           name: dist-build

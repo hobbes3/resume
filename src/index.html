@@ -44,25 +44,27 @@
       rel="preload"
       href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
       as="style"
-      onload="
-        this.onload = null;
-        this.rel = 'stylesheet';
-      "
     />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
-      />
-    </noscript>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    />
+    <link rel="preload" href="/css/main.css" as="style" />
     <link rel="stylesheet" href="/css/main.css" />
+    <link
+      rel="preload"
+      href="/fonts/carlito.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
 
     <script src="js/main.js" defer></script>
     <base target="_blank" />
   </head>
   <body>
     <main class="container-fluid">
-      <h1 id="name">Satoshi Kawasaki</h1>
+      <h1 id="name" class="blue">Satoshi Kawasaki</h1>
       <p id="name-sub">US Citizen • Japanese &amp; Chinese speaker</p>
       <div class="summary-container">
         <img
@@ -226,56 +228,7 @@
           Selected 9 times as a featured speaker for technical sessions across
           <a href="https://conf.splunk.com/">Splunk annual user conferences</a>.
         </p>
-        <div id="conf-pics" class="gallery">
-          <img
-            src="images/conf1.webp"
-            fetchpriority="low"
-            decoding="async"
-            width="200"
-            height="200"
-            alt="Splunk .conf"
-          />
-          <img
-            src="images/conf2.webp"
-            fetchpriority="low"
-            decoding="async"
-            width="200"
-            height="200"
-            alt="Splunk .conf"
-          />
-          <img
-            src="images/conf3.webp"
-            fetchpriority="low"
-            decoding="async"
-            width="200"
-            height="200"
-            alt="Splunk .conf"
-          />
-          <img
-            src="images/conf4.webp"
-            fetchpriority="low"
-            decoding="async"
-            width="200"
-            height="200"
-            alt="Splunk .conf"
-          />
-          <img
-            src="images/conf5.webp"
-            fetchpriority="low"
-            decoding="async"
-            width="200"
-            height="200"
-            alt="Splunk .conf"
-          />
-          <img
-            src="images/conf6.webp"
-            fetchpriority="low"
-            decoding="async"
-            width="200"
-            height="200"
-            alt="Splunk .conf"
-          />
-        </div>
+        <div id="conf-pics" class="gallery"></div>
         <table id="talks">
           <tbody>
             <tr>
@@ -399,687 +352,14 @@
       </details>
       <details id="gallery-details">
         <summary role="button">📸 My likes (gallery)</summary>
-        <div id="my-pics" class="gallery">
-          <img
-            src="images/gallery/1.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/2.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/3.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/4.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/5.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/6.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/7.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/8.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/9.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/10.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/11.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/12.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/13.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/14.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/15.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/16.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/17.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/18.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/19.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/20.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/21.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/22.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/23.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/24.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/25.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/26.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/27.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/28.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/29.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/30.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/31.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/32.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/33.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/34.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/35.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/36.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/37.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/38.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/39.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/40.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/41.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/42.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/43.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/44.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/45.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/46.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/47.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/48.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/49.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/50.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/51.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/52.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/53.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/54.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/55.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/56.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/57.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/58.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/59.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/60.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/61.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/62.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/63.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/64.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/65.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/66.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/67.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/68.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/69.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/70.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/71.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/72.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/73.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/74.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/75.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/76.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/77.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/78.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/79.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/80.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/81.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/82.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/83.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/84.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/85.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/86.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/87.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/88.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/89.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/90.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/91.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/92.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/93.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/94.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/95.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-          <img
-            src="images/gallery/96.webp"
-            loading="lazy"
-            width="200"
-            height="200"
-            alt="gallery pic"
-          />
-        </div>
+        <div id="my-pics" class="gallery"></div>
       </details>
-      <details open>
+      <details id="resume-details" open>
         <summary role="button">📃 My resume</summary>
         <p>
           View my resume in a
           <a href="resumes/hobbes3_resume_latest.pdf">PDF format</a> (ready for
-          printing or copy-and-paste).
+          printing or attaching).
         </p>
         <p>
           <svg
@@ -1150,15 +430,153 @@
           <a href="https://github.com/hobbes3">Github</a>
         </p>
 
-        <img
-          src="/resumes/hobbes3_resume_latest_mobile.webp"
-          alt="Satoshi Kawasaki Resume"
-          width="1275"
-          height="1650"
-          id="resume"
-          fetchpriority="high"
-          loading="eager"
-        />
+        <div id="resume">
+          <header>
+            <h1 class="blue">Satoshi Kawasaki</h1>
+            <div class="grey contact">
+              <a href="mailto:satoshi@hobbes3.com">satoshi@hobbes3.com</a>
+              <span class="small">•</span> 404-333-2310
+              <span class="small">•</span> San Francisco, CA 94114<br />
+              <a href="https://hobbes3.com">hobbes3.com</a>
+              <span class="small">•</span>
+              <a href="https://www.linkedin.com/in/hobbes3/"
+                >linkedin.com/in/hobbes3</a
+              >
+              <span class="small">•</span>
+              <a href="https://github.com/hobbes3">github.com/hobbes3</a><br />
+              US Citizen <span class="small">•</span> Japanese &amp; Chinese
+              speaker
+            </div>
+          </header>
+
+          <section>
+            <h2>Summary</h2>
+            <p>
+              A self-taught coder who went on to study rocket science, bringing
+              8+ years of expertise in
+              <span class="blue">enterprise software</span> and
+              <span class="blue">client-facing</span>
+              roles. Seeking an individual contributor role to leverage
+              technical depth and direct client engagement in solving complex
+              enterprise problems.
+            </p>
+          </section>
+
+          <section>
+            <h2>Skills</h2>
+            <p class="skills">
+              <strong>Languages:</strong> Python, JavaScript / TypeScript, SQL,
+              Bash / Zsh, Vim
+            </p>
+            <p class="skills">
+              <strong>Infrastructure:</strong> Linux, AWS, Docker, DevOps /
+              DevSecOps, System Engineering
+            </p>
+            <p class="skills">
+              <strong>AI &amp; Engineering:</strong> Full-Stack Web, Machine
+              Learning, LLM, Prompt Engineering
+            </p>
+          </section>
+
+          <section>
+            <h2>Experiences</h2>
+
+            <div class="event-info">
+              <span class="event">Family Leave</span>
+              <span class="grey date-loc">2021-2026 | Tokyo and Shanghai</span>
+            </div>
+            <p class="role">
+              Full-time caretaker <span class="normal">to my father</span>
+            </p>
+            <ul>
+              <li>
+                <span class="blue">Maintained technical currency</span> through
+                hands-on development in DevSecOps and Generative AI, building
+                CI/CD security pipelines, containerized microservices, and RAG
+                architectures with local LLMs and vector databases.
+              </li>
+            </ul>
+
+            <div class="event-info">
+              <span class="event">Splunk</span>
+              <span class="grey date-loc">2013-2020 | San Francisco</span>
+            </div>
+            <ul>
+              <li>
+                Selected
+                <span class="blue">9 times as a featured speaker</span> for
+                technical sessions across Splunk annual user conferences.
+              </li>
+            </ul>
+
+            <p class="role">Senior Engineering Manager</p>
+            <ul>
+              <li>
+                <span class="blue">Managed engineering execution</span> for
+                Splunk for Good, scaling impact and sustained 30%+ YoY growth
+                for 3 consecutive years in recipients.
+              </li>
+              <li>
+                Led cross-functional teams to ensure high adoption rates and
+                technical delivery across global social impact organizations.
+              </li>
+            </ul>
+
+            <p class="role">Technical Lead</p>
+            <ul>
+              <li>
+                Served as the
+                <span class="blue">global technical lead</span> for Splunk for
+                Good, the social impact initiatives, partnering with nonprofit,
+                academic, and government agencies to architect and implement
+                tailored data analytics solutions.
+              </li>
+              <li>
+                Helped design and launch the $100M Splunk Pledge, a 10-year
+                global initiative delivering software, training, and technical
+                support to social impact organizations.
+              </li>
+            </ul>
+
+            <p class="role">Professional Services Consultant</p>
+            <ul>
+              <li>
+                Advised enterprise customers on custom analytics, complex
+                dashboard design, and advanced data visualizations using
+                full-stack web development skills.
+              </li>
+              <li>
+                <span class="blue">Achieved 100% billable utilization</span>
+                during the final 12 months, driven by direct client
+                re-engagements and repeat requests.
+              </li>
+            </ul>
+
+            <div class="event-info">
+              <span class="event">CA Technologies</span>
+              <span class="grey date-loc">2011-2013 | Atlanta</span>
+            </div>
+            <p class="role">Associate Services Consultant</p>
+            <ul>
+              <li>
+                Specialized in cloud deployment and enterprise process
+                automation utilizing CA AppLogic and CA IT Process Automation
+                Manager.
+              </li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Education</h2>
+            <div class="event-info">
+              <span class="event">Georgia Institute of Technology</span>
+              <span class="grey date-loc">2007-2011 | Atlanta</span>
+            </div>
+            <p class="role">B.S. in Aerospace Engineering</p>
+          </section>
+
+          <footer>v10.3</footer>
+        </div>
       </details>
     </main>
   </body>
