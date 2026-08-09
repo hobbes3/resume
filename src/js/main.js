@@ -20,26 +20,26 @@ if (document.readyState === "complete") {
 }
 
 // --- 2. Decoupled Static Markup Generator for 102 Lazy-Loaded Images ---
-document.addEventListener("DOMContentLoaded", () => {
-  const confContainer = document.getElementById("conf-pics");
-  const galleryContainer = document.getElementById("my-pics");
-
-  if (confContainer && !confContainer.hasChildNodes()) {
-    let confHTML = "";
-    for (let i = 1; i <= 6; i++) {
-      confHTML += `<img src="images/conf${i}.webp" width="500" height="500" alt="Conference image #${i}" loading="lazy">`;
-    }
-    confContainer.innerHTML = confHTML;
-  }
-
-  if (galleryContainer && !galleryContainer.hasChildNodes()) {
-    let galleryHTML = "";
-    for (let i = 1; i <= 96; i++) {
-      galleryHTML += `<img src="images/gallery/${i}.webp" width="500" height="500" alt="Gallery image #${i}" loading="lazy">`;
-    }
-    galleryContainer.innerHTML = galleryHTML;
-  }
-});
+//document.addEventListener("DOMContentLoaded", () => {
+//  const confContainer = document.getElementById("conf-pics");
+//  const galleryContainer = document.getElementById("my-pics");
+//
+//  if (confContainer && !confContainer.hasChildNodes()) {
+//    let confHTML = "";
+//    for (let i = 1; i <= 6; i++) {
+//      confHTML += `<img src="images/conf${i}.webp" width="500" height="500" alt="Conference image #${i}" loading="lazy">`;
+//    }
+//    confContainer.innerHTML = confHTML;
+//  }
+//
+//  if (galleryContainer && !galleryContainer.hasChildNodes()) {
+//    let galleryHTML = "";
+//    for (let i = 1; i <= 96; i++) {
+//      galleryHTML += `<img src="images/gallery/${i}.webp" width="500" height="500" alt="Gallery image #${i}" loading="lazy">`;
+//    }
+//    galleryContainer.innerHTML = galleryHTML;
+//  }
+//});
 
 // --- 3. Copy Email Icon Animation ---
 const wrapper = document.querySelector(".tooltip-wrapper");
