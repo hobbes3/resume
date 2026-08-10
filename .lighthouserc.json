@@ -2,7 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "ignorePaths": ["**/hobbes3_resume_latest.html"]
+      "url": ["/index.html"]
     }
   }
 }
