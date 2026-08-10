@@ -14,7 +14,7 @@ const outputDir = path.join(srcDir, "resumes");
   const chromePath =
     process.platform === "darwin"
       ? "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-      : "/usr/bin/google-chrome";
+      : "/usr/bin/google-chrome-stable";
 
   const browser = await puppeteer.launch({
     executablePath: chromePath,
@@ -49,6 +49,7 @@ const outputDir = path.join(srcDir, "resumes");
   // Write resume.html to src/ first
   const htmlOutputPath = path.join(srcDir, "hobbes3_resume_latest.html");
   await fs.writeFile(htmlOutputPath, htmlContent, "utf-8");
+  console.log(`Successfully generated ${htmlOutputPath}`);
 
   // Navigate directly to the generated file so relative paths (css/, fonts/) resolve naturally
   const resumeFilePath = `file://${htmlOutputPath}`;
@@ -62,9 +63,7 @@ const outputDir = path.join(srcDir, "resumes");
     preferCSSPageSize: true,
     margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
   });
+  console.log(`Successfully generated ${pdfOutputPath}`);
 
-  console.log(
-    `Successfully generated PDF in ${outputDir} and HTML in ${srcDir}`,
-  );
   await browser.close();
 })();
