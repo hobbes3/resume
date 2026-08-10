@@ -86,7 +86,7 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx html-validate "**/*.html"
+      - run: npx html-validate "src/**/*.html"
   build:
     runs-on: ubuntu-latest
     needs:
@@ -104,41 +104,21 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
 
-      - name: Step 0 - Install dependencies (Poppler)
-        run: |
-          sudo apt-get update -y -o Acquire::Retries=3
-          sudo apt-get install -y --no-install-recommends poppler-utils
+      - name: Step 1 - Generate resume pdf
+        run: node scripts/generate-resume-pdf.js
 
-      - name: Step 1 - Copy all static src files to dist
+      - name: Step 2 - Copy all static src files to dist
         run: |
           mkdir -p dist
           cp -r src/* dist/
 
-      - name: Step 2 - Create resume PDF symlink
-        run: |
-          files=(dist/resumes/hobbes3_resume_v*.pdf)
-
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No matching resume file found!"
-            exit 1
-          fi
-
-          LATEST_FILE=$(printf '%s\n' "${files[@]}" | sort -V | tail -n1)
-          echo "Latest resume file identified: $LATEST_FILE"
-
-          TARGET_FILENAME=$(basename "$LATEST_FILE")
-          ln -sf "$TARGET_FILENAME" "dist/resumes/hobbes3_resume_latest.pdf"
-          echo "Successfully created symlink: dist/resumes/hobbes3_resume_latest.pdf -> $TARGET_FILENAME"
-
-      - name: Step 3 - Convert resume PDF to PNG preview
-        run: |
-          pdftoppm -png -r 300 -f 1 -l 1 "dist/resumes/hobbes3_resume_latest.pdf" "dist/resumes/hobbes3_resume_latest"
-
-          mv "dist/resumes/hobbes3_resume_latest-1.png" "dist/resumes/hobbes3_resume_latest.png"
-          echo "Successfully generated resumes/hobbes3_resume_latest.png"
-
-      - name: Step 4 - Upload dist directory as artifact
+      - name: Step 3 - Upload dist directory as artifact
         uses: actions/upload-artifact@v7
         with:
           name: dist-build
@@ -178,7 +158,16 @@ jobs:
           path: dist
       - uses: treosh/lighthouse-ci-action@v12
         with:
-          uploadArtifacts: true
+          configPath: ./.lighthouserc.json
+      - if: always()
+        run: cp .lighthouseci/lhr-*.html dist/lhr-latest.html
+      - if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: dist-build
+          path: dist
+          retention-days: 1
+          overwrite: true
   deploy:
     needs: [link-checker, lighthouse]
     runs-on: ubuntu-latest
@@ -187,6 +176,7 @@ jobs:
       deployments: write
       issues: write
     steps:
+      - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
           name: dist-build

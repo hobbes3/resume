@@ -1,35 +1,35 @@
-// Gallery
-const gallery_pics = 96;
-const resumeImg = document.getElementById("resume");
-
-function renderGallery() {
-  let imagesHTML = "";
-  for (let i = 1; i <= gallery_pics; i++) {
-    imagesHTML +=
-      '\n<img src="images/gallery/' +
-      i +
-      '.jpeg" alt="Gallery image #' +
-      i +
-      '" fetchpriority="low" />';
+document.addEventListener("DOMContentLoaded", () => {
+  // 1. Load the 6 conference pictures first with high priority
+  const confContainer = document.getElementById("conf-pics");
+  if (confContainer) {
+    for (let i = 1; i <= 6; i++) {
+      const img = document.createElement("img");
+      img.src = `images/conf${i}.webp`;
+      img.alt = "Splunk .conf";
+      img.width = 200;
+      img.height = 200;
+      img.fetchPriority = "high";
+      confContainer.appendChild(img);
+    }
   }
-  document.getElementById("my-pics").innerHTML = imagesHTML;
-}
 
-// If the resume image is already loaded, render the gallery immediately
-if (resumeImg && resumeImg.complete) {
-  renderGallery();
-} else if (resumeImg) {
-  // Otherwise, wait until it fires the 'load' event
-  resumeImg.addEventListener("load", renderGallery);
+  // 2. Load the 96 gallery pictures with low priority and async/lazy loading
+  const galleryContainer = document.getElementById("my-pics");
+  if (galleryContainer) {
+    for (let i = 1; i <= 96; i++) {
+      const img = document.createElement("img");
+      img.src = `images/gallery/${i}.webp`; // Adjust path/naming convention to match your files
+      img.alt = `Gallery picture ${i}`;
+      img.width = 200;
+      img.height = 200;
+      img.fetchPriority = "low";
+      img.decoding = "async";
+      galleryContainer.appendChild(img);
+    }
+  }
+});
 
-  // Optional fallback: load gallery anyway if resume image fails to load
-  resumeImg.addEventListener("error", renderGallery);
-} else {
-  // Fallback in case resume image element isn't found
-  renderGallery();
-}
-
-// Copy email icon
+// --- 3. Copy Email Icon Animation ---
 const wrapper = document.querySelector(".tooltip-wrapper");
 if (wrapper) {
   wrapper.addEventListener("click", (e) => {

@@ -2,38 +2,49 @@ html {
   scrollbar-gutter: stable;
 }
 
-body {
-  max-width: 1000px;
-  min-width: 30%;
-  margin: 0 auto;
-  width: 100%;
+@media (width >= 1200px) {
+  .container,
+  main.container {
+    max-width: 960px;
+  }
 }
 
 #name {
-  color: rgb(4 114 173);
   margin-bottom: 0;
 }
 
-#name-sub {
-  margin-bottom: 0;
+.blue {
+  color: rgb(1 114 173);
+}
+
+.grey {
+  color: #999;
 }
 
 .summary-container {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.summary-container img {
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 10px;
+  height: auto;
 }
 
 #headshot {
-  width: 150px;
-  height: 150px;
+  width: 100px;
+  height: 100px;
   border-radius: 10%;
-  object-fit: cover;
   flex-shrink: 0;
+  object-fit: cover;
 }
 
 .gallery {
   display: grid;
+  gap: 5px;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 
@@ -43,25 +54,31 @@ body {
   }
 }
 
+.gallery img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
 #tools td:not([colspan="2"]) {
   text-indent: 0.5em;
 }
 
 .force-single-row {
   display: flex !important;
-  flex-flow: row nowrap !important; /* Prevents wrapping onto a 2nd line */
+  flex-flow: row nowrap !important;
   width: 100%;
-  gap: 0.5rem; /* Adjust space between images as needed */
+  gap: 0.5rem;
   align-items: center;
 }
 
 .force-single-row img {
-  /* Forces each image to take up equal space (approx 1/6th) */
   flex: 1 1 0;
-  min-width: 0; /* CRITICAL: Allows flex items to shrink smaller than image's native width */
+  min-width: 0;
   width: 100%;
   height: auto;
-  object-fit: cover; /* Prevents image distortion */
+  object-fit: cover;
 }
 
 #talks {
@@ -85,5 +102,174 @@ body {
 }
 
 .copy-btn:hover {
-  color: #08c;
+  color: rgb(1 170 255);
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Carlito;
+  font-style: normal;
+  font-weight: normal;
+  src: url("../fonts/carlito-v4-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Carlito;
+  font-style: italic;
+  font-weight: normal;
+  src: url("../fonts/carlito-v4-latin-italic.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: Carlito;
+  font-style: normal;
+  font-weight: bold;
+  src: url("../fonts/carlito-v4-latin-700.woff2") format("woff2");
+}
+
+#resume-wrapper {
+  container-type: inline-size;
+  width: 100%;
+  margin: 0 auto;
+}
+
+#resume {
+  width: 100%;
+  aspect-ratio: 1 / 1.4142;
+  font-family: Carlito, sans-serif;
+  line-height: 1.2;
+  background-color: #fff;
+  box-sizing: border-box;
+  overflow: visible;
+  padding: 8cqw 10cqw;
+  font-size: 2.1cqw;
+}
+
+#resume header {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+#resume section {
+  margin-bottom: 0.7rem;
+}
+
+#resume h1 {
+  font-size: 1.92em;
+  font-weight: bold;
+  margin-bottom: 0;
+  letter-spacing: 0.05rem;
+}
+
+#resume h2 {
+  font-size: 1em;
+  color: #999;
+  font-weight: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05rem;
+  margin-bottom: 0;
+}
+
+#resume .contact {
+  font-size: 0.85em;
+  letter-spacing: 0.01rem;
+}
+
+#resume .small-dot {
+  font-size: 0.54em;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#resume a {
+  color: #999;
+  text-decoration: none;
+}
+
+#resume a:hover {
+  text-decoration: underline;
+}
+
+#resume .skills {
+  margin-bottom: 0;
+}
+
+#resume .event {
+  font-size: 1em;
+  color: #000;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+#resume .role {
+  font-size: 1em;
+  font-style: italic;
+  margin-bottom: 0;
+  padding-left: 1rem;
+}
+
+#resume .normal {
+  font-size: 0.92em;
+  font-style: normal;
+}
+
+#resume .date-loc {
+  font-size: 0.85em;
+  color: #999;
+  padding-left: 0.5rem;
+  letter-spacing: 0.01rem;
+}
+
+#resume p {
+  color: #000;
+  margin-bottom: 0;
+}
+
+#resume ul {
+  margin-bottom: 0;
+  padding-left: 2rem;
+}
+
+#resume li::marker {
+  color: #999;
+}
+
+#resume li {
+  color: #000;
+  list-style-type: disc !important;
+  margin-bottom: 0;
+}
+
+#resume footer {
+  font-size: 0.69em;
+  color: #f1f1f1;
+  text-align: center;
+}
+
+@page {
+  size: a4 portrait;
+  margin: 0 25mm 10mm;
+}
+
+@media print {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff;
+  }
+
+  #resume {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    break-inside: avoid;
+    font-size: 2.9cqw !important;
+  }
 }
