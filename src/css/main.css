@@ -2,13 +2,6 @@ html {
   scrollbar-gutter: stable;
 }
 
-body {
-  max-width: 1000px;
-  min-width: 30%;
-  margin: 0 auto;
-  width: 100%;
-}
-
 #name {
   margin-bottom: 0;
 }
@@ -129,17 +122,22 @@ body {
   src: url("/fonts/carlito-v4-latin-700.woff2") format("woff2");
 }
 
+#resume-wrapper {
+  container-type: inline-size;
+  width: 100%;
+  margin: 0 auto;
+}
+
 #resume {
+  width: 100%;
+  aspect-ratio: 1 / 1.4142;
   font-family: Carlito, sans-serif;
-  font-size: 13pt;
   line-height: 1.2;
   background-color: #fff;
-  width: 210mm;
-  height: 297mm;
-  position: relative;
+  box-sizing: border-box;
   overflow: visible;
-  padding: 10mm 20mm 20mm;
-  margin: 1.5rem auto;
+  padding: 8cqw 10cqw;
+  font-size: 2.1cqw;
 }
 
 #resume header {
@@ -172,7 +170,7 @@ body {
   letter-spacing: 0.01rem;
 }
 
-#resume .small {
+#resume .small-dot {
   font-size: 0.54em;
   display: inline-block;
   vertical-align: middle;
@@ -241,4 +239,29 @@ body {
   font-size: 0.69em;
   color: #f1f1f1;
   text-align: center;
+}
+
+@page {
+  size: a4 portrait;
+  margin: 25.4mm;
+}
+
+@media print {
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff;
+  }
+
+  #resume {
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    break-inside: avoid;
+  }
 }

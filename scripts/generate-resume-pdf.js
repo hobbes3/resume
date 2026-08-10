@@ -6,10 +6,41 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
 const outputDir = path.join(projectRoot, "src", "resumes");
+const fontsDir = path.join(projectRoot, "src", "fonts");
 
 (async () => {
-  // Ensure target output directory exists
   await fs.mkdir(outputDir, { recursive: true });
+
+  const fontRegular = await fs.readFile(
+    path.join(fontsDir, "carlito-v4-latin-regular.woff2"),
+  );
+  const fontBold = await fs.readFile(
+    path.join(fontsDir, "carlito-v4-latin-700.woff2"),
+  );
+  const fontItalic = await fs.readFile(
+    path.join(fontsDir, "carlito-v4-latin-italic.woff2"),
+  );
+
+  const fontFontFaceCss = `
+    @font-face {
+      font-family: 'Carlito';
+      font-style: normal;
+      font-weight: 400;
+      src: url("data:font/woff2;base64,${fontRegular.toString("base64")}") format("woff2");
+    }
+    @font-face {
+      font-family: 'Carlito';
+      font-style: normal;
+      font-weight: 700;
+      src: url("data:font/woff2;base64,${fontBold.toString("base64")}") format("woff2");
+    }
+    @font-face {
+      font-family: 'Carlito';
+      font-style: italic;
+      font-weight: 400;
+      src: url("data:font/woff2;base64,${fontItalic.toString("base64")}") format("woff2");
+    }
+  `;
 
   const chromePath =
     process.platform === "darwin"
@@ -23,54 +54,56 @@ const outputDir = path.join(projectRoot, "src", "resumes");
 
   const page = await browser.newPage();
 
-  // Load local HTML file
+  // Load local HTML
   const filePath = `file://${path.join(projectRoot, "src", "index.html")}`;
   await page.goto(filePath, { waitUntil: "networkidle0" });
 
-  // Read local main.css content and modify the base font-size
-  const cssPath = path.join(projectRoot, "src", "css", "main.css");
-  let mainCssContent = await fs.readFile(cssPath, "utf-8");
+  // Read local CSS files
+  const picoCssPath = path.join(projectRoot, "src", "css", "pico.min.css");
+  const mainCssPath = path.join(projectRoot, "src", "css", "main.css");
 
-  // Modify font-size before applying
+  const picoCssContent = await fs.readFile(picoCssPath, "utf-8");
+  let mainCssContent = await fs.readFile(mainCssPath, "utf-8");
+
   mainCssContent = mainCssContent.replace(
-    "font-size: 13pt;",
-    "font-size: 12.7pt;",
+    "font-size: 2.1cqw;",
+    "font-size: 2.6cqw;",
   );
 
-  // Isolate #resume and inject modified main.css directly into <head>
-  await page.evaluate((css) => {
-    const resume = document.querySelector("#resume");
-    if (resume) {
-      document.body.innerHTML = "";
-      document.body.appendChild(resume);
+  // Isolate #resume and inject base64 fonts & stylesheets cleanly
+  await page.evaluate(
+    ({ fontCss, picoCss, mainCss }) => {
+      const resume = document.querySelector("#resume");
+      if (resume) {
+        document.body.innerHTML = "";
+        document.body.appendChild(resume);
 
-      // Reset body container for full A4 coverage
-      document.body.style.margin = "0";
-      document.body.style.padding = "0";
-      document.body.style.background = "#fff";
+        const styleTag = document.createElement("style");
+        styleTag.textContent = `${fontCss}\n${picoCss}\n${mainCss}`;
+        document.head.appendChild(styleTag);
+      }
+    },
+    {
+      fontCss: fontFontFaceCss,
+      picoCss: picoCssContent,
+      mainCss: mainCssContent,
+    },
+  );
 
-      // Snap #resume container to (0,0)
-      resume.style.margin = "0";
-      resume.style.position = "absolute";
-      resume.style.left = "0";
-      resume.style.top = "0";
-
-      // Inject modified main.css inline into <head>
-      const styleTag = document.createElement("style");
-      styleTag.textContent = css;
-      document.head.appendChild(styleTag);
-    }
-  }, mainCssContent);
-
-  // Save single-page A4 PDF to src/resumes/
+  // Generate A4 PDF using the @page declaration in main.css
   const pdfOutputPath = path.join(outputDir, "hobbes3_resume_latest.pdf");
   await page.pdf({
     path: pdfOutputPath,
-    format: "A4",
     printBackground: true,
-    margin: { top: 0, right: 0, bottom: 0, left: 0 },
+    preferCSSPageSize: true, // Tells Chrome to respect @page size and margins
+    margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
   });
 
-  console.log(`PDF successfully generated: ${pdfOutputPath}`);
+  // Save transformed HTML
+  const transformedHtml = await page.content();
+  const htmlOutputPath = path.join(outputDir, "hobbes3_resume_latest.html");
+  await fs.writeFile(htmlOutputPath, transformedHtml, "utf-8");
+
+  console.log(`Successfully generated HTML and PDF in ${outputDir}`);
   await browser.close();
 })();
