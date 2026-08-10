@@ -110,7 +110,7 @@ html {
   font-family: Carlito;
   font-style: normal;
   font-weight: normal;
-  src: url("fonts/carlito-v4-latin-regular.woff2") format("woff2");
+  src: url("../fonts/carlito-v4-latin-regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -118,7 +118,7 @@ html {
   font-family: Carlito;
   font-style: italic;
   font-weight: normal;
-  src: url("fonts/carlito-v4-latin-italic.woff2") format("woff2");
+  src: url("../fonts/carlito-v4-latin-italic.woff2") format("woff2");
 }
 
 @font-face {
@@ -126,7 +126,7 @@ html {
   font-family: Carlito;
   font-style: normal;
   font-weight: bold;
-  src: url("fonts/carlito-v4-latin-700.woff2") format("woff2");
+  src: url("../fonts/carlito-v4-latin-700.woff2") format("woff2");
 }
 
 #resume-wrapper {
@@ -250,7 +250,7 @@ html {
 
 @page {
   size: a4 portrait;
-  margin: 10mm 25mm;
+  margin: 0 25mm 10mm;
 }
 
 @media print {
@@ -270,6 +270,6 @@ html {
     max-width: 100% !important;
     box-sizing: border-box;
     break-inside: avoid;
-    font-size: 2.7cqw !important;
+    font-size: 2.9cqw !important;
   }
 }
