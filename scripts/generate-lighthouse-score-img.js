@@ -28,6 +28,9 @@ const outputPath = path.join(outputDir, "lhr-score.webp");
 
   const page = await browser.newPage();
 
+  await page.emulateMediaFeatures([
+    { name: "prefers-color-scheme", value: "dark" },
+  ]);
   // 3.125 scale factor increases pixel density to ~300 DPI (96 DPI * 3.125)
   await page.setViewport({
     width: 1280,
