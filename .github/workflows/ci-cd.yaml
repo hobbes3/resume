@@ -125,7 +125,7 @@ jobs:
           name: dist-build
           path: dist/
           retention-days: 1
-  link-checker:
+  lychee:
     needs: [build]
     runs-on: ubuntu-latest
     permissions:

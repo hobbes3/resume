@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1. Load the 6 conference pictures first with high priority
+  // Load the 6 conference pictures first with high priority
   const confContainer = document.getElementById("conf-pics");
   if (confContainer) {
     for (let i = 1; i <= 6; i++) {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 2. Load the 96 gallery pictures with low priority and async/lazy loading
+  // Load the 96 gallery pictures with low priority and async/lazy loading
   const galleryContainer = document.getElementById("my-pics");
   if (galleryContainer) {
     for (let i = 1; i <= 96; i++) {
@@ -29,7 +29,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// --- 3. Copy Email Icon Animation ---
+// CI check dropdown description
+function updateJobInfo(button) {
+  const nameBox = document.getElementById("job-name");
+  const descBox = document.getElementById("job-description");
+  const linkBox = document.getElementById("job-link");
+  const name = button.getAttribute("aria-label");
+  const description = button.dataset.description;
+  const url = button.dataset.url;
+
+  if (description) {
+    nameBox.innerHTML = `<code>${name}</code>`;
+    descBox.innerHTML = `${description}`;
+  }
+  if (url) {
+    linkBox.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+  } else {
+    linkBox.innerHTML = `N/A`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const hotspots = document.querySelectorAll("button.hotspot");
+
+  // Attach click listener to all buttons
+  hotspots.forEach((button) => {
+    button.addEventListener("click", () => updateJobInfo(button));
+  });
+
+  // Set default initial state using the first button (misspell)
+  if (hotspots.length > 0) {
+    updateJobInfo(hotspots[0]);
+  }
+});
+
+// Copy email icon animation
 const wrapper = document.querySelector(".tooltip-wrapper");
 if (wrapper) {
   wrapper.addEventListener("click", (e) => {
