@@ -152,6 +152,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
       - uses: actions/download-artifact@v8
         with:
           name: dist-build
@@ -160,7 +164,10 @@ jobs:
         with:
           configPath: ./.lighthouserc.json
       - if: always()
-        run: cp .lighthouseci/lhr-*.html dist/lhr-latest.html
+        run: |
+          cp .lighthouseci/lhr-*.html dist/lhr-latest.html
+          npm ci
+          node scripts/generate-resume-pdf.js
       - if: always()
         uses: actions/upload-artifact@v7
         with:

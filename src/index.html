@@ -169,14 +169,6 @@
                 <td colspan="2">🆓 Free</td>
               </tr>
               <tr>
-                <td>Hosting</td>
-                <td>
-                  <a href="https://pages.cloudflare.com/" class="secondary"
-                    >Cloudflare Pages</a
-                  >
-                </td>
-              </tr>
-              <tr>
                 <td>Style</td>
                 <td>
                   <a href="https://picocss.com/" class="secondary">Pico CSS</a>
@@ -192,11 +184,23 @@
               </tr>
               <tr>
                 <td>Resume</td>
+                <td>HTML + CSS</td>
+              </tr>
+              <tr>
+                <td>CI/CD</td>
                 <td>
                   <a
-                    href="https://workspace.google.com/products/slides/"
+                    href="https://github.com/features/actions"
                     class="secondary"
-                    >Google Slides</a
+                    >GitHub Actions</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Hosting</td>
+                <td>
+                  <a href="https://pages.cloudflare.com/" class="secondary"
+                    >Cloudflare Pages</a
                   >
                 </td>
               </tr>
@@ -218,18 +222,101 @@
             </tbody>
           </table>
           <footer>
-            Current Lighthouse report (Google's web quality tool) is available
-            <a href="lhr-latest.html" class="secondary">here</a>.<br />
             Source files at my
             <a href="https://github.com/hobbes3/site-resume" class="secondary"
               >GitHub repo</a
             >.
           </footer>
         </article>
-        <p>
-          My other code and projects: <i class="fa-brands fa-github"></i>
-          <a href="https://github.com/hobbes3">Github</a>
-        </p>
+        <article>
+          <header>CI/CD of this site</header>
+          <img
+            src="images/ci-cd.webp"
+            alt="Diagram of CI/CD workflow"
+            width="900"
+            height="213"
+          />
+          <p>
+            CI/CD Github Actions code:
+            <a
+              href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/ci-cd.yaml"
+              class="secondary"
+              >ci-cd.yaml</a
+            >.
+          </p>
+          <p>
+            There are two Node.js script that uses
+            <a href="https://pptr.dev/" class="secondary">Puppeteer</a> to
+            generate assets:
+          </p>
+          <ul>
+            <li>
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-resume-pdf.js"
+                >generate-resume-pdf.js</a
+              >: Runs during the Build job and isolates the
+              <code>#resume</code> below and converts it to PDF.
+            </li>
+            <li>
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-resume-pdf.js"
+                >generate-lighthouse-score-img.js</a
+              >: Runs during the Lighthouse job and generates an image of the
+              last Lighthouse report score (see below).
+            </li>
+          </ul>
+          <p>
+            For security, there is a
+            <a
+              href="https://github.com/betterleaks/betterleaks"
+              class="secondary"
+              >Betterleak</a
+            >
+            secret scanner as a
+            <a
+              href="https://github.com/betterleaks/betterleaks/blob/main/.pre-commit-hooks.yaml"
+              class="secondary"
+              >pre-commit</a
+            >
+            to prevent leaking any secrets to GitHub repository. And a
+            <a href="https://github.com/renovatebot/renovate" class="secondary"
+              >Renovate bot</a
+            >
+            to scan the repository to keep all dependencies up-to-date.
+          </p>
+          <p>
+            Lastly, once all checks are successful, the Deploy job takes the
+            website files and host it to Cloudflare Pages.
+          </p>
+        </article>
+        <article>
+          <header>Lighthouse report of this site</header>
+          <p>
+            <a
+              href="https://developer.chrome.com/docs/lighthouse"
+              class="secondary"
+              >Lighthouse</a
+            >
+            is Google's website quality analysis tool.
+          </p>
+          <p>
+            <a href="lhr-latest.html" class="secondary"
+              ><img
+                src="images/lhr-score.webp"
+                alt="Latest Lighthouse score"
+                width="200"
+                height="200"
+            /></a>
+            Click the score or <a href="lhr-latest.html">here</a> for the last
+            report.
+          </p>
+        </article>
+        <article>
+          <p>
+            My other code and projects: <i class="fa-brands fa-github"></i>
+            <a href="https://github.com/hobbes3">Github</a>
+          </p>
+        </article>
       </details>
       <details>
         <summary role="button">💁🏻‍♂️ My talks</summary>
