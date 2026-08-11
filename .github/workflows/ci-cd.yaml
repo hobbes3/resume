@@ -168,7 +168,7 @@ jobs:
         run: |
           cp .lighthouseci/lhr-*.html dist/lhr-latest.html
           npm ci
-          node scripts/generate-resume-pdf.js
+          node scripts/generate-lighthouse-score-img.js
       - if: always()
         uses: actions/upload-artifact@v7
         with:

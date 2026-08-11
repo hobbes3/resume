@@ -63,5 +63,5 @@ const outputPath = path.join(outputDir, "lhr-score.webp");
     omitBackground: true, // Native transparency for WebP
   });
   await browser.close();
-  console.log(`Saved high-DPI score ring image to ${outputPath}`);
+  console.log(`Saved Lighthouse score ring image to ${outputPath}`);
 })();
