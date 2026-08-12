@@ -8,38 +8,66 @@
 [![ESLint](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/ci-cd.yaml?branch=main&label=eslint&logo=eslint&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/ci-cd.yaml)
 [![Stylelint](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/ci-cd.yaml?branch=main&label=stylelint&logo=stylelint&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/ci-cd.yaml)
 [![HTML5 Validation](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/ci-cd.yaml?branch=main&label=html5%20validation&logo=html5&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/ci-cd.yaml)
-[![Link Checker](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/ci-cd.yaml?branch=main&label=link%20checker&logo=chainlink&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/ci-cd.yaml)
+[![Lychee Link Checker](https://img.shields.io/github/actions/workflow/status/hobbes3/site-resume/ci-cd.yaml?branch=main&label=lychee%20link%20checker&logo=chainlink&logoColor=white)](https://github.com/hobbes3/site-resume/actions/workflows/ci-cd.yaml)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?logo=renovate&logoColor=white)](https://github.com/hobbes3/site-resume/issues/6)
 
 My personal portfolio and resume website built with lightweight semantic HTML5.
 
-Tools used to build this site:
-
-<table>
-  <tr>
-    <th colspan="2" align="left">🆓 Free</th>
-  </tr>
-  <tr>
-    <td><b>Hosting</b></td>
-    <td><a href="https://pages.cloudflare.com/">Cloudflare Pages</a></td>
-  </tr>
-  <tr>
-    <td><b>Style</b></td>
-    <td><a href="https://picocss.com/">Pico CSS</a></td>
-  </tr>
-  <tr>
-    <td><b>Icons</b></td>
-    <td><a href="https://fontawesome.com/">Font Awesome</a></td>
-  </tr>
-  <tr>
-    <td><b>Resume</b></td>
-    <td><a href="https://workspace.google.com/products/slides/">Google Slides</a></td>
-  </tr>
-  <tr>
-    <th colspan="2" align="left">💵 Paid</th>
-  </tr>
-  <tr>
-    <td><b>Domain name</b></td>
-    <td><a href="https://www.cloudflare.com/products/registrar/">Cloudflare Registrar</a></td>
-  </tr>
+<table id="tools">
+  <tbody>
+    <tr>
+      <td colspan="2">🆓 Free</td>
+    </tr>
+    <tr>
+      <td>Resume</td>
+      <td>HTML + CSS</td>
+    </tr>
+    <tr>
+      <td>Hosting</td>
+      <td>
+        <a href="https://pages.cloudflare.com/" class="secondary"
+          >Cloudflare Pages</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td>CI/CD</td>
+      <td>
+        <a
+          href="https://github.com/features/actions"
+          class="secondary"
+          >GitHub Actions</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td>Style</td>
+      <td>
+        <a href="https://picocss.com/" class="secondary">Pico CSS</a>
+      </td>
+    </tr>
+    <tr>
+      <td>Icons</td>
+      <td>
+        <a href="https://fontawesome.com/" class="secondary"
+          >Font Awesome</a
+        >
+      </td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td colspan="2">💵 Paid</td>
+    </tr>
+    <tr>
+      <td>Domain name</td>
+      <td>
+        <a
+          href="https://www.cloudflare.com/products/registrar/"
+          class="secondary"
+          >Cloudflare Registrar</a
+        >
+      </td>
+    </tr>
+  </tbody>
 </table>
