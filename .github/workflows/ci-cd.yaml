@@ -145,7 +145,7 @@ jobs:
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@v6
         with:
-          title: Link Checker Report
+          title: Lychee Link Checker Report
           content-filepath: ./lychee/out.md
           labels: report, automated issue
   lighthouse:
@@ -177,7 +177,7 @@ jobs:
           retention-days: 1
           overwrite: true
   deploy:
-    needs: [link-checker, lighthouse]
+    needs: [lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
