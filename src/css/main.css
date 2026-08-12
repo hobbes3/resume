@@ -164,22 +164,21 @@ button.hotspot {
 #resume-wrapper {
   container-type: inline-size;
   width: 100%;
-  margin: 0 auto;
 }
 
 #resume {
-  all: unset;
-  display: block;
-  box-sizing: border-box;
-  color: #000;
-  width: 100%;
   aspect-ratio: 1 / 1.4142;
-  font-family: Carlito, sans-serif;
   line-height: 1.2;
   background-color: #fff;
   overflow: visible;
   padding: 8cqw 10cqw;
   font-size: 2.1cqw;
+}
+
+#resume,
+#resume h1,
+#resume h2 {
+  font-family: Carlito, sans-serif;
 }
 
 #resume header {
@@ -212,7 +211,6 @@ button.hotspot {
 
 #resume .small-dot {
   font-size: 0.54em;
-  display: inline-block;
   vertical-align: middle;
 }
 
