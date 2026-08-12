@@ -1,5 +1,11 @@
 repos:
   - repo: https://github.com/betterleaks/betterleaks
-    rev: v1.7.3
+    rev: v1.7.4
     hooks:
       - id: betterleaks-system
+repos:
+  - repo: https://github.com/semgrep/semgrep
+    rev: v1.172.0
+    hooks:
+      - id: semgrep
+        args: ["--config=auto", "--error"]
