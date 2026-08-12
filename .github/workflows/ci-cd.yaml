@@ -129,25 +129,25 @@ jobs:
           cache: npm
       - run: npm ci
 
-      - name: Step 1 - Generate resume pdf
-        run: node scripts/generate-resume-pdf.js
-
-      - name: Step 2 - Copy all static src/ files to dist/
+      - name: Step 1 - Copy all static src/ files to dist/
         run: |
           mkdir -p dist
           cp -r src/* dist/
+
+      - name: Step 2 - Generate resume pdf
+        run: node scripts/generate-resume-pdf.js
 
       - name: Step 3 - Generate CycloneDX SBOM
         uses: anchore/sbom-action@v0
         with:
           path: .
           format: cyclonedx-json
-          output-file: dist/sbom.cyclonedx.json
+          output-file: dist/reports/sbom.cyclonedx.json
 
       - name: Step 4 - Scan SBOM with Grypeu
         uses: anchore/scan-action@v7
         with:
-          sbom: dist/sbom.cyclonedx.json
+          sbom: dist/reports/sbom.cyclonedx.json
           fail-build: true
           severity-cutoff: high
 

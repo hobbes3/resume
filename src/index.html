@@ -131,7 +131,7 @@
           </i>
         </p>
       </div>
-      <details>
+      <details open>
         <summary role="button">🧑🏻‍💻 My portfolio</summary>
         <article>
           <header>2016 Trump vs Clinton</header>
@@ -263,7 +263,7 @@
         <article>
           <header>CI/CD (DevOps) of this site</header>
           <p>
-            Click any job (e.g., '✅ misspell') for details. Scroll horizontally
+            Click any job (e.g., ✅ misspell) for details. Scroll horizontally
             to view the full pipeline.
           </p>
           <!-- Interactive Image Wrapper -->
@@ -277,12 +277,11 @@
                 id="pipeline-img"
               />
 
-              <!-- Responsive Hotspot Overlay Buttons -->
               <!-- Column 1 -->
               <button
                 type="button"
                 class="hotspot"
-                style="top: 7%; left: 2%; width: 13%; height: 10%"
+                style="top: 5%; left: 2%; width: 13%; height: 10%"
                 data-description="Scans repository files for common English spelling mistakes and typos in source code and documentation."
                 data-url="https://github.com/golangci/misspell"
                 aria-label="misspell"
@@ -291,7 +290,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 18%; left: 2%; width: 13%; height: 10%"
+                style="top: 15%; left: 2%; width: 13%; height: 10%"
                 data-description="Verifies that source files adhere to code formatting and style guidelines across the project."
                 data-url="https://prettier.io"
                 aria-label="prettier"
@@ -300,7 +299,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 28.5%; left: 2%; width: 13%; height: 10%"
+                style="top: 25%; left: 2%; width: 13%; height: 10%"
                 data-description="Lints CSS and stylesheet files to enforce consistent conventions and catch syntax errors."
                 data-url="https://stylelint.io"
                 aria-label="stylelint"
@@ -309,7 +308,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 39%; left: 2%; width: 13%; height: 10%"
+                style="top: 35%; left: 2%; width: 13%; height: 10%"
                 data-description="Analyzes JavaScript files to enforce coding standards, best practices, and potential runtime bugs."
                 data-url="https://eslint.org"
                 aria-label="eslint"
@@ -318,7 +317,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 50%; left: 2%; width: 13%; height: 10%"
+                style="top: 45%; left: 2%; width: 13%; height: 10%"
                 data-description="Checks Markdown documentation for structure, formatting rules, and syntax correctness."
                 data-url="https://github.com/DavidAnson/markdownlint"
                 aria-label="markdownlint"
@@ -327,7 +326,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 61%; left: 2%; width: 13%; height: 10%"
+                style="top: 55%; left: 2%; width: 13%; height: 10%"
                 data-description="Validates GitHub Actions workflow YAML files against static analysis rules and schemas."
                 data-url="https://rhysd.github.io/actionlint"
                 aria-label="actionlint"
@@ -336,7 +335,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 72%; left: 2%; width: 13%; height: 10%"
+                style="top: 65%; left: 2%; width: 13%; height: 10%"
                 data-description="Scans repository history and commits for accidentally exposed secrets, API keys, and sensitive tokens."
                 data-url="https://betterleaks.com"
                 aria-label="betterleaks"
@@ -345,17 +344,26 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 83%; left: 2%; width: 13%; height: 10%"
+                style="top: 75%; left: 2%; width: 13%; height: 10%"
                 data-description="Validates rendered or static HTML markup against W3C HTML5 specification standards."
                 data-url="https://html-validate.org"
                 aria-label="html5validator"
+              ></button>
+
+              <button
+                type="button"
+                class="hotspot"
+                style="top: 85%; left: 2%; width: 13%; height: 10%"
+                data-description="Runs npm audit on package-lock.json to detect known security vulnerabilities in Node.js dependencies."
+                data-url="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities"
+                aria-label="security-audit"
               ></button>
 
               <!-- Column 2 -->
               <button
                 type="button"
                 class="hotspot"
-                style="top: 7%; left: 27.5%; width: 13%; height: 10%"
+                style="top: 5%; left: 27.5%; width: 13%; height: 10%"
                 data-description="Compiles assets, packages source code, and prepares static distribution files for deployment."
                 data-url=""
                 aria-label="build"
@@ -365,7 +373,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 7%; left: 53%; width: 13%; height: 10%"
+                style="top: 5%; left: 53%; width: 13%; height: 10%"
                 data-description="Crawls built web pages to verify that hyperlink references are valid."
                 data-url="https://lychee.cli.rs"
                 aria-label="lychee"
@@ -374,7 +382,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 18%; left: 53%; width: 13%; height: 10%"
+                style="top: 15%; left: 53%; width: 13%; height: 10%"
                 data-description="Executes automated Google Lighthouse audits to measure Performance, Accessibility, SEO, and Best Practices."
                 data-url="https://developer.chrome.com/docs/lighthouse"
                 aria-label="lighthouse"
@@ -384,7 +392,7 @@
               <button
                 type="button"
                 class="hotspot"
-                style="top: 7%; left: 78.9%; width: 13%; height: 10%"
+                style="top: 5%; left: 79%; width: 13%; height: 10%"
                 data-description="Publishes the verified production assets to Cloudflare Pages."
                 data-url="https://pages.cloudflare.com"
                 aria-label="deploy"
@@ -412,33 +420,31 @@
           </dialog>
 
           <p>
-            🔁 GitHub Actions workflow code:
+            🔁 GitHub Actions workflow configuration:
             <a
               href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/ci-cd.yaml"
               >ci-cd.yaml</a
             >.
           </p>
           <p>
-            Two Node.js scripts use
-            <a href="https://pptr.dev/" class="secondary">Puppeteer</a> to
-            generate assets:
+            Automated asset generation scripts powered by
+            <a href="https://pptr.dev/" class="secondary">Puppeteer</a>:
           </p>
           <ul>
             <li>
               <a
                 href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-resume-pdf.js"
                 >generate-resume-pdf.js</a
-              >: Runs during the <code>build</code> job and isolates the resume
-              HTML and converts it to PDF. This ensures the PDF automatically
-              stays in sync with any resume updates.
+              >: Executes during the <code>build</code> job to render the HTML
+              resume as a PDF, keeping public document downloads synchronized
+              with source updates.
             </li>
             <li>
               <a
-                href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-resume-pdf.js"
+                href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-lighthouse-score-img.js"
                 >generate-lighthouse-score-img.js</a
-              >: Runs during the <code>lighthouse</code> job and generates an
-              image of the last Lighthouse report score (see below). This means
-              the score image is updated automatically on every deployment.
+              >: Executes during the <code>lighthouse</code> job to capture
+              audit score badges dynamically for every release.
             </li>
           </ul>
           <p>🔒 Security (DevSecOps):</p>
@@ -447,7 +453,7 @@
               <a
                 href="https://github.com/betterleaks/betterleaks"
                 class="secondary"
-                >Betterleak</a
+                >Betterleaks</a
               >
               secret scanner as a
               <a
@@ -455,7 +461,7 @@
                 class="secondary"
                 >pre-commit</a
               >
-              to prevent leaking any secrets to the GitHub repository.
+              hook to block credential leaks before pushing to GitHub.
             </li>
             <li>
               <a
@@ -463,8 +469,26 @@
                 class="secondary"
                 >Renovate bot</a
               >
-              to scan the repository to keep all dependencies updated via
-              automated pull requests.
+              for automated dependency monitoring and pull request updates.
+            </li>
+            <li>
+              <a
+                href="https://oss.anchore.com/docs/guides/sbom/getting-started/"
+                class="secondary"
+                >Syft</a
+              >
+              to generate a CycloneDX Software Bill of Materials (SBOM) during
+              the <code>build</code> job. This site's latest SBOM is available
+              <a href="reports/site-resume-build.cyclonedx.json">here</a>.
+            </li>
+            <li>
+              <a
+                href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
+                class="secondary"
+                >Grype</a
+              >
+              to perform vulnerability scanning against the SBOM and block
+              builds with high-severity CVEs during the <code>build</code> job.
             </li>
           </ul>
         </article>
@@ -479,7 +503,7 @@
             is Google's website quality analysis tool.
           </p>
           <p>
-            <a href="lhr-latest.html"
+            <a href="reports/lhr-latest.html"
               ><img
                 src="images/lhr-score.webp"
                 alt="Latest Lighthouse score"
@@ -489,7 +513,7 @@
           </p>
           <p>
             Click the score above or view the full details of the latest report
-            <a href="lhr-latest.html">here</a>.
+            <a href="reports/lhr-latest.html">here</a>.
           </p>
           <table>
             <thead>
