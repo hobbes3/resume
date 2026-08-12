@@ -43,23 +43,60 @@ function updateJobInfo(button) {
     descBox.innerHTML = `${description}`;
   }
   if (url) {
-    linkBox.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+    const displayUrl = url.replace(/^https?:\/\//, "");
+    linkBox.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${displayUrl}</a>`;
   } else {
     linkBox.innerHTML = `N/A`;
+  }
+
+  // Open Pico CSS modal and add html class
+  const dialog = document.querySelector("dialog");
+  if (dialog && typeof dialog.showModal === "function") {
+    document.documentElement.classList.add("modal-is-open");
+    dialog.showModal();
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const hotspots = document.querySelectorAll("button.hotspot");
+  const dialog = document.querySelector("dialog");
 
-  // Attach click listener to all buttons
+  // Attach click listener to all hotspot buttons
   hotspots.forEach((button) => {
     button.addEventListener("click", () => updateJobInfo(button));
   });
 
-  // Set default initial state using the first button (misspell)
-  if (hotspots.length > 0) {
-    updateJobInfo(hotspots[0]);
+  if (dialog) {
+    // Helper function to handle closing cleanup
+    const closeModal = () => {
+      document.documentElement.classList.remove("modal-is-open");
+      dialog.close();
+    };
+
+    // Close button (X) listener
+    const closeBtn = dialog.querySelector("button[aria-label='Close']");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeModal);
+    }
+
+    // Close when clicking on the backdrop outside the modal article
+    dialog.addEventListener("click", (event) => {
+      const rect = dialog.querySelector("article").getBoundingClientRect();
+      const isInDialog =
+        rect.top <= event.clientY &&
+        event.clientY <= rect.top + rect.height &&
+        rect.left <= event.clientX &&
+        event.clientX <= rect.left + rect.width;
+
+      if (!isInDialog) {
+        closeModal();
+      }
+    });
+
+    // Handle ESC key press (native dialog close event)
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("modal-is-open");
+    });
   }
 });
 
