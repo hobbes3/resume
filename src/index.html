@@ -356,7 +356,7 @@
                 style="top: 85%; left: 2%; width: 13%; height: 10%"
                 data-description="Runs npm audit on package-lock.json to detect known security vulnerabilities in Node.js dependencies."
                 data-url="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities"
-                aria-label="security-audit"
+                aria-label="npm-audit"
               ></button>
 
               <!-- Column 2 -->
@@ -457,11 +457,30 @@
               >
               secret scanner as a
               <a
-                href="https://github.com/betterleaks/betterleaks/blob/main/.pre-commit-hooks.yaml"
-                class="secondary"
-                >pre-commit</a
+                href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
+                >pre-commit hook</a
               >
-              hook to block credential leaks before pushing to GitHub.
+              to block credential leaks before pushing to GitHub.
+            </li>
+            <li>
+              <a href="https://semgrep.dev/" class="secondary">Semgrep</a>
+              static analysis (SAST) as another pre-commit hook to catch code
+              bugs and security anti-patterns early.
+            </li>
+            <li>
+              <a
+                href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities"
+                class="secondary"
+                >npm audit</a
+              >
+              to inspect project dependencies for known security vulnerabilities
+              and fail builds with high-severity risks during the
+              <code>npm-audit</code> job.
+            </li>
+            <li>
+              <a href="https://codeql.github.com/" class="secondary">CodeQL</a>
+              for deep semantic query analysis and taint tracking during the
+              <code>codeql</code> job.
             </li>
             <li>
               <a

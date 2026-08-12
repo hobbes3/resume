@@ -13,12 +13,14 @@ concurrency:
 
 permissions:
   contents: read
-  pull-requests: write
-  checks: write
 
 jobs:
   misspell:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: reviewdog/action-misspell@d6429416b12b09b4e2768307d53bef58d172e962
@@ -29,6 +31,10 @@ jobs:
           pattern: "index.html"
   prettier:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: EPMatt/reviewdog-action-prettier@f691104cbeb4b0299df971275444c64be93c03ae
@@ -37,6 +43,10 @@ jobs:
           fail_level: warning
   stylelint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
@@ -46,6 +56,10 @@ jobs:
           fail_level: warning
   eslint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
@@ -55,6 +69,10 @@ jobs:
           fail_level: warning
   markdownlint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: reviewdog/action-markdownlint@6f0e0e8703a9e840ffefa37a2775832c51c1c640
@@ -63,6 +81,10 @@ jobs:
           fail_level: warning
   actionlint:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: reviewdog/action-actionlint@d63ba7532e0942965320cd8d73cbae4c7b3c5283
@@ -94,8 +116,10 @@ jobs:
       - run: |
           npm ci
           npx html-validate "src/**/*.html"
-  security-audit:
+  npm-audit:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
@@ -105,6 +129,33 @@ jobs:
       - run: |
           npm ci
           npm audit --audit-level=high
+  semgrep:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: |
+          pip install semgrep
+          semgrep scan --config=auto --error --sarif --output=semgrep.sarif
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        if: always()
+        with:
+          sarif_file: semgrep.sarif
+  codeql:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        with:
+          languages: "javascript-typescript"
+          queries: security-extended
+      - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+
   build:
     runs-on: ubuntu-latest
     needs:
@@ -117,7 +168,8 @@ jobs:
         actionlint,
         betterleaks,
         html5validator,
-        security-audit,
+        npm-audit,
+        semgrep,
       ]
     permissions:
       contents: read
@@ -144,7 +196,7 @@ jobs:
           format: cyclonedx-json
           output-file: dist/reports/sbom.cyclonedx.json
 
-      - name: Step 4 - Scan SBOM with Grypeu
+      - name: Step 4 - Scan SBOM with Grype
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
         with:
           sbom: dist/reports/sbom.cyclonedx.json
@@ -157,6 +209,7 @@ jobs:
           name: dist-build
           path: dist/
           retention-days: 1
+
   lychee:
     needs: [build]
     runs-on: ubuntu-latest
@@ -183,6 +236,8 @@ jobs:
   lighthouse:
     needs: [build]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
@@ -208,6 +263,7 @@ jobs:
           path: dist
           retention-days: 1
           overwrite: true
+
   deploy:
     needs: [lychee, lighthouse]
     runs-on: ubuntu-latest
