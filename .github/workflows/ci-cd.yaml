@@ -21,6 +21,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           fail_level: warning
           locale: "US"
+          pattern: "index.html"
   prettier:
     runs-on: ubuntu-latest
     steps:
@@ -124,7 +125,7 @@ jobs:
           name: dist-build
           path: dist/
           retention-days: 1
-  link-checker:
+  lychee:
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
@@ -144,7 +145,7 @@ jobs:
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@v6
         with:
-          title: Link Checker Report
+          title: Lychee Link Checker Report
           content-filepath: ./lychee/out.md
           labels: report, automated issue
   lighthouse:
@@ -152,6 +153,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
       - uses: actions/download-artifact@v8
         with:
           name: dist-build
@@ -160,7 +165,10 @@ jobs:
         with:
           configPath: ./.lighthouserc.json
       - if: always()
-        run: cp .lighthouseci/lhr-*.html dist/lhr-latest.html
+        run: |
+          cp .lighthouseci/lhr-*.html dist/lhr-latest.html
+          npm ci
+          node scripts/generate-lighthouse-score-img.js
       - if: always()
         uses: actions/upload-artifact@v7
         with:
@@ -169,7 +177,7 @@ jobs:
           retention-days: 1
           overwrite: true
   deploy:
-    needs: [link-checker, lighthouse]
+    needs: [lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read

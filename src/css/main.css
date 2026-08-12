@@ -3,7 +3,6 @@ html {
 }
 
 @media (width >= 1200px) {
-  .container,
   main.container {
     max-width: 960px;
   }
@@ -22,7 +21,6 @@ html {
 }
 
 .summary-container {
-  content: "";
   display: table;
   clear: both;
 }
@@ -40,6 +38,40 @@ html {
   border-radius: 10%;
   flex-shrink: 0;
   object-fit: cover;
+}
+
+/* Outer container: handles horizontal scrolling */
+.image-wrapper {
+  width: 100%;
+  margin-bottom: 16px;
+  overflow: auto hidden;
+}
+
+/* Inner container: expands to full image dimensions and acts as absolute anchor */
+.pipeline-container {
+  position: relative;
+  display: inline-block;
+}
+
+#pipeline-img {
+  display: block;
+  height: 400px;
+  min-width: 900px;
+  max-width: none;
+  width: auto;
+}
+
+/* Reset Pico CSS overrides completely for hotspots */
+button.hotspot {
+  all: unset;
+  position: absolute;
+  border: none !important;
+
+  /* border: 1px solid red !important; */
+
+  cursor: pointer !important;
+  display: block;
+  box-sizing: border-box;
 }
 
 .gallery {
@@ -136,12 +168,15 @@ html {
 }
 
 #resume {
+  all: unset;
+  display: block;
+  box-sizing: border-box;
+  color: #000;
   width: 100%;
   aspect-ratio: 1 / 1.4142;
   font-family: Carlito, sans-serif;
   line-height: 1.2;
   background-color: #fff;
-  box-sizing: border-box;
   overflow: visible;
   padding: 8cqw 10cqw;
   font-size: 2.1cqw;
@@ -159,7 +194,6 @@ html {
 #resume h1 {
   font-size: 1.92em;
   font-weight: bold;
-  margin-bottom: 0;
   letter-spacing: 0.05rem;
 }
 
@@ -169,7 +203,6 @@ html {
   font-weight: normal;
   text-transform: uppercase;
   letter-spacing: 0.05rem;
-  margin-bottom: 0;
 }
 
 #resume .contact {
@@ -192,7 +225,15 @@ html {
   text-decoration: underline;
 }
 
-#resume .skills {
+#resume h1,
+#resume h2,
+#resume .skills,
+#resume #name,
+#resume p,
+#resume ul,
+#resume li,
+#resume .event,
+#resume .role {
   margin-bottom: 0;
 }
 
@@ -200,13 +241,11 @@ html {
   font-size: 1em;
   color: #000;
   font-weight: bold;
-  margin-bottom: 0;
 }
 
 #resume .role {
   font-size: 1em;
   font-style: italic;
-  margin-bottom: 0;
   padding-left: 1rem;
 }
 
@@ -222,24 +261,21 @@ html {
   letter-spacing: 0.01rem;
 }
 
-#resume p {
+#resume p,
+#resume li {
   color: #000;
-  margin-bottom: 0;
 }
 
 #resume ul {
-  margin-bottom: 0;
   padding-left: 2rem;
+}
+
+#resume li {
+  list-style-type: disc !important;
 }
 
 #resume li::marker {
   color: #999;
-}
-
-#resume li {
-  color: #000;
-  list-style-type: disc !important;
-  margin-bottom: 0;
 }
 
 #resume footer {
