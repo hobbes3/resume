@@ -67,8 +67,8 @@ const outputDir = path.join(srcDir, "resumes");
   await page.pdf({
     path: pdfOutputPath,
     printBackground: true,
+    displayHeaderFooter: false,
     preferCSSPageSize: true,
-    margin: { top: "0px", right: "0px", bottom: "0px", left: "0px" },
   });
   console.log(`Successfully generated ${pdfOutputPath}`);
 
