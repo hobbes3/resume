@@ -281,3 +281,7 @@ jobs:
           apiKey: ${{ secrets.HAWK_API_KEY }}
         env:
           APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        if: always()
+        with:
+          sarif_file: stackhawk.sarif
