@@ -197,6 +197,11 @@ jobs:
           fail-build: false
           output-format: sarif
           severity-cutoff: high
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dist-build
+          path: dist/
+          retention-days: 1
       - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
         if: always()
         with:
