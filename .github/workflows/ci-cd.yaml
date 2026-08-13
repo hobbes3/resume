@@ -274,6 +274,10 @@ jobs:
   stackhawk:
     needs: [deploy]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
@@ -281,7 +285,5 @@ jobs:
           apiKey: ${{ secrets.HAWK_API_KEY }}
         env:
           APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
-      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-        if: always()
-        with:
-          sarif_file: stackhawk.sarif
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PR_NUMBER: ${{ github.event.number }}
