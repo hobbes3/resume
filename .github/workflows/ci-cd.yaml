@@ -199,8 +199,8 @@ jobs:
           severity-cutoff: high
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: dist-build
-          path: dist/
+          name: dist-sbom
+          path: dist/reports/
           retention-days: 1
       - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
         if: always()
@@ -236,11 +236,11 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
           cache: npm
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dist-build
@@ -251,14 +251,15 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - if: always()
         run: |
+          mkdir -p dist/reports
           [ -d .lighthouseci ] && cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html || true
           npm ci
           node scripts/generate-lighthouse-score-img.js
       - if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
-          name: dist-build
-          path: dist
+          name: dist-lighthouse
+          path: dist/reports/
           retention-days: 1
           overwrite: true
 
@@ -274,8 +275,9 @@ jobs:
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
-          name: dist-build
-          path: dist
+          pattern: dist-*
+          path: dist/
+          merge-multiple: true
       - id: deploy_pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
         with:
