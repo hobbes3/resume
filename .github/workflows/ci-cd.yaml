@@ -129,20 +129,6 @@ jobs:
       - run: |
           npm ci
           npm audit --audit-level=high
-  semgrep:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - run: |
-          pip install semgrep
-          semgrep scan --config=auto --error --sarif --output=semgrep.sarif
-      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-        if: always()
-        with:
-          sarif_file: semgrep.sarif
   codeql:
     runs-on: ubuntu-latest
     permissions:
@@ -271,14 +257,27 @@ jobs:
       contents: read
       deployments: write
       issues: write
+    outputs:
+      deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dist-build
           path: dist
-      - uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
+      - id: deploy_pages
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           command: pages deploy dist --project-name=site-resume --branch=${{ github.head_ref || github.ref_name }}
+
+  stackhawk:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
+        with:
+          apiKey: ${{ secrets.HAWK_API_KEY }}
+          host: ${{ needs.deploy.outputs.deployment_url }}

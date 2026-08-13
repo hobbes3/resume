@@ -451,63 +451,118 @@
           <ul>
             <li>
               <a
-                href="https://github.com/betterleaks/betterleaks"
-                class="secondary"
-                >Betterleaks</a
-              >
-              secret scanner as a
-              <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
-                >pre-commit hook</a
+                ><strong>Pre-commit hooks</strong></a
               >
-              to block credential leaks before pushing to GitHub.
+              <ul>
+                <li>
+                  <a
+                    href="https://github.com/betterleaks/betterleaks"
+                    class="secondary"
+                    >Betterleaks</a
+                  >
+                  as a secret scanner.
+                </li>
+                <li>
+                  <a href="https://semgrep.dev/" class="secondary">Semgrep</a>
+                  as a lightweight SAST.
+                </li>
+              </ul>
             </li>
             <li>
-              <a href="https://semgrep.dev/" class="secondary">Semgrep</a>
-              static analysis (SAST) as another pre-commit hook to catch code
-              bugs and security anti-patterns early.
+              <strong>Secret scanner</strong>:
+              <ul>
+                <li>Betterleaks runs as its own job.</li>
+                <li>
+                  Semgrep is managed remotely through its GitHub App
+                  integration.
+                </li>
+              </ul>
             </li>
             <li>
-              <a
-                href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities"
-                class="secondary"
-                >npm audit</a
+              <a href="reports/site-resume-build.cyclonedx.json"
+                ><strong>SBOM</strong></a
               >
-              to inspect project dependencies for known security vulnerabilities
-              and fail builds with high-severity risks during the
-              <code>npm-audit</code> job.
+              (Software Bill of Materials)
+              <ul>
+                <li>
+                  <a
+                    href="https://oss.anchore.com/docs/guides/sbom/getting-started/"
+                    class="secondary"
+                    >Syft</a
+                  >
+                  runs during the
+                  <code>build</code> job.
+                </li>
+              </ul>
             </li>
             <li>
-              <a href="https://codeql.github.com/" class="secondary">CodeQL</a>
-              for deep semantic query analysis and taint tracking during the
-              <code>codeql</code> job.
+              <strong>SCA</strong> (Software Composition Analysis)
+              <ul>
+                <li>
+                  <a
+                    href="https://github.com/renovatebot/renovate"
+                    class="secondary"
+                    >Renovate</a
+                  >
+                  is managed remotely through its GitHub App integration.
+                </li>
+                <li>
+                  <a
+                    href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities"
+                    class="secondary"
+                    >npm audit</a
+                  >
+                  runs as its own job.
+                </li>
+                <li>
+                  <a
+                    href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
+                    class="secondary"
+                    >Grype</a
+                  >
+                  runs during the <code>build</code> job (against the Syft's
+                  SBOM).
+                </li>
+              </ul>
             </li>
             <li>
-              <a
-                href="https://github.com/renovatebot/renovate"
-                class="secondary"
-                >Renovate bot</a
-              >
-              for automated dependency monitoring and pull request updates.
+              <strong>SAST</strong> (Static Application Security Testing)
+              <ul>
+                <li>Semgrep</li>
+                <li>
+                  <a href="https://codeql.github.com/" class="secondary"
+                    >CodeQL</a
+                  >
+                  run as its own job, but asynchronously due to its deep
+                  analysis.
+                </li>
+                <li>
+                  <a href="https://www.stackhawk.com/" class="secondary"
+                    >StackHawk</a
+                  >
+                  is managed remotely through its GitHub App integration.
+                </li>
+              </ul>
             </li>
             <li>
-              <a
-                href="https://oss.anchore.com/docs/guides/sbom/getting-started/"
-                class="secondary"
-                >Syft</a
-              >
-              to generate a CycloneDX Software Bill of Materials (SBOM) during
-              the <code>build</code> job. This site's latest SBOM is available
-              <a href="reports/site-resume-build.cyclonedx.json">here</a>.
+              <strong>DAST</strong> (Dynamic Application Security Testing)
+              <ul>
+                <li>
+                  StackHawk is managed remotely through its GitHub App
+                  integration.
+                </li>
+              </ul>
             </li>
             <li>
-              <a
-                href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
-                class="secondary"
-                >Grype</a
-              >
-              to perform vulnerability scanning against the SBOM and block
-              builds with high-severity CVEs during the <code>build</code> job.
+              <strong>Code review</strong>
+              <ul>
+                <li>
+                  <a href="https://www.coderabbit.ai/" class="secondary"
+                    >CodeRabbit</a
+                  >
+                </li>
+              </ul>
             </li>
           </ul>
         </article>
@@ -531,8 +586,9 @@
             /></a>
           </p>
           <p>
-            Click the score above or view the full details of the latest report
-            <a href="reports/lhr-latest.html">here</a>.
+            Click the score above or open the
+            <a href="reports/lhr-latest.html">latest Lighthouse audit report</a
+            >.
           </p>
           <table>
             <thead>
