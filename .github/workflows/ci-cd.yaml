@@ -155,7 +155,6 @@ jobs:
         betterleaks,
         html5validator,
         npm-audit,
-        semgrep,
       ]
     permissions:
       contents: read
@@ -239,7 +238,7 @@ jobs:
           configPath: ./.lighthouserc.json
       - if: always()
         run: |
-          [ -d .lighthouseci ] && cp .lighthouseci/lhr-*.html dist/lhr-latest.html || true
+          [ -d .lighthouseci ] && cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html || true
           npm ci
           node scripts/generate-lighthouse-score-img.js
       - if: always()
