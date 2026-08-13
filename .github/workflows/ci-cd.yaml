@@ -173,7 +173,7 @@ jobs:
           path: dist/
           retention-days: 1
 
-  syfte-grype:
+  syft-grype:
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
