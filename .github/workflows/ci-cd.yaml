@@ -93,8 +93,6 @@ jobs:
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - run: |
@@ -105,8 +103,6 @@ jobs:
           betterleaks git . -v
   html5validator:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
@@ -118,8 +114,6 @@ jobs:
           npx html-validate "src/**/*.html"
   npm-audit:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
@@ -156,8 +150,6 @@ jobs:
         html5validator,
         npm-audit,
       ]
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
@@ -174,27 +166,41 @@ jobs:
       - name: Step 2 - Generate resume pdf
         run: node scripts/generate-resume-pdf.js
 
-      - name: Step 3 - Generate CycloneDX SBOM
-        uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610
-        with:
-          path: .
-          format: cyclonedx-json
-          output-file: dist/reports/sbom.cyclonedx.json
-
-      - name: Step 4 - Scan SBOM with Grype
-        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
-        with:
-          sbom: dist/reports/sbom.cyclonedx.json
-          fail-build: true
-          severity-cutoff: high
-
-      - name: Step 5 - Upload dist/ directory as artifact
+      - name: Step 3 - Upload dist/ directory as artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dist-build
           path: dist/
           retention-days: 1
 
+  syfte-grype:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: dist/reports/sbom.cyclonedx.json
+      - id: grype-scan
+        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
+        with:
+          sbom: dist/reports/sbom.cyclonedx.json
+          fail-build: false
+          output-format: sarif
+          severity-cutoff: high
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        if: always()
+        with:
+          sarif_file: ${{ steps.grype-scan.outputs.sarif }}
   lychee:
     needs: [build]
     runs-on: ubuntu-latest
@@ -223,6 +229,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
@@ -236,6 +243,7 @@ jobs:
       - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
           configPath: ./.lighthouserc.json
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
       - if: always()
         run: |
           [ -d .lighthouseci ] && cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html || true
@@ -250,7 +258,7 @@ jobs:
           overwrite: true
 
   deploy:
-    needs: [lychee, lighthouse]
+    needs: [syft-grype, lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
