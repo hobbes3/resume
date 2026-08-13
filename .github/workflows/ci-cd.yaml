@@ -279,4 +279,5 @@ jobs:
       - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
         with:
           apiKey: ${{ secrets.HAWK_API_KEY }}
-          host: ${{ needs.deploy.outputs.deployment_url }}
+        env:
+          APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
