@@ -12,6 +12,10 @@ html {
   margin-bottom: 0;
 }
 
+:is(ul, ol) :is(ul, ol) {
+  margin-bottom: 0 !important;
+}
+
 .blue {
   color: rgb(1 114 173);
 }
@@ -55,7 +59,7 @@ html {
 
 #pipeline-img {
   display: block;
-  height: 400px;
+  height: 500px;
   min-width: 900px;
   max-width: none;
   width: auto;
