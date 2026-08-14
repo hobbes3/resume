@@ -123,18 +123,6 @@ jobs:
       - run: |
           npm ci
           npm audit --audit-level=high
-  codeql:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-        with:
-          languages: "javascript-typescript"
-          queries: security-extended
-      - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
 
   build:
     runs-on: ubuntu-latest
@@ -173,6 +161,23 @@ jobs:
           path: dist/
           retention-days: 1
 
+  codeql:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        with:
+          languages: "javascript-typescript"
+          queries: security-extended
+      - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
   syft-grype:
     needs: [build]
     runs-on: ubuntu-latest
@@ -264,7 +269,7 @@ jobs:
           overwrite: true
 
   deploy:
-    needs: [syft-grype, lychee, lighthouse]
+    needs: [codeql, syft-grype, lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
