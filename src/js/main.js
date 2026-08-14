@@ -1,7 +1,56 @@
+/**
+ * Main Application Initializer
+ */
 document.addEventListener("DOMContentLoaded", () => {
-  // Load the 6 conference pictures first with high priority
+  initAccordionBehavior();
+  initDynamicImages();
+  initModalListeners();
+  initClipboardTooltips();
+});
+
+/* ==========================================================================
+   1. Accordion & Resume Header Logic
+   ========================================================================== */
+function initAccordionBehavior() {
+  const allDetails = Array.from(document.querySelectorAll("details"));
+  const resumeDetails =
+    document.querySelector("#resume-details") ||
+    allDetails.find((el) =>
+      el.querySelector("summary")?.textContent.toLowerCase().includes("resume"),
+    );
+
+  if (!resumeDetails) return;
+
+  const resumeSummary = resumeDetails.querySelector("summary");
+
+  // Prevent closing the resume header if it's already open
+  resumeSummary?.addEventListener("click", (e) => {
+    if (resumeDetails.open) {
+      e.preventDefault();
+    }
+  });
+
+  // Re-open resume section if all sections get closed
+  allDetails.forEach((details) => {
+    details.addEventListener("toggle", () => {
+      if (!details.open) {
+        const isAnyOpen = allDetails.some((d) => d.open);
+        if (!isAnyOpen) {
+          resumeDetails.open = true;
+        }
+      }
+    });
+  });
+}
+
+/* ==========================================================================
+   2. Dynamic Image Loaders
+   ========================================================================== */
+function initDynamicImages() {
+  // Load 6 high-priority conference pictures
   const confContainer = document.getElementById("conf-pics");
   if (confContainer) {
+    const fragment = document.createDocumentFragment();
     for (let i = 1; i <= 6; i++) {
       const img = document.createElement("img");
       img.src = `images/conf${i}.webp`;
@@ -9,101 +58,105 @@ document.addEventListener("DOMContentLoaded", () => {
       img.width = 200;
       img.height = 200;
       img.fetchPriority = "high";
-      confContainer.appendChild(img);
+      fragment.appendChild(img);
     }
+    confContainer.appendChild(fragment);
   }
 
-  // Load the 96 gallery pictures with low priority and async/lazy loading
+  // Load 96 gallery pictures with low priority & lazy loading
   const galleryContainer = document.getElementById("my-pics");
   if (galleryContainer) {
+    const fragment = document.createDocumentFragment();
     for (let i = 1; i <= 96; i++) {
       const img = document.createElement("img");
-      img.src = `images/gallery/${i}.webp`; // Adjust path/naming convention to match your files
+      img.src = `images/gallery/${i}.webp`;
       img.alt = `Gallery picture ${i}`;
       img.width = 200;
       img.height = 200;
+      img.loading = "lazy";
       img.fetchPriority = "low";
       img.decoding = "async";
-      galleryContainer.appendChild(img);
+      fragment.appendChild(img);
     }
+    galleryContainer.appendChild(fragment);
   }
-});
+}
 
-// CI check dropdown description
-function updateJobInfo(button) {
+/* ==========================================================================
+   3. Modal & CI Hotspot Handlers
+   ========================================================================== */
+function initModalListeners() {
+  const dialog = document.querySelector("dialog");
+  const hotspots = document.querySelectorAll("button.hotspot");
+
+  hotspots.forEach((button) => {
+    button.addEventListener("click", () => updateJobInfo(button, dialog));
+  });
+
+  if (!dialog) return;
+
+  const closeModal = () => {
+    document.documentElement.classList.remove("modal-is-open");
+    dialog.close();
+  };
+
+  // Close button (X) listener
+  dialog
+    .querySelector("button[aria-label='Close']")
+    ?.addEventListener("click", closeModal);
+
+  // Close on backdrop click
+  dialog.addEventListener("click", (event) => {
+    const article = dialog.querySelector("article");
+    if (!article) return;
+
+    const rect = article.getBoundingClientRect();
+    const isInDialog =
+      rect.top <= event.clientY &&
+      event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX &&
+      event.clientX <= rect.left + rect.width;
+
+    if (!isInDialog) {
+      closeModal();
+    }
+  });
+
+  // Handle ESC key press (native dialog close event)
+  dialog.addEventListener("close", () => {
+    document.documentElement.classList.remove("modal-is-open");
+  });
+}
+
+function updateJobInfo(button, dialog) {
   const nameBox = document.getElementById("job-name");
   const linkAnchor = document.getElementById("job-link");
   const descBox = document.getElementById("job-description");
+
   const name = button.getAttribute("aria-label");
   const url = button.dataset.url;
   const description = button.dataset.description;
 
-  if (name) {
-    nameBox.innerText = name;
-  }
-  if (url) {
-    const displayUrl = url.replace(/^https?:\/\//, "");
+  if (nameBox && name) nameBox.innerText = name;
+  if (linkAnchor && url) {
     linkAnchor.href = url;
-    linkAnchor.textContent = displayUrl;
+    linkAnchor.textContent = url.replace(/^https?:\/\//, "");
   }
-  if (description) {
-    descBox.innerText = description;
-  }
+  if (descBox && description) descBox.innerText = description;
 
-  // Open Pico CSS modal and add html class
-  const dialog = document.querySelector("dialog");
   if (dialog && typeof dialog.showModal === "function") {
     document.documentElement.classList.add("modal-is-open");
     dialog.showModal();
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  const hotspots = document.querySelectorAll("button.hotspot");
-  const dialog = document.querySelector("dialog");
+/* ==========================================================================
+   4. Email Clipboard Tooltip
+   ========================================================================== */
+function initClipboardTooltips() {
+  const wrapper = document.querySelector(".tooltip-wrapper");
+  if (!wrapper) return;
 
-  // Attach click listener to all hotspot buttons
-  hotspots.forEach((button) => {
-    button.addEventListener("click", () => updateJobInfo(button));
-  });
-
-  if (dialog) {
-    // Helper function to handle closing cleanup
-    const closeModal = () => {
-      document.documentElement.classList.remove("modal-is-open");
-      dialog.close();
-    };
-
-    // Close button (X) listener
-    const closeBtn = dialog.querySelector("button[aria-label='Close']");
-    if (closeBtn) {
-      closeBtn.addEventListener("click", closeModal);
-    }
-
-    // Close when clicking on the backdrop outside the modal article
-    dialog.addEventListener("click", (event) => {
-      const rect = dialog.querySelector("article").getBoundingClientRect();
-      const isInDialog =
-        rect.top <= event.clientY &&
-        event.clientY <= rect.top + rect.height &&
-        rect.left <= event.clientX &&
-        event.clientX <= rect.left + rect.width;
-
-      if (!isInDialog) {
-        closeModal();
-      }
-    });
-
-    // Handle ESC key press (native dialog close event)
-    dialog.addEventListener("close", () => {
-      document.documentElement.classList.remove("modal-is-open");
-    });
-  }
-});
-
-// Copy email icon animation
-const wrapper = document.querySelector(".tooltip-wrapper");
-if (wrapper) {
   wrapper.addEventListener("click", (e) => {
     e.preventDefault();
     navigator.clipboard.writeText("satoshi@hobbes3.com");

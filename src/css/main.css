@@ -12,6 +12,20 @@ html {
   margin-bottom: 0;
 }
 
+details summary {
+  position: sticky;
+  top: 0.5rem;
+  z-index: 100;
+  background-color: var(--pico-card-background-color, #fff);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+}
+
+#resume-details[open] > summary {
+  pointer-events: none;
+  cursor: default;
+}
+
 :is(ul, ol) :is(ul, ol) {
   margin-bottom: 0 !important;
 }
