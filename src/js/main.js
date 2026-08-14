@@ -2,50 +2,11 @@
  * Main Application Initializer
  */
 document.addEventListener("DOMContentLoaded", () => {
-  initAccordionBehavior();
   initDynamicImages();
   initModalListeners();
   initClipboardTooltips();
 });
 
-/* ==========================================================================
-   1. Accordion & Resume Header Logic
-   ========================================================================== */
-function initAccordionBehavior() {
-  const allDetails = Array.from(document.querySelectorAll("details"));
-  const resumeDetails =
-    document.querySelector("#resume-details") ||
-    allDetails.find((el) =>
-      el.querySelector("summary")?.textContent.toLowerCase().includes("resume"),
-    );
-
-  if (!resumeDetails) return;
-
-  const resumeSummary = resumeDetails.querySelector("summary");
-
-  // Prevent closing the resume header if it's already open
-  resumeSummary?.addEventListener("click", (e) => {
-    if (resumeDetails.open) {
-      e.preventDefault();
-    }
-  });
-
-  // Re-open resume section if all sections get closed
-  allDetails.forEach((details) => {
-    details.addEventListener("toggle", () => {
-      if (!details.open) {
-        const isAnyOpen = allDetails.some((d) => d.open);
-        if (!isAnyOpen) {
-          resumeDetails.open = true;
-        }
-      }
-    });
-  });
-}
-
-/* ==========================================================================
-   2. Dynamic Image Loaders
-   ========================================================================== */
 function initDynamicImages() {
   // Load 6 high-priority conference pictures
   const confContainer = document.getElementById("conf-pics");
@@ -82,9 +43,6 @@ function initDynamicImages() {
   }
 }
 
-/* ==========================================================================
-   3. Modal & CI Hotspot Handlers
-   ========================================================================== */
 function initModalListeners() {
   const dialog = document.querySelector("dialog");
   const hotspots = document.querySelectorAll("button.hotspot");
@@ -150,9 +108,6 @@ function updateJobInfo(button, dialog) {
   }
 }
 
-/* ==========================================================================
-   4. Email Clipboard Tooltip
-   ========================================================================== */
 function initClipboardTooltips() {
   const wrapper = document.querySelector(".tooltip-wrapper");
   if (!wrapper) return;
