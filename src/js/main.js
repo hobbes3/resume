@@ -32,21 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
 // CI check dropdown description
 function updateJobInfo(button) {
   const nameBox = document.getElementById("job-name");
+  const linkAnchor = document.getElementById("job-link");
   const descBox = document.getElementById("job-description");
-  const linkBox = document.getElementById("job-link");
   const name = button.getAttribute("aria-label");
-  const description = button.dataset.description;
   const url = button.dataset.url;
+  const description = button.dataset.description;
 
-  if (description) {
-    nameBox.innerHTML = `<code>${name}</code>`;
-    descBox.innerHTML = `${description}`;
+  if (name) {
+    nameBox.innerText = name;
   }
   if (url) {
     const displayUrl = url.replace(/^https?:\/\//, "");
-    linkBox.innerHTML = `<a href="${url}" target="_blank" rel="noopener noreferrer">${displayUrl}</a>`;
-  } else {
-    linkBox.innerHTML = `N/A`;
+    linkAnchor.href = url;
+    linkAnchor.textContent = displayUrl;
+  }
+  if (description) {
+    descBox.innerText = description;
   }
 
   // Open Pico CSS modal and add html class
