@@ -327,11 +327,18 @@ function updateJobInfo(button, dialog) {
 
   if (nameBox && name) nameBox.innerText = name;
   if (linkAnchor && url) {
-    linkAnchor.href = url;
-    linkAnchor.textContent = url.replace(/^https?:\/\//, "");
+    // Validate protocol to prevent javascript: XSS execution
+    try {
+      const parsedUrl = new URL(url, window.location.origin);
+      if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
+        linkAnchor.href = parsedUrl.href;
+        linkAnchor.textContent = parsedUrl.href.replace(/^https?:\/\//, "");
+      }
+    } catch {
+      // Ignore invalid URLs gracefully
+    }
   }
   if (descBox && description) descBox.innerText = description;
-
   if (dialog && typeof dialog.showModal === "function") {
     document.documentElement.classList.add("modal-is-open");
     dialog.showModal();
