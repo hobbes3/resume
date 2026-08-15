@@ -1,6 +1,7 @@
 html {
   scrollbar-gutter: stable;
   overflow-anchor: none;
+  scroll-behavior: smooth;
 }
 
 @media (width >= 1200px) {
@@ -21,6 +22,10 @@ details summary {
   border-radius: 6px;
   box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
   overflow-anchor: none;
+}
+
+:target {
+  scroll-margin-top: 80px;
 }
 
 :is(ul, ol) :is(ul, ol) {
