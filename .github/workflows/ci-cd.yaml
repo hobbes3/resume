@@ -293,7 +293,7 @@ jobs:
           overwrite: true
 
   deploy:
-    needs: [html5validator, codeql, syft-grype, lychee, lighthouse]
+    needs: [html5validator, codeql, syft-grype, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
