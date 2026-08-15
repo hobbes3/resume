@@ -70,11 +70,6 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -110,6 +105,9 @@ jobs:
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -118,7 +116,7 @@ jobs:
         id: betterleaks
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          fail-on-leak: "false" # Don't fail here; let code scanning handle it
+          fail-on-leak: "true"
       - uses: github/codeql-action/upload-sarif@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         if: always()
         with:
@@ -169,6 +167,9 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dist-build
@@ -176,7 +177,9 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
-      - run: npx html-validate@11.6.2 "dist/**/*.html"
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install html-validate "dist/**/*.html"
   codeql:
     needs: [build]
     runs-on: ubuntu-latest

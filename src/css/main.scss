@@ -120,12 +120,21 @@ details summary {
 }
 
 button.hotspot {
-  all: unset;
   position: absolute;
-  border: none !important;
-  cursor: pointer !important;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
   display: block;
   box-sizing: border-box;
+
+  // Modern focus ring for keyboard users (Tab navigation)
+  &:focus-visible {
+    outline: 2px solid var(--pico-primary, #0076ff);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
 }
 
 .gallery {
@@ -314,8 +323,10 @@ button.hotspot {
 
   #resume {
     padding: 0;
-    margin: 0;
-    width: 100%;
+    margin: 0 auto;
+    width: auto;
+    max-height: 10.2in;
+    aspect-ratio: 8.5 / 11;
     font-size: 2.3cqw;
     break-inside: avoid;
   }

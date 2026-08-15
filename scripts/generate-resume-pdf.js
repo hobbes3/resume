@@ -2,6 +2,7 @@ import puppeteer from "puppeteer-core";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { preview } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
@@ -11,6 +12,17 @@ const reportsDir = path.join(distDir, "reports");
 
 await fs.mkdir(resumesDir, { recursive: true });
 await fs.mkdir(reportsDir, { recursive: true });
+
+// 1. Start local Vite preview server
+const server = await preview({
+  root: projectRoot,
+  preview: {
+    port: 4173,
+    strictPort: true,
+  },
+});
+
+const previewUrl = server.resolvedUrls.local[0] || "http://localhost:4173/";
 
 const chromePath =
   process.platform === "darwin"
@@ -26,52 +38,113 @@ const browser = await puppeteer.launch({
   ],
 });
 
-const page = await browser.newPage();
+try {
+  const page = await browser.newPage();
 
-// Extract #resume from dist/index.html
-const indexFilePath = `file://${path.join(distDir, "index.html")}`;
-await page.goto(indexFilePath, { waitUntil: "networkidle0" });
+  // Set default navigation timeout for this page (10,000 ms)
+  page.setDefaultNavigationTimeout(10000);
 
-const resumeHtml = await page.evaluate(() => {
-  const resume = document.querySelector("#resume");
-  return resume ? resume.outerHTML : "";
-});
+  // Load preview page over HTTP
+  await page.goto(previewUrl, { waitUntil: "networkidle0", timeout: 10000 });
 
-// Relative stylesheet paths updated to reference ../css/ from dist/reports/
-const htmlContent = `<!DOCTYPE html>
+  // Ensure fonts are completely loaded
+  await page.evaluate(async () => {
+    await document.fonts.load("16px Carlito");
+    await document.fonts.ready;
+  });
+
+  // 2. Extract stylesheet content and resume markup
+  const { inlineCss, resumeMarkup } = await page.evaluate(async () => {
+    const stylePromises = Array.from(
+      document.querySelectorAll('link[rel="stylesheet"]'),
+    ).map(async (link) => {
+      try {
+        const response = await fetch(link.href);
+        return await response.text();
+      } catch {
+        return "";
+      }
+    });
+
+    const embeddedStyles = Array.from(document.querySelectorAll("style"))
+      .map((style) => style.innerHTML)
+      .join("\n");
+
+    const fetchedStyles = (await Promise.all(stylePromises)).join("\n");
+
+    const wrapper =
+      document.querySelector("#resume-wrapper") ||
+      document.querySelector("#resume");
+
+    return {
+      inlineCss: `${embeddedStyles}\n${fetchedStyles}`,
+      resumeMarkup: wrapper ? wrapper.outerHTML : "",
+    };
+  });
+
+  // Relative paths for the standalone saved HTML report
+  const relativeCss = inlineCss
+    .replace(
+      /url\((['"]?)(?:http:\/\/localhost:\d+)?\/?fonts\//g,
+      "url($1../fonts/",
+    )
+    .replace(/url\((['"]?)\/assets\//g, "url($1../assets/");
+
+  const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Resume</title>
-  <link rel="stylesheet" href="../css/pico.min.css">
-  <link rel="stylesheet" href="../css/main.css">
+  <style>
+${relativeCss}
+  </style>
 </head>
 <body>
-  ${resumeHtml}
+  ${resumeMarkup}
 </body>
 </html>`;
 
-const htmlOutputPath = path.join(reportsDir, "hobbes3_resume_latest.html");
-await fs.writeFile(htmlOutputPath, htmlContent, "utf-8");
-console.log(`Successfully generated ${htmlOutputPath}`);
+  // Write isolated HTML report to disk for dist/reports/
+  const htmlOutputPath = path.join(reportsDir, "hobbes3_resume_latest.html");
+  await fs.writeFile(htmlOutputPath, htmlContent, "utf-8");
+  console.log(`Successfully generated ${htmlOutputPath}`);
 
-const resumeFilePath = `file://${htmlOutputPath}`;
-await page.goto(resumeFilePath, { waitUntil: "networkidle0" });
+  // 3. For PDF generation, set isolated HTML content with absolute HTTP URLs
+  const absoluteCss = inlineCss.replace(
+    /url\((['"]?)\/?fonts\//g,
+    `url($1${previewUrl}fonts/`,
+  );
 
-// Ensure fonts are fully loaded before capturing PDF
-await page.evaluate(async () => {
-  await document.fonts.load("16px Carlito");
-  await document.fonts.ready;
-});
+  // Use domcontentloaded + explicit 10s timeout to prevent networkidle hangs
+  await page.setContent(
+    `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>${absoluteCss}</style>
+</head>
+<body>${resumeMarkup}</body>
+</html>`,
+    { waitUntil: "domcontentloaded", timeout: 10000 },
+  );
 
-// Generate A4 PDF
-const pdfOutputPath = path.join(resumesDir, "hobbes3_resume_latest.pdf");
-await page.pdf({
-  path: pdfOutputPath,
-  printBackground: true,
-  displayHeaderFooter: false,
-  preferCSSPageSize: true,
-});
-console.log(`Successfully generated ${pdfOutputPath}`);
+  // Wait explicitly for Carlito font readiness in DOM
+  await page.evaluate(async () => {
+    await document.fonts.load("16px Carlito");
+    await document.fonts.ready;
+  });
 
-await browser.close();
+  // 4. Generate clean single-page PDF
+  const pdfOutputPath = path.join(resumesDir, "hobbes3_resume_latest.pdf");
+  await page.pdf({
+    path: pdfOutputPath,
+    printBackground: true,
+    displayHeaderFooter: false,
+    preferCSSPageSize: true,
+  });
+  console.log(`Successfully generated ${pdfOutputPath}`);
+} finally {
+  await browser.close();
+  await server.httpServer.close();
+}

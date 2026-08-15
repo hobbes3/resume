@@ -1,4 +1,4 @@
-import tippy from "tippy.js";
+import tippy, { Instance } from "tippy.js";
 
 import "../css/main.scss";
 import "tippy.js/dist/tippy.css";
@@ -9,6 +9,10 @@ import "@fontsource/carlito/700.css";
 import "@fontsource/carlito/400-italic.css";
 
 import { PIPELINE_JOB_INFO, PIPELINE_COLUMNS } from "./pipelineData";
+
+interface TippyElement extends HTMLElement {
+  _tippy?: Instance;
+}
 
 let appInitialized = false;
 
@@ -187,29 +191,34 @@ function updateJobInfo(
 }
 
 function initClipboardTooltips(): void {
-  const wrapper = document.querySelector<HTMLElement>(".tooltip-wrapper");
+  const wrapper = document.querySelector<TippyElement>(".tooltip-wrapper");
   if (!wrapper) return;
 
-  wrapper.addEventListener("click", (e: MouseEvent) => {
+  wrapper.addEventListener("click", async (e: MouseEvent) => {
     e.preventDefault();
-    void navigator.clipboard.writeText("satoshi@hobbes3.com");
 
-    const copyIcon = wrapper.querySelector<HTMLElement>(
-      '.copy-btn, [data-icon="copy"]',
-    );
-    const checkIcon = wrapper.querySelector<HTMLElement>(
-      '.check-btn, [data-icon="check"]',
-    );
+    try {
+      await navigator.clipboard.writeText("satoshi@hobbes3.com");
 
-    wrapper.setAttribute("data-tooltip", "Copied!");
-    if (copyIcon) copyIcon.style.display = "none";
-    if (checkIcon) checkIcon.style.display = "inline-block";
+      const copyIcon = wrapper.querySelector<HTMLElement>(
+        '.copy-btn, [data-icon="copy"]',
+      );
+      const checkIcon = wrapper.querySelector<HTMLElement>(
+        '.check-btn, [data-icon="check"]',
+      );
 
-    setTimeout(() => {
-      wrapper.setAttribute("data-tooltip", "Copy email");
-      if (copyIcon) copyIcon.style.display = "inline-block";
-      if (checkIcon) checkIcon.style.display = "none";
-    }, 1500);
+      wrapper._tippy?.setContent("Copied!");
+      if (copyIcon) copyIcon.style.display = "none";
+      if (checkIcon) checkIcon.style.display = "inline-block";
+
+      setTimeout(() => {
+        wrapper._tippy?.setContent("Copy email");
+        if (copyIcon) copyIcon.style.display = "inline-block";
+        if (checkIcon) checkIcon.style.display = "none";
+      }, 1500);
+    } catch (err) {
+      console.error("Failed to copy email to clipboard:", err);
+    }
   });
 }
 
