@@ -296,6 +296,7 @@ jobs:
 
   deploy:
     needs: [codeql, syft-grype, lychee, lighthouse]
+    if: always() && needs.codeql.result != 'failure'
     runs-on: ubuntu-latest
     permissions:
       contents: read
