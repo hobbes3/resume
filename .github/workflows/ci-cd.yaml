@@ -58,7 +58,7 @@ jobs:
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          stylelint_inputs: "src/css/**/*.scss"
+          stylelint_input: "src/css/**/*.scss"
           fail_level: warning
   eslint:
     runs-on: ubuntu-latest
@@ -117,7 +117,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           fail-on-leak: "true"
-      - uses: github/codeql-action/upload-sarif@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
         if: always()
         with:
           sarif_file: ${{ steps.betterleaks.outputs.sarif-path }}
