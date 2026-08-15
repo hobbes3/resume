@@ -1,12 +1,25 @@
 {
   "liveServer.settings.root": "/src",
   "cSpell.words": [
+    "anchore",
     "Betterleaks",
+    "Carlito",
+    "cyclonedx",
     "fontawesome",
+    "hawkscan",
     "Meraki",
     "Pico",
+    "reviewdog",
     "Semgrep",
     "Splunking",
+    "stackhawk",
     "Syft"
+  ],
+  "cSpell.ignoreWords": [
+    "lighthouseci",
+    "lighthouserc",
+    "lycheeverse",
+    "treosh",
+    "networkidle"
   ]
 }
