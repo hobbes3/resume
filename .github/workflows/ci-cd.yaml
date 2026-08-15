@@ -250,8 +250,7 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
           workingDirectory: dist
-          args: --config .lycheeignore --verbose --no-progress './**/*.md' './**/*.html'
-          fail: false
+          args: --configFile ../.lycheeignore --verbose --no-progress './**/*.md' './**/*.html'
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
         with:
