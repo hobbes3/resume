@@ -1,11 +1,9 @@
-// Variables
 $font-carlito: "Carlito", sans-serif;
 $color-grey: #999;
 $color-blue: rgb(1 114 173);
 $color-a-hover-blue: rgb(1 170 255);
 $color-light-grey: #f1f1f1;
 
-// Base HTML
 html {
   scrollbar-gutter: stable;
   overflow-anchor: none;
@@ -22,10 +20,10 @@ html {
   }
 }
 
-// Utility Classes & Typography
 .blue {
   color: $color-blue;
 }
+
 .grey {
   color: $color-grey;
 }
@@ -48,7 +46,6 @@ details summary {
   overflow-anchor: none;
 }
 
-// Tooltips
 [data-tippy-content]:not(a) {
   text-decoration: underline dotted;
   text-underline-offset: 0.1em;
@@ -57,10 +54,10 @@ details summary {
 
 .tippy-box[data-theme~="custom-large"] {
   font-size: 1rem;
-  background-color: rgb(1, 114, 173);
+  background-color: rgb(1 114 173);
 
   &[data-placement^="top"] > .tippy-arrow::before {
-    border-top-color: rgb(1, 114, 173);
+    border-top-color: rgb(1 114 173);
   }
 }
 
@@ -73,13 +70,13 @@ details summary {
 
   .copy-btn {
     transition: color 0.2s ease;
+
     &:hover {
       color: $color-a-hover-blue;
     }
   }
 }
 
-// Components
 .summary-container {
   display: table;
   clear: both;
@@ -129,7 +126,6 @@ button.hotspot {
   display: block;
   box-sizing: border-box;
 
-  // Modern focus ring for keyboard users (Tab navigation)
   &:focus-visible {
     outline: 2px solid var(--pico-primary, #0076ff);
     outline-offset: 2px;
@@ -182,7 +178,6 @@ button.hotspot {
   }
 }
 
-// Nested Resume Section
 #resume-wrapper {
   container-type: inline-size;
   width: 100%;
@@ -304,7 +299,6 @@ button.hotspot {
   }
 }
 
-// Print Styles
 @page {
   size: letter portrait;
   margin: 0.4in;
