@@ -142,7 +142,7 @@ jobs:
           npm ci
           npm audit --audit-level=high
 
-build:
+  build:
     runs-on: ubuntu-latest
     needs:
       [
@@ -164,16 +164,11 @@ build:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
-
-      - name: Step 1 - Build production assets with Vite
-        run: npm run build
-
-      - name: Step 2 - Generate resume pdf
-        run: node scripts/generate-resume-pdf.js
-
-      - name: Step 3 - Upload dist/ directory as artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - run: |
+          npm ci
+          npm run build
+          node scripts/generate-resume-pdf.js
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dist-build
           path: dist/
