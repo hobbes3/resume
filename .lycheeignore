@@ -1,0 +1,3 @@
+# Ignore anti-bot / rate-limited sites
+
+https?://(www\.)?linkedin\.com/.*

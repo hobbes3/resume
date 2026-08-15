@@ -13,13 +13,8 @@ function initAnchorLinks() {
   const anchorLinks = document.querySelectorAll('a[href^="#"]');
 
   anchorLinks.forEach((link) => {
-    // 1. Set target to _self (overriding <base target="_blank">)
     link.setAttribute("target", "_self");
-
-    // 2. Add the Pico CSS 'contrast' class without overwriting existing classes
     link.classList.add("contrast");
-
-    // 3. Set Pico CSS tooltip text dynamically based on the link's visible text
     const linkText = link.textContent.trim() || "section";
     link.setAttribute("data-tooltip", `Jump to ${linkText}`);
   });
@@ -107,7 +102,7 @@ const PIPELINE_JOB_INFO = new Map([
     {
       description:
         "Validates GitHub Actions workflow YAML files against static analysis rules and schemas.",
-      url: "https://rhysd.github.io/actionlint",
+      url: "https://rhysd.github.io/actionlint/",
     },
   ],
   [
@@ -131,7 +126,7 @@ const PIPELINE_JOB_INFO = new Map([
     {
       description:
         "Runs npm audit on package-lock.json to detect known security vulnerabilities in Node.js dependencies.",
-      url: "https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities",
+      url: "https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities/",
     },
   ],
   [
@@ -155,7 +150,7 @@ const PIPELINE_JOB_INFO = new Map([
     {
       description:
         "Generates a CycloneDX Software Bill of Materials (SBOM) with Syft and scans it with Grype for security vulnerabilities.",
-      url: "https://anchore.com/opensource",
+      url: "https://anchore.com/opensource/",
     },
   ],
   [
@@ -332,7 +327,10 @@ function updateJobInfo(button, dialog) {
       const parsedUrl = new URL(url, window.location.origin);
       if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
         linkAnchor.href = parsedUrl.href;
-        linkAnchor.textContent = parsedUrl.href.replace(/^https?:\/\//, "");
+        linkAnchor.textContent = parsedUrl.href
+          .replace(/^https?:\/\//, "")
+          .replace(/^www\./, "")
+          .replace(/\/$/, "");
       }
     } catch {
       // Ignore invalid URLs gracefully
