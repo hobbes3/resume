@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import securityPlugin from "eslint-plugin-security";
 import globals from "globals";
 
 export default [
@@ -11,4 +12,5 @@ export default [
       },
     },
   },
+  securityPlugin.configs.recommended,
 ];
