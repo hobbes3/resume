@@ -277,7 +277,8 @@ jobs:
       - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
           configPath: ./.lighthouserc.json
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - if: always()
         run: |
           mkdir -p dist/reports
