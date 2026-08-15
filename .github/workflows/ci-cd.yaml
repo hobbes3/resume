@@ -23,6 +23,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: reviewdog/action-misspell@d6429416b12b09b4e2768307d53bef58d172e962
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -37,6 +39,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: EPMatt/reviewdog-action-prettier@f691104cbeb4b0299df971275444c64be93c03ae
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -49,6 +53,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -62,6 +68,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,6 +83,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: reviewdog/action-markdownlint@6f0e0e8703a9e840ffefa37a2775832c51c1c640
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -87,6 +97,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: reviewdog/action-actionlint@d63ba7532e0942965320cd8d73cbae4c7b3c5283
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -95,6 +107,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - run: |
           gh release download --repo betterleaks/betterleaks --pattern "*linux_x64.tar.gz" --clobber
           tar -xzf ./*.tar.gz
@@ -105,6 +119,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
@@ -116,6 +132,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
@@ -123,18 +141,6 @@ jobs:
       - run: |
           npm ci
           npm audit --audit-level=high
-  codeql:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      security-events: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-        with:
-          languages: "javascript-typescript"
-          queries: security-extended
-      - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
 
   build:
     runs-on: ubuntu-latest
@@ -152,6 +158,8 @@ jobs:
       ]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
@@ -173,6 +181,25 @@ jobs:
           path: dist/
           retention-days: 1
 
+  codeql:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        with:
+          languages: "javascript-typescript"
+          queries: security-extended
+      - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
   syft-grype:
     needs: [build]
     runs-on: ubuntu-latest
@@ -181,6 +208,8 @@ jobs:
       security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           name: dist-build
@@ -237,6 +266,8 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
@@ -264,7 +295,7 @@ jobs:
           overwrite: true
 
   deploy:
-    needs: [syft-grype, lychee, lighthouse]
+    needs: [codeql, syft-grype, lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -295,6 +326,8 @@ jobs:
       checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
       - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
         with:
           apiKey: ${{ secrets.HAWK_API_KEY }}
