@@ -352,6 +352,52 @@
           <header>🔐 DevSecOps (Security)</header>
           <ul>
             <li>
+              <strong
+                ><a href="https://code.visualstudio.com" class="secondary"
+                  >Visual Studio Code</a
+                >
+                <span data-tooltip="Integrated Development Editor"
+                  >IDE</span
+                ></strong
+              >
+              (using
+              <a
+                href="https://marketplace.visualstudio.com/items?itemName=asvetliakov.vscode-neovim"
+                class="secondary"
+                >Neovim</a
+              >)
+              <ul>
+                <li>
+                  <a
+                    href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"
+                    class="secondary"
+                    >Prettier</a
+                  >*
+                </li>
+                <li>
+                  <a
+                    href="https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint"
+                    class="secondary"
+                    >Stylelint</a
+                  >*
+                </li>
+                <li>
+                  <a
+                    href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
+                    class="secondary"
+                    >ESlint</a
+                  >*
+                </li>
+                <li>
+                  <a
+                    href="https://marketplace.visualstudio.com/items?itemName=html-validate.vscode-html-validate"
+                    class="secondary"
+                    >HTML-validate</a
+                  >*
+                </li>
+              </ul>
+            </li>
+            <li>
               <strong>Pre-commit hooks</strong>
               <ul>
                 <li>Betterleaks</li>
@@ -394,8 +440,8 @@
                   <a
                     href="https://github.com/renovatebot/renovate"
                     class="secondary"
-                    >Renovate*</a
-                  >: Proactive dependency updates via automated
+                    >Renovate</a
+                  >† : Proactive dependency updates via automated
                   <span data-tooltip="GitHub Pull Requests">PRs</span>
                 </li>
                 <li>
@@ -411,7 +457,7 @@
                     href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
                     class="secondary"
                     >Grype</a
-                  >: Scans Syft’s SBOM and reports findings via
+                  >: Scans Syft's SBOM and reports findings via
                   <span
                     data-tooltip="Static Analysis Results Interchange Format"
                     >SARIF</span
@@ -425,7 +471,7 @@
               >
               <ul>
                 <li>
-                  <a href="https://semgrep.dev/" class="secondary">Semgrep*</a>:
+                  <a href="https://semgrep.dev/" class="secondary">Semgrep</a>†:
                   Lightweight, fast pattern matching for PR feedback
                 </li>
                 <li>
@@ -454,19 +500,27 @@
               <ul>
                 <li>
                   <a href="https://coderabbit.ai/" class="secondary"
-                    >CodeRabbit*</a
-                  >: Automated PR summaries and context-aware code reviews
+                    >CodeRabbit</a
+                  >†: Automated PR summaries and context-aware code reviews
                 </li>
               </ul>
             </li>
           </ul>
           <footer>
-            * integrated via
-            <a href="https://docs.github.com/en/apps/overview" class="secondary"
-              >GitHub Apps</a
-            >
-            (instead of in the
-            <a href="#section-devops">workflow pipeline</a>)
+            <p>
+              * Note: VS Code extensions share the same underlying configuration
+              files as the CI pipeline jobs.
+            </p>
+            <p>
+              † Note: Integrated via
+              <a
+                href="https://docs.github.com/en/apps/overview"
+                class="secondary"
+                >GitHub Apps</a
+              >
+              (instead of in the
+              <a href="#section-devops">workflow pipeline</a>)
+            </p>
           </footer>
         </article>
         <article>
