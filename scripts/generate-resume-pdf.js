@@ -5,7 +5,6 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
-const srcDir = path.join(projectRoot, "src");
 const distDir = path.join(projectRoot, "dist");
 const resumesDir = path.join(distDir, "resumes");
 const reportsDir = path.join(distDir, "reports");
@@ -29,8 +28,8 @@ const browser = await puppeteer.launch({
 
 const page = await browser.newPage();
 
-// Extract #resume from src/index.html
-const indexFilePath = `file://${path.join(srcDir, "index.html")}`;
+// Extract #resume from dist/index.html
+const indexFilePath = `file://${path.join(distDir, "index.html")}`;
 await page.goto(indexFilePath, { waitUntil: "networkidle0" });
 
 const resumeHtml = await page.evaluate(() => {
