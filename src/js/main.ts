@@ -1,4 +1,4 @@
-import tippy, { Instance } from "tippy.js";
+import tippy, { type Instance } from "tippy.js";
 
 import "../css/main.scss";
 import "tippy.js/dist/tippy.css";
