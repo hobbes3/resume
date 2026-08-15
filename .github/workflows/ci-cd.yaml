@@ -251,7 +251,7 @@ jobs:
         with:
           workingDirectory: dist
           args: --verbose --no-progress --accept '100..=103,200..=299,403,999' './**/*.md' './**/*.html'
-      - if: steps.lychee.outputs.exit_code != 0
+      - if: ${{ failure() && steps.lychee.outputs.exit_code != 0 }}
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
         with:
           title: Lychee Link Checker Report
