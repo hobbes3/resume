@@ -40,33 +40,8 @@
     <title>Satoshi Kawasaki</title>
 
     <link rel="icon" type="image/webp" href="favicon.webp" sizes="512x512" />
-    <link rel="preload" href="css/main.css" as="style" />
-    <link rel="stylesheet" href="css/main.css" />
-    <link rel="preload" href="css/pico.min.css" as="style" />
-    <link rel="stylesheet" href="css/pico.min.css" />
-    <link
-      rel="preload"
-      href="fonts/carlito-v4-latin-regular.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="fonts/carlito-v4-latin-italic.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="fonts/carlito-v4-latin-700.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
 
-    <script src="js/main.js" defer></script>
+    <script type="module" src="/src/js/main.ts"></script>
 
     <base target="_blank" />
   </head>
@@ -174,8 +149,8 @@
             </li>
             <li>
               Detecting wildfires with
-              <span data-tooltip="Internet of Things">IoT</span> ground sensors
-              with the
+              <span data-tippy-content="Internet of Things">IoT</span> ground
+              sensors with the
               <a href="https://www.mofd.org"
                 >Moraga-Orinda Fire District of CA</a
               >.
@@ -215,7 +190,7 @@
               </tr>
               <tr>
                 <td>Resume</td>
-                <td>HTML + CSS</td>
+                <td>HTML + SCSS</td>
               </tr>
               <tr>
                 <td>Hosting</td>
@@ -226,9 +201,15 @@
                 </td>
               </tr>
               <tr>
+                <td>Build Tool</td>
+                <td>
+                  <a href="https://vite.dev/" class="secondary">Vite</a>
+                </td>
+              </tr>
+              <tr>
                 <td>
                   <span
-                    data-tooltip="Continuous Integration / Continuous Deployment"
+                    data-tippy-content="Continuous Integration / Continuous Deployment"
                     >CI/CD</span
                   >
                 </td>
@@ -251,6 +232,18 @@
                 <td>
                   <a href="https://fontawesome.com" class="secondary"
                     >Font Awesome</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span data-tippy-content="Smart tooltips like this!"
+                    >Tooltips</span
+                  >
+                </td>
+                <td>
+                  <a href="https://atomiks.github.io/tippyjs/" class="secondary"
+                    >Tippy.js</a
                   >
                 </td>
               </tr>
@@ -356,7 +349,7 @@
                 ><a href="https://code.visualstudio.com" class="secondary"
                   >Visual Studio Code</a
                 >
-                <span data-tooltip="Integrated Development Environment"
+                <span data-tippy-content="Integrated Development Environment"
                   >IDE</span
                 ></strong
               >
@@ -413,15 +406,17 @@
                     class="secondary"
                     >Betterleaks</a
                   >: Runs as a dedicated
-                  <span data-tooltip="Continuous Integration">CI</span> job to
-                  scan repository history
+                  <span data-tippy-content="Continuous Integration">CI</span>
+                  job to scan repository history
                 </li>
                 <li>Semgrep</li>
                 <li>CodeRabbit</li>
               </ul>
             </li>
             <li>
-              <strong data-tooltip="Software Bill of Materials">SBOM</strong>
+              <strong data-tippy-content="Software Bill of Materials"
+                >SBOM</strong
+              >
               (<a href="reports/sbom.cyclonedx.json">view report</a>)
               <ul>
                 <li>
@@ -434,7 +429,9 @@
               </ul>
             </li>
             <li>
-              <strong data-tooltip="Software Composition Analysis">SCA</strong>
+              <strong data-tippy-content="Software Composition Analysis"
+                >SCA</strong
+              >
               <ul>
                 <li>
                   <a
@@ -442,7 +439,7 @@
                     class="secondary"
                     >Renovate</a
                   >† : Proactive dependency updates via automated
-                  <span data-tooltip="GitHub Pull Requests">PRs</span>
+                  <span data-tippy-content="GitHub Pull Requests">PRs</span>
                 </li>
                 <li>
                   <a
@@ -459,14 +456,14 @@
                     >Grype</a
                   >: Scans Syft's SBOM and reports findings via
                   <span
-                    data-tooltip="Static Analysis Results Interchange Format"
+                    data-tippy-content="Static Analysis Results Interchange Format"
                     >SARIF</span
                   >
                 </li>
               </ul>
             </li>
             <li>
-              <strong data-tooltip="Static Application Security Testing"
+              <strong data-tippy-content="Static Application Security Testing"
                 >SAST</strong
               >
               <ul>
@@ -483,7 +480,7 @@
               </ul>
             </li>
             <li>
-              <strong data-tooltip="Dynamic Application Security Testing"
+              <strong data-tippy-content="Dynamic Application Security Testing"
                 >DAST</strong
               >
               <ul>
@@ -533,7 +530,7 @@
             >
             is Google's automated tool for measuring web performance,
             accessibility, and
-            <span data-tooltip="Search Engine Optimization">SEO</span>.
+            <span data-tippy-content="Search Engine Optimization">SEO</span>.
           </p>
           <p>
             <a href="reports/lhr-latest.html"
@@ -558,7 +555,9 @@
             <tbody>
               <tr>
                 <td>
-                  <strong data-tooltip="First Contentful Paint">FCP</strong>
+                  <strong data-tippy-content="First Contentful Paint"
+                    >FCP</strong
+                  >
                 </td>
                 <td>
                   Measures how fast the first text or image renders on screen.
@@ -566,7 +565,9 @@
               </tr>
               <tr>
                 <td>
-                  <strong data-tooltip="Largest Contentful Paint">LCP</strong>
+                  <strong data-tippy-content="Largest Contentful Paint"
+                    >LCP</strong
+                  >
                 </td>
                 <td>
                   Measures when the main page content has likely finished
@@ -575,7 +576,7 @@
               </tr>
               <tr>
                 <td>
-                  <strong data-tooltip="Total Blocking Time">TBT</strong>
+                  <strong data-tippy-content="Total Blocking Time">TBT</strong>
                 </td>
                 <td>
                   Measures page unresponsiveness during loading before user
@@ -584,7 +585,9 @@
               </tr>
               <tr>
                 <td>
-                  <strong data-tooltip="Cumulative Layout Shift">CLS</strong>
+                  <strong data-tippy-content="Cumulative Layout Shift"
+                    >CLS</strong
+                  >
                 </td>
                 <td>
                   Measures visual stability by tracking unexpected page layout
@@ -593,7 +596,7 @@
               </tr>
               <tr>
                 <td>
-                  <strong data-tooltip="Speed Index">SI</strong>
+                  <strong data-tippy-content="Speed Index">SI</strong>
                 </td>
                 <td>
                   Measures how quickly content is visually displayed during
@@ -751,7 +754,7 @@
             href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online."
             >satoshi@hobbes3.com</a
           >
-          <span class="tooltip-wrapper" data-tooltip="Copy email">
+          <span class="tooltip-wrapper" data-tippy-content="Copy email">
             <svg width="1em" height="1em" class="copy-btn">
               <use href="#icon-copy"></use>
             </svg>

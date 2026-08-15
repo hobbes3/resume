@@ -58,7 +58,7 @@ jobs:
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          stylelint_inputs: "src/css/**/*.css"
+          stylelint_input: "src/css/**/*.scss"
           fail_level: warning
   eslint:
     runs-on: ubuntu-latest
@@ -105,29 +105,22 @@ jobs:
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          persist-credentials: false
-      - run: |
-          gh release download --repo betterleaks/betterleaks --pattern "*linux_x64.tar.gz" --clobber
-          tar -xzf ./*.tar.gz
-          sudo mv betterleaks /usr/local/bin/
-          rm ./*.tar.gz
-          betterleaks git . -v
-  html5validator:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+          fetch-depth: 0 # Required for git scan mode
+      - uses: dortort/betterleaks-action@cd0b905aa4befb8f42f8b1ab98150180c9e77515
+        id: betterleaks
         with:
-          persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-leak: "true"
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        if: always()
         with:
-          node-version: 24
-          cache: npm
-      - run: |
-          npm ci
-          npx html-validate "src/**/*.html"
+          sarif_file: ${{ steps.betterleaks.outputs.sarif-path }}
   npm-audit:
     runs-on: ubuntu-latest
     steps:
@@ -137,10 +130,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
-          cache: npm
-      - run: |
-          npm ci
-          npm audit --audit-level=high
+      - run: npm audit --audit-level=high
 
   build:
     runs-on: ubuntu-latest
@@ -153,7 +143,6 @@ jobs:
         markdownlint,
         actionlint,
         betterleaks,
-        html5validator,
         npm-audit,
       ]
     steps:
@@ -164,23 +153,33 @@ jobs:
         with:
           node-version: 24
           cache: npm
-      - run: npm ci
-
-      - name: Step 1 - Copy all static src/ files to dist/
-        run: |
-          mkdir -p dist
-          cp -r src/* dist/
-
-      - name: Step 2 - Generate resume pdf
-        run: node scripts/generate-resume-pdf.js
-
-      - name: Step 3 - Upload dist/ directory as artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+      - run: |
+          npm ci
+          npm run build
+          node scripts/generate-resume-pdf.js
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dist-build
           path: dist/
           retention-days: 1
 
+  html5validator:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install html-validate "dist/**/*.html"
   codeql:
     needs: [build]
     runs-on: ubuntu-latest
@@ -278,7 +277,8 @@ jobs:
       - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
           configPath: ./.lighthouserc.json
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - if: always()
         run: |
           mkdir -p dist/reports
@@ -294,7 +294,7 @@ jobs:
           overwrite: true
 
   deploy:
-    needs: [codeql, syft-grype, lychee, lighthouse]
+    needs: [html5validator, codeql, syft-grype, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
