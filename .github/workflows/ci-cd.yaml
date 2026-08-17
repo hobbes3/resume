@@ -299,7 +299,7 @@ jobs:
           mkdir -p dist/reports
           cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
           npm ci
-          node scripts/generate-lighthouse-score-img.j
+          node scripts/generate-lighthouse-score-img.js
       - if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
