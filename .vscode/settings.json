@@ -1,4 +1,7 @@
 {
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"],
   "cSpell.words": [
     "anchore",
     "Betterleaks",
@@ -8,15 +11,14 @@
     "fontawesome",
     "hawkscan",
     "Meraki",
+    "mxschmitt",
     "Pico",
     "reviewdog",
     "Semgrep",
     "shopt",
     "Splunking",
     "stackhawk",
-    "Syft"
-  ],
-  "cSpell.ignoreWords": [
+    "Syft",
     "LHCI",
     "domcontentloaded",
     "dortort",
@@ -28,7 +30,5 @@
     "picocss",
     "treosh"
   ],
-  "css.validate": false,
-  "scss.validate": false,
-  "stylelint.validate": ["css", "scss"]
+  "cSpell.ignoreWords": []
 }
