@@ -242,7 +242,7 @@ jobs:
   #        with:
   #          sarif_file: ${{ steps.grype-scan.outputs.sarif }}
   lychee:
-    #    needs: [build]
+    needs: [build]
     runs-on: ubuntu-latest
     permissions:
       contents: read
