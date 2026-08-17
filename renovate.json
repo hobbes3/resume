@@ -1,12 +1,13 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":semanticCommits"],
-  "pre-commit": {
-    "enabled": true
-  },
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":pinVersions",
+    ":pinDigest"
+  ],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 4am on monday"],
-  "automerge": true,
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
@@ -19,8 +20,8 @@
       "automerge": true
     },
     {
-      "matchUpdateTypes": ["minor", "patch"],
       "matchManagers": ["npm"],
+      "matchUpdateTypes": ["minor", "patch"],
       "automerge": true
     },
     {

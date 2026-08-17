@@ -130,6 +130,7 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
         with:
           node-version: 24
+          cache: npm
       - run: npm audit --audit-level=high
 
   build:
@@ -153,6 +154,12 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-puppeteer-
       - run: |
           npm ci
           npm run build
@@ -280,11 +287,19 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - if: always()
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-puppeteer-
+      - if: always()
         run: |
+          shopt -s failglob
           mkdir -p dist/reports
-          [ -d .lighthouseci ] && cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html || true
+          cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
           npm ci
-          node scripts/generate-lighthouse-score-img.js
+          node scripts/generate-lighthouse-score-img.j
       - if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
