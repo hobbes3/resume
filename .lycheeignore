@@ -1,4 +1,4 @@
-marketplace.visualstudio.com
-nethope.org
-linkedin.com
-mofd.org
+https://nethope\.org
+https://www\.mofd\.org
+https://www\.linkedin\.com.*
+https://marketplace\.visualstudio\.com.*

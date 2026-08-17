@@ -3,6 +3,7 @@
   "scss.validate": false,
   "stylelint.validate": ["css", "scss"],
   "cSpell.words": [
+    "Satoshi",
     "anchore",
     "Betterleaks",
     "Carlito",
@@ -30,7 +31,14 @@
     "Splunking",
     "stackhawk",
     "Syft",
-    "treosh"
+    "treosh",
+    "Duboce",
+    "headshot",
+    "hotspot",
+    "hotspots",
+    "Moraga",
+    "Orinda",
+    "SARIF"
   ],
   "cSpell.ignoreWords": []
 }
