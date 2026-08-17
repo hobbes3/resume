@@ -258,7 +258,6 @@ jobs:
           workingDirectory: dist
           args: --root-dir . --verbose --no-progress --accept '100..=103,200..=299,403,999' --accept-timeouts './**/*.md' './**/*.html'
           fail: false
-      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
         with:
@@ -295,6 +294,8 @@ jobs:
           key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-puppeteer-
+      # Debug SSH
+      - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - if: always()
         run: |
           shopt -s failglob
@@ -311,12 +312,11 @@ jobs:
           overwrite: true
 
   deploy:
-    needs: [html5validator, codeql, syft-grype, lighthouse]
+    needs: [html5validator, codeql, syft-grype, lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
-      issues: write
     outputs:
       deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
     steps:
