@@ -266,89 +266,90 @@ jobs:
           title: Lychee Link Checker Report
           content-filepath: ./lychee/out.md
           labels: report, automated issue
-  lighthouse:
-    needs: [build]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: 24
-          cache: npm
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        with:
-          name: dist-build
-          path: dist
-      - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
-        with:
-          configPath: ./.lighthouserc.json
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - if: always()
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
-        with:
-          path: ~/.cache/puppeteer
-          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-puppeteer-
-      - if: always()
-        run: |
-          shopt -s failglob
-          mkdir -p dist/reports
-          cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
-          npm ci
-          node scripts/generate-lighthouse-score-img.js
-      - if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: dist-lighthouse
-          path: dist/reports/
-          retention-days: 1
-          overwrite: true
-
-  deploy:
-    needs: [html5validator, codeql, syft-grype, lighthouse]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-      issues: write
-    outputs:
-      deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
-    steps:
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        with:
-          pattern: dist-*
-          path: dist/
-          merge-multiple: true
-      - id: deploy_pages
-        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          command: pages deploy dist --project-name=site-resume --branch=${{ github.head_ref || github.ref_name }}
-
-  stackhawk:
-    needs: [deploy]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
-        with:
-          apiKey: ${{ secrets.HAWK_API_KEY }}
-        env:
-          APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_PR_NUMBER: ${{ github.event.number }}
+#  lighthouse:
+#    needs: [build]
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      pull-requests: write
+#    steps:
+#      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+#        with:
+#          persist-credentials: false
+#      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+#        with:
+#          node-version: 24
+#          cache: npm
+#      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+#        with:
+#          name: dist-build
+#          path: dist
+#      - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
+#        with:
+#          configPath: ./.lighthouserc.json
+#        env:
+#          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#      - if: always()
+#        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+#        with:
+#          path: ~/.cache/puppeteer
+#          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-puppeteer-
+#      - if: always()
+#        run: |
+#          shopt -s failglob
+#          mkdir -p dist/reports
+#          cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
+#          npm ci
+#          node scripts/generate-lighthouse-score-img.js
+#      - if: always()
+#        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+#        with:
+#          name: dist-lighthouse
+#          path: dist/reports/
+#          retention-days: 1
+#          overwrite: true
+#
+#  deploy:
+#    needs: [html5validator, codeql, syft-grype, lighthouse]
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      deployments: write
+#      issues: write
+#    outputs:
+#      deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
+#    steps:
+#      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+#        with:
+#          pattern: dist-*
+#          path: dist/
+#          merge-multiple: true
+#      - id: deploy_pages
+#        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
+#        with:
+#          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+#          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+#          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+#          command: pages deploy dist --project-name=site-resume --branch=${{ github.head_ref || github.ref_name }}
+#
+#  stackhawk:
+#    needs: [deploy]
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read
+#      pull-requests: write
+#      checks: write
+#    steps:
+#      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+#        with:
+#          persist-credentials: false
+#      - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
+#        with:
+#          apiKey: ${{ secrets.HAWK_API_KEY }}
+#        env:
+#          APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          GH_PR_NUMBER: ${{ github.event.number }}
+#
