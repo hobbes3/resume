@@ -255,8 +255,7 @@ jobs:
       - id: lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
-          workingDirectory: dist
-          args: --root-dir . --config ../lychee.toml --verbose --no-progress './**/*.md' './**/*.html'
+          args: --root-dir dist --verbose --no-progress './**/*.md' './**/*.html'
           fail: false
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
@@ -315,6 +314,7 @@ jobs:
         with:
           name: lighthouse-test
           path: .lighthouseci
+          include-hidden-files: true
           retention-days: 1
           overwrite: true
 
