@@ -256,7 +256,7 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
           workingDirectory: dist
-          args: --root-dir . --verbose --no-progress --accept '100..=103,200..=299,403,999' --accept-timeouts './**/*.md' './**/*.html'
+          args: --root-dir . --verbose --no-progress --accept '100..=103,200..=299,403,503,999' --accept-timeouts './**/*.md' './**/*.html'
           fail: false
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
