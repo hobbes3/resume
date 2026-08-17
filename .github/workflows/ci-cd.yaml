@@ -256,7 +256,7 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
           workingDirectory: dist
-          args: --root-dir .  --exclude-file .lycheeignore --verbose --no-progress'./**/*.md' './**/*.html'
+          args: --root-dir . --verbose --no-progress './**/*.md' './**/*.html'
           fail: false
       - if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
@@ -295,7 +295,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-puppeteer-
       # Debug SSH
-      - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
+      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - if: always()
         run: |
           shopt -s failglob
@@ -308,6 +308,13 @@ jobs:
         with:
           name: dist-lighthouse
           path: dist/reports/
+          retention-days: 1
+          overwrite: true
+      - if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: lighthouse-test
+          path: .lighthouseci
           retention-days: 1
           overwrite: true
 
