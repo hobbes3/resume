@@ -1,5 +1,4 @@
 {
-  "liveServer.settings.root": "/src",
   "cSpell.words": [
     "anchore",
     "Betterleaks",
@@ -28,5 +27,8 @@
     "networkidle",
     "picocss",
     "treosh"
-  ]
+  ],
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"]
 }
