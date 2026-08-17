@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
 const htmlPath = path.join(projectRoot, "dist", "reports", "lhr-latest.html");
-const outputDir = path.join(projectRoot, "dist", "images");
+const outputDir = path.join(projectRoot, ".lighthouseci");
 const outputPath = path.join(outputDir, "lhr-score.webp");
 
 await fs.mkdir(outputDir, { recursive: true });
