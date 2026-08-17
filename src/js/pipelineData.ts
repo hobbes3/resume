@@ -3,7 +3,7 @@ export interface JobInfo {
   url: string;
 }
 
-export interface PipelineColumn {
+export interface PipelineGroup {
   left: number;
   width: number;
   height: number;
@@ -143,13 +143,13 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
   ],
 ]);
 
-export const PIPELINE_COLUMNS: PipelineColumn[] = [
+export const PIPELINE_GROUPS: PipelineGroup[] = [
   {
     left: 0.5,
     width: 18,
-    height: 10,
-    topInitial: 5,
-    topIncrement: 10,
+    height: 10.5,
+    topInitial: 7,
+    topIncrement: 10.8,
     jobs: [
       "misspell",
       "prettier",
@@ -158,39 +158,46 @@ export const PIPELINE_COLUMNS: PipelineColumn[] = [
       "markdownlint",
       "actionlint",
       "betterleaks",
-      "html5validator",
       "npm-audit",
     ],
   },
   {
     left: 22,
     width: 16.5,
-    height: 10,
-    topInitial: 5,
+    height: 10.5,
+    topInitial: 7,
     topIncrement: 0,
     jobs: ["build"],
   },
   {
     left: 42,
     width: 18,
-    height: 10,
-    topInitial: 5,
+    height: 10.5,
+    topInitial: 7,
+    topIncrement: 10.8,
+    jobs: ["html5validator", "codeql", "syft-grype", "lighthouse"],
+  },
+  {
+    left: 43,
+    width: 16,
+    height: 10.5,
+    topInitial: 68,
     topIncrement: 10,
-    jobs: ["codeql", "syft-grype", "lychee", "lighthouse"],
+    jobs: ["lychee"],
   },
   {
     left: 63.5,
     width: 16,
-    height: 10,
-    topInitial: 5,
+    height: 10.5,
+    topInitial: 7,
     topIncrement: 0,
     jobs: ["deploy"],
   },
   {
     left: 83.5,
     width: 16,
-    height: 10,
-    topInitial: 5,
+    height: 10.5,
+    topInitial: 7,
     topIncrement: 0,
     jobs: ["stackhawk"],
   },

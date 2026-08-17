@@ -8,7 +8,7 @@ import "@fontsource/carlito/400.css";
 import "@fontsource/carlito/700.css";
 import "@fontsource/carlito/400-italic.css";
 
-import { PIPELINE_JOB_INFO, PIPELINE_COLUMNS } from "./pipelineData";
+import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipelineData";
 
 interface TippyElement extends HTMLElement {
   _tippy?: Instance;
@@ -88,7 +88,7 @@ function initPipelineHotspots(): void {
 
   hotspotContainer.innerHTML = "";
 
-  PIPELINE_COLUMNS.forEach(
+  PIPELINE_GROUPS.forEach(
     ({ left, width, height, topInitial, topIncrement, jobs }) => {
       jobs.forEach((jobKey, index) => {
         const jobInfo = PIPELINE_JOB_INFO.get(jobKey);

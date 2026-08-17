@@ -1,21 +1,24 @@
 {
-  "liveServer.settings.root": "/src",
+  "css.validate": false,
+  "scss.validate": false,
+  "stylelint.validate": ["css", "scss"],
   "cSpell.words": [
     "anchore",
     "Betterleaks",
     "Carlito",
     "cyclonedx",
+    "failglob",
     "fontawesome",
     "hawkscan",
     "Meraki",
+    "mxschmitt",
     "Pico",
     "reviewdog",
     "Semgrep",
+    "shopt",
     "Splunking",
     "stackhawk",
-    "Syft"
-  ],
-  "cSpell.ignoreWords": [
+    "Syft",
     "LHCI",
     "domcontentloaded",
     "dortort",
@@ -26,5 +29,6 @@
     "networkidle",
     "picocss",
     "treosh"
-  ]
+  ],
+  "cSpell.ignoreWords": []
 }
