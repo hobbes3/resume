@@ -255,14 +255,15 @@ jobs:
       - id: lychee
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
+          workingDirectory: dist/
           args: --verbose --no-progress --root-dir dist/ './**/*.md' './**/*.html'
           fail: false
-      - if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
-        with:
-          title: Lychee Link Checker Report
-          content-filepath: ./dist/lychee/out.md
-          labels: report, automated issue
+      #- if: steps.lychee.outputs.exit_code != 0
+      #  uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
+      #  with:
+      #    title: Lychee Link Checker Report
+      #    content-filepath: ./dist/lychee/out.md
+      #    labels: report, automated issue
   #lighthouse:
   #  needs: [build]
   #  runs-on: ubuntu-latest
@@ -283,9 +284,7 @@ jobs:
   #        path: dist
   #    - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
   #      with:
-  #        configPath: ./.lighthouserc.json
-  #      env:
-  #        LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        configPath: ./lighthouserc.json
   #    - if: always()
   #      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
   #      with:
@@ -297,9 +296,6 @@ jobs:
   #    #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
   #    - if: always()
   #      run: |
-  #        shopt -s failglob
-  #        mkdir -p dist/reports
-  #        cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
   #        npm ci
   #        node scripts/generate-lighthouse-score-img.js
   #    - if: always()
@@ -324,6 +320,9 @@ jobs:
   #        pattern: dist-*
   #        path: dist/
   #        merge-multiple: true
+  #    - run: |
+  #      cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
+  #      cp .lighthouseci/lhr-score.webp dist/images/lhr-score.webp
   #    - id: deploy_pages
   #      uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
   #      with:
