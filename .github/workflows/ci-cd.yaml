@@ -305,11 +305,12 @@ jobs:
         with:
           pattern: dist-*
       # Debug SSH
-      - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
+      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - run: |
-          mv .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
-          mv .lighthouseci/lhr-score.webp dist/images/lhr-score.webp
-          mv sbom.cyclonedx.json dist/reports/
+          mv dist-build dist
+          mv dist-lighthouse/lhr-*.html dist/reports/lhr-latest.html
+          mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
+          mv dist-sbom/sbom.cyclonedx.json dist/reports/
       - id: deploy_pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
         with:
