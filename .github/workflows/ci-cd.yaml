@@ -58,7 +58,7 @@ jobs:
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          stylelint_input: "src/css/**/*.scss"
+          stylelint_input: "src/scss/**/*.scss"
           fail_level: warning
   eslint:
     runs-on: ubuntu-latest
@@ -73,7 +73,7 @@ jobs:
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: "src/js/"
+          eslint_flags: "src/ts/"
           fail_level: warning
   actionlint:
     runs-on: ubuntu-latest
