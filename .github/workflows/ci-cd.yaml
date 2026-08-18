@@ -304,8 +304,6 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: dist-*
-          path: dist/
-          merge-multiple: true
       # Debug SSH
       - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - run: |

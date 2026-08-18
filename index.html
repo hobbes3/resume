@@ -379,7 +379,7 @@
                     href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
                     class="secondary"
                     >ESlint</a
-                  >*
+                  >* - including <code>eslint-plugin-security</code>
                 </li>
                 <li>
                   <a
@@ -391,10 +391,17 @@
               </ul>
             </li>
             <li>
-              <strong>Pre-commit hooks</strong>
+              <strong>Pre-commit hooks</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
+                >view code</a
+              >)
               <ul>
                 <li>Betterleaks</li>
                 <li>Semgrep</li>
+                <li>Prettier*</li>
+                <li>Stylelint*</li>
+                <li>ESlint*</li>
+                <li>HTML-validate*</li>
               </ul>
             </li>
             <li>
@@ -409,8 +416,8 @@
                   <span data-tippy-content="Continuous Integration">CI</span>
                   job to scan repository history
                 </li>
-                <li>Semgrep</li>
-                <li>CodeRabbit</li>
+                <li>Semgrep†</li>
+                <li>CodeRabbit†</li>
               </ul>
             </li>
             <li>
@@ -476,7 +483,7 @@
                     >CodeQL</a
                   >: Deep semantic data-flow analysis
                 </li>
-                <li>CodeRabbit</li>
+                <li>CodeRabbit†</li>
               </ul>
             </li>
             <li>
@@ -507,10 +514,10 @@
             <p>
               *
               <em
-                >Note: VS Code extensions share the same underlying
-                configuration files as the
-                <a href="#section-workflow">workflow jobs</a>.</em
-              >
+                >Note: VS Code extensions, pre-commit, and
+                <a href="#section-workflow">workflow jobs</a> all share the same
+                underlying configuration files.
+              </em>
             </p>
             <p>
               †
