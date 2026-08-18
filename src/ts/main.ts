@@ -1,6 +1,6 @@
 import tippy, { type Instance } from "tippy.js";
 
-import "../css/main.scss";
+import "../scss/main.scss";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
 import "@picocss/pico/css/pico.min.css";
