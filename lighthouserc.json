@@ -6,12 +6,7 @@
     },
     "assert": {
       "assertions": {
-        "categories:performance": [
-          "warn",
-          { "minScore": 0.8 },
-          "error",
-          { "minScore": 0.6 }
-        ]
+        "categories:performance": ["error", { "minScore": 0.6 }]
       }
     }
   }

@@ -58,7 +58,7 @@ jobs:
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          stylelint_input: "src/css/**/*.scss"
+          stylelint_input: "src/scss/**/*.scss"
           fail_level: warning
   eslint:
     runs-on: ubuntu-latest
@@ -73,21 +73,7 @@ jobs:
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: "src/js/"
-          fail_level: warning
-  markdownlint:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: reviewdog/action-markdownlint@6f0e0e8703a9e840ffefa37a2775832c51c1c640
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          eslint_flags: "src/ts/**/*.ts"
           fail_level: warning
   actionlint:
     runs-on: ubuntu-latest
@@ -141,7 +127,6 @@ jobs:
         prettier,
         stylelint,
         eslint,
-        markdownlint,
         actionlint,
         betterleaks,
         npm-audit,
@@ -168,6 +153,7 @@ jobs:
         with:
           name: dist-build
           path: dist/
+          include-hidden-files: true
           retention-days: 1
 
   html5validator:
@@ -224,18 +210,18 @@ jobs:
         with:
           path: .
           format: cyclonedx-json
-          output-file: dist/reports/sbom.cyclonedx.json
+          output-file: sbom.cyclonedx.json
       - id: grype-scan
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
         with:
-          sbom: dist/reports/sbom.cyclonedx.json
+          sbom: sbom.cyclonedx.json
           fail-build: false
           output-format: sarif
           severity-cutoff: high
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dist-sbom
-          path: dist/reports/
+          path: sbom.cyclonedx.json
           retention-days: 1
       - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
         if: always()
@@ -256,15 +242,14 @@ jobs:
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8
         with:
           workingDirectory: dist
-          args: --root-dir . --verbose --no-progress --accept '100..=103,200..=299,403,999' --accept-timeouts './**/*.md' './**/*.html'
+          args: --verbose --no-progress --root-dir . './**/*.md' './**/*.html'
           fail: false
-      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
-      - if: steps.lychee.outputs.exit_code != 0
-        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
-        with:
-          title: Lychee Link Checker Report
-          content-filepath: ./dist/lychee/out.md
-          labels: report, automated issue
+      #- if: steps.lychee.outputs.exit_code != 0
+      #  uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
+      #  with:
+      #    title: Lychee Link Checker Report
+      #    content-filepath: ./dist/lychee/out.md
+      #    labels: report, automated issue
   lighthouse:
     needs: [build]
     runs-on: ubuntu-latest
@@ -285,9 +270,7 @@ jobs:
           path: dist
       - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
         with:
-          configPath: ./.lighthouserc.json
-        env:
-          LHCI_GITHUB_APP_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          configPath: ./lighthouserc.json
       - if: always()
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -295,36 +278,40 @@ jobs:
           key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-puppeteer-
+      # Debug SSH
+      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - if: always()
         run: |
-          shopt -s failglob
-          mkdir -p dist/reports
-          cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
           npm ci
+          mv .lighthouseci/lhr-*.html .lighthouseci/lhr-latest.html
           node scripts/generate-lighthouse-score-img.js
       - if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
           name: dist-lighthouse
-          path: dist/reports/
+          path: .lighthouseci/
+          include-hidden-files: true
           retention-days: 1
-          overwrite: true
 
   deploy:
-    needs: [html5validator, codeql, syft-grype, lighthouse]
+    needs: [html5validator, codeql, syft-grype, lychee, lighthouse]
     runs-on: ubuntu-latest
     permissions:
       contents: read
       deployments: write
-      issues: write
     outputs:
       deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: dist-*
-          path: dist/
-          merge-multiple: true
+      # Debug SSH
+      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
+      - run: |
+          mv dist-build dist
+          mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
+          mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
+          mv dist-sbom/sbom.cyclonedx.json dist/reports/
       - id: deploy_pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
         with:

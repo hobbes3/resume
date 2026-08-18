@@ -1,12 +1,12 @@
 import tippy, { type Instance } from "tippy.js";
 
-import "../css/main.scss";
+import "../scss/main.scss";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
 import "@picocss/pico/css/pico.min.css";
-import "@fontsource/carlito/400.css";
-import "@fontsource/carlito/700.css";
-import "@fontsource/carlito/400-italic.css";
+import "@fontsource/carlito/latin-400.css";
+import "@fontsource/carlito/latin-700.css";
+import "@fontsource/carlito/latin-400-italic.css";
 
 import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipelineData";
 

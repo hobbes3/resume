@@ -46,14 +46,6 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
     },
   ],
   [
-    "markdownlint",
-    {
-      description:
-        "Checks Markdown documentation for structure, formatting rules, and syntax correctness.",
-      url: "https://github.com/DavidAnson/markdownlint",
-    },
-  ],
-  [
     "actionlint",
     {
       description:
@@ -147,15 +139,14 @@ export const PIPELINE_GROUPS: PipelineGroup[] = [
   {
     left: 0.5,
     width: 18,
-    height: 10.5,
+    height: 12,
     topInitial: 7,
-    topIncrement: 10.8,
+    topIncrement: 12.4,
     jobs: [
       "misspell",
       "prettier",
       "stylelint",
       "eslint",
-      "markdownlint",
       "actionlint",
       "betterleaks",
       "npm-audit",
@@ -163,8 +154,8 @@ export const PIPELINE_GROUPS: PipelineGroup[] = [
   },
   {
     left: 22,
-    width: 16.5,
-    height: 10.5,
+    width: 16.4,
+    height: 12,
     topInitial: 7,
     topIncrement: 0,
     jobs: ["build"],
@@ -172,31 +163,23 @@ export const PIPELINE_GROUPS: PipelineGroup[] = [
   {
     left: 42,
     width: 18,
-    height: 10.5,
+    height: 12,
     topInitial: 7,
-    topIncrement: 10.8,
-    jobs: ["html5validator", "codeql", "syft-grype", "lighthouse"],
+    topIncrement: 12.4,
+    jobs: ["html5validator", "codeql", "syft-grype", "lychee", "lighthouse"],
   },
   {
-    left: 43,
-    width: 16,
-    height: 10.5,
-    topInitial: 68,
-    topIncrement: 10,
-    jobs: ["lychee"],
-  },
-  {
-    left: 63.5,
-    width: 16,
-    height: 10.5,
+    left: 63.6,
+    width: 16.4,
+    height: 12,
     topInitial: 7,
     topIncrement: 0,
     jobs: ["deploy"],
   },
   {
     left: 83.5,
-    width: 16,
-    height: 10.5,
+    width: 16.2,
+    height: 12,
     topInitial: 7,
     topIncrement: 0,
     jobs: ["stackhawk"],

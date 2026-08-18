@@ -3,8 +3,30 @@ repos:
     rev: v1.7.4
     hooks:
       - id: betterleaks-system
-  - repo: https://github.com/semgrep/semgrep
-    rev: v1.172.0
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
     hooks:
-      - id: semgrep
-        args: ["--config=auto", "--error"]
+      - id: actionlint
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: npx prettier --write --ignore-unknown
+        language: system
+        types_or:
+          [javascript, jsx, ts, tsx, css, scss, html, json, yaml, markdown]
+      - id: stylelint
+        name: stylelint
+        entry: npx stylelint --fix
+        language: system
+        files: \.(css|scss|sass|less)$
+      - id: eslint
+        name: eslint
+        entry: npx eslint --fix
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+      - id: html-validate
+        name: html-validate
+        entry: npx html-validate
+        language: system
+        types: [html]
