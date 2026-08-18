@@ -25,7 +25,8 @@
     "tippy.js": "^6.3.7",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.67.0",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "vite-plugin-static-copy": "^4.1.1"
   },
   "allowScripts": {
     "fsevents": true,
