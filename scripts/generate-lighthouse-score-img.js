@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
-const htmlPath = path.join(projectRoot, "dist", "reports", "lhr-latest.html");
+const htmlPath = path.join(projectRoot, ".lighthouseci", "lhr-latest.html");
 const outputDir = path.join(projectRoot, ".lighthouseci");
 const outputPath = path.join(outputDir, "lhr-score.webp");
 

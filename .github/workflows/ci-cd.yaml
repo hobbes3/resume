@@ -283,6 +283,7 @@ jobs:
       - if: always()
         run: |
           npm ci
+          mv .lighthouseci/lhr-*.html .lighthouseci/lhr-latest.html
           node scripts/generate-lighthouse-score-img.js
       - if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
@@ -308,7 +309,7 @@ jobs:
       #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - run: |
           mv dist-build dist
-          mv dist-lighthouse/lhr-*.html dist/reports/lhr-latest.html
+          mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
           mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
           mv dist-sbom/sbom.cyclonedx.json dist/reports/
       - id: deploy_pages
