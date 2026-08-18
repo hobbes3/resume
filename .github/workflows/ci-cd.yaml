@@ -168,6 +168,7 @@ jobs:
         with:
           name: dist-build
           path: dist/
+          include-hidden-files: true
           retention-days: 1
 
   #html5validator:
