@@ -73,7 +73,7 @@ jobs:
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          eslint_flags: "src/ts/"
+          eslint_flags: "src/ts/**/*.ts"
           fail_level: warning
   actionlint:
     runs-on: ubuntu-latest

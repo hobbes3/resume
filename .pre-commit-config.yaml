@@ -8,3 +8,24 @@ repos:
     hooks:
       - id: semgrep
         args: ["--config=auto", "--error"]
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.7.12
+    hooks:
+      - id: actionlint
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: npx eslint --fix
+        language: system
+        types_or: [javascript, jsx, ts, tsx]
+      - id: stylelint
+        name: stylelint
+        entry: npx stylelint --fix
+        language: system
+        types_or: [css, sass]
+      - id: html-validate
+        name: html-validate
+        entry: npx html-validate
+        language: system
+        types: [html]
