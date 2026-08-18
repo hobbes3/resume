@@ -15,137 +15,122 @@ permissions:
   contents: read
 
 jobs:
-  #misspell:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: reviewdog/action-misspell@d6429416b12b09b4e2768307d53bef58d172e962
-  #      with:
-  #        github_token: ${{ secrets.GITHUB_TOKEN }}
-  #        fail_level: warning
-  #        locale: "US"
-  #        pattern: "index.html"
-  #prettier:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: EPMatt/reviewdog-action-prettier@f691104cbeb4b0299df971275444c64be93c03ae
-  #      with:
-  #        github_token: ${{ secrets.GITHUB_TOKEN }}
-  #        fail_level: warning
-  #stylelint:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
-  #      with:
-  #        github_token: ${{ secrets.GITHUB_TOKEN }}
-  #        stylelint_input: "src/css/**/*.scss"
-  #        fail_level: warning
-  #eslint:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
-  #      with:
-  #        github_token: ${{ secrets.GITHUB_TOKEN }}
-  #        eslint_flags: "src/js/"
-  #        fail_level: warning
-  #markdownlint:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: reviewdog/action-markdownlint@6f0e0e8703a9e840ffefa37a2775832c51c1c640
-  #      with:
-  #        github_token: ${{ secrets.GITHUB_TOKEN }}
-  #        fail_level: warning
-  #actionlint:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: reviewdog/action-actionlint@d63ba7532e0942965320cd8d73cbae4c7b3c5283
-  #      with:
-  #        github_token: ${{ secrets.GITHUB_TOKEN }}
-  #        fail_level: warning
-  #betterleaks:
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    security-events: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        fetch-depth: 0 # Required for git scan mode
-  #    - uses: dortort/betterleaks-action@cd0b905aa4befb8f42f8b1ab98150180c9e77515
-  #      id: betterleaks
-  #      with:
-  #        github-token: ${{ secrets.GITHUB_TOKEN }}
-  #        fail-on-leak: "true"
-  #    - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-  #      if: always()
-  #      with:
-  #        sarif_file: ${{ steps.betterleaks.outputs.sarif-path }}
-  #npm-audit:
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-  #      with:
-  #        node-version: 24
-  #        cache: npm
-  #    - run: npm audit --audit-level=high
+  misspell:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: reviewdog/action-misspell@d6429416b12b09b4e2768307d53bef58d172e962
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fail_level: warning
+          locale: "US"
+          pattern: "index.html"
+  prettier:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: EPMatt/reviewdog-action-prettier@f691104cbeb4b0299df971275444c64be93c03ae
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fail_level: warning
+  stylelint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          stylelint_input: "src/css/**/*.scss"
+          fail_level: warning
+  eslint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          eslint_flags: "src/js/"
+          fail_level: warning
+  actionlint:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: reviewdog/action-actionlint@d63ba7532e0942965320cd8d73cbae4c7b3c5283
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fail_level: warning
+  betterleaks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0 # Required for git scan mode
+      - uses: dortort/betterleaks-action@cd0b905aa4befb8f42f8b1ab98150180c9e77515
+        id: betterleaks
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fail-on-leak: "true"
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        if: always()
+        with:
+          sarif_file: ${{ steps.betterleaks.outputs.sarif-path }}
+  npm-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm audit --audit-level=high
 
   build:
     runs-on: ubuntu-latest
-    #needs:
-    #  [
-    #    misspell,
-    #    prettier,
-    #    stylelint,
-    #    eslint,
-    #    markdownlint,
-    #    actionlint,
-    #    betterleaks,
-    #    npm-audit,
-    #  ]
+    needs:
+      [
+        misspell,
+        prettier,
+        stylelint,
+        eslint,
+        actionlint,
+        betterleaks,
+        npm-audit,
+      ]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -171,77 +156,77 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-  #html5validator:
-  #  needs: [build]
-  #  runs-on: ubuntu-latest
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-  #      with:
-  #        name: dist-build
-  #        path: dist
-  #    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-  #      with:
-  #        node-version: 24
-  #        cache: npm
-  #    - run: npm ci
-  #    - run: npx --no-install html-validate "dist/**/*.html"
-  #codeql:
-  #  needs: [build]
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    security-events: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-  #      with:
-  #        name: dist-build
-  #        path: dist
-  #    - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-  #      with:
-  #        languages: "javascript-typescript"
-  #        queries: security-extended
-  #    - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-  #syft-grype:
-  #  needs: [build]
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    security-events: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-  #      with:
-  #        name: dist-build
-  #        path: dist
-  #    - uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610
-  #      with:
-  #        path: .
-  #        format: cyclonedx-json
-  #        output-file: sbom.cyclonedx.json
-  #    - id: grype-scan
-  #      uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
-  #      with:
-  #        sbom: sbom.cyclonedx.json
-  #        fail-build: false
-  #        output-format: sarif
-  #        severity-cutoff: high
-  #    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-  #      with:
-  #        name: dist-sbom
-  #        path: sbom.cyclonedx.json
-  #        retention-days: 1
-  #    - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
-  #      if: always()
-  #      with:
-  #        sarif_file: ${{ steps.grype-scan.outputs.sarif }}
+  html5validator:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx --no-install html-validate "dist/**/*.html"
+  codeql:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: github/codeql-action/init@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        with:
+          languages: "javascript-typescript"
+          queries: security-extended
+      - uses: github/codeql-action/analyze@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+  syft-grype:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610
+        with:
+          path: .
+          format: cyclonedx-json
+          output-file: sbom.cyclonedx.json
+      - id: grype-scan
+        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
+        with:
+          sbom: sbom.cyclonedx.json
+          fail-build: false
+          output-format: sarif
+          severity-cutoff: high
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dist-sbom
+          path: sbom.cyclonedx.json
+          retention-days: 1
+      - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
+        if: always()
+        with:
+          sarif_file: ${{ steps.grype-scan.outputs.sarif }}
   lychee:
     needs: [build]
     runs-on: ubuntu-latest
@@ -265,88 +250,91 @@ jobs:
       #    title: Lychee Link Checker Report
       #    content-filepath: ./dist/lychee/out.md
       #    labels: report, automated issue
-  #lighthouse:
-  #  needs: [build]
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-  #      with:
-  #        node-version: 24
-  #        cache: npm
-  #    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-  #      with:
-  #        name: dist-build
-  #        path: dist
-  #    - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
-  #      with:
-  #        configPath: ./lighthouserc.json
-  #    - if: always()
-  #      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
-  #      with:
-  #        path: ~/.cache/puppeteer
-  #        key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
-  #        restore-keys: |
-  #          ${{ runner.os }}-puppeteer-
-  #    # Debug SSH
-  #    #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
-  #    - if: always()
-  #      run: |
-  #        npm ci
-  #        node scripts/generate-lighthouse-score-img.js
-  #    - if: always()
-  #      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-  #      with:
-  #        name: dist-lighthouse
-  #        path: .lighthouseci/
-  #        include-hidden-files: true
-  #        retention-days: 1
+  lighthouse:
+    needs: [build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          name: dist-build
+          path: dist
+      - uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18
+        with:
+          configPath: ./lighthouserc.json
+      - if: always()
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: ~/.cache/puppeteer
+          key: ${{ runner.os }}-puppeteer-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-puppeteer-
+      # Debug SSH
+      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
+      - if: always()
+        run: |
+          npm ci
+          node scripts/generate-lighthouse-score-img.js
+      - if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dist-lighthouse
+          path: .lighthouseci/
+          include-hidden-files: true
+          retention-days: 1
 
-  #deploy:
-  #  needs: [html5validator, codeql, syft-grype, lychee, lighthouse]
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    deployments: write
-  #  outputs:
-  #    deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
-  #  steps:
-  #    - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-  #      with:
-  #        pattern: dist-*
-  #        path: dist/
-  #        merge-multiple: true
-  #    - run: |
-  #      cp .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
-  #      cp .lighthouseci/lhr-score.webp dist/images/lhr-score.webp
-  #    - id: deploy_pages
-  #      uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
-  #      with:
-  #        apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-  #        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-  #        gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-  #        command: pages deploy dist --project-name=site-resume --branch=${{ github.head_ref || github.ref_name }}
+  deploy:
+    needs: [html5validator, codeql, syft-grype, lychee, lighthouse]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+    outputs:
+      deployment_url: ${{ steps.deploy_pages.outputs.deployment-url }}
+    steps:
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
+        with:
+          pattern: dist-*
+          path: dist/
+          merge-multiple: true
+      # Debug SSH
+      - uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
+      - run: |
+          mv .lighthouseci/lhr-*.html dist/reports/lhr-latest.html
+          mv .lighthouseci/lhr-score.webp dist/images/lhr-score.webp
+          mv sbom.cyclonedx.json dist/reports/
+      - id: deploy_pages
+        uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy dist --project-name=site-resume --branch=${{ github.head_ref || github.ref_name }}
 
-  #stackhawk:
-  #  needs: [deploy]
-  #  runs-on: ubuntu-latest
-  #  permissions:
-  #    contents: read
-  #    pull-requests: write
-  #    checks: write
-  #  steps:
-  #    - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-  #      with:
-  #        persist-credentials: false
-  #    - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
-  #      with:
-  #        apiKey: ${{ secrets.HAWK_API_KEY }}
-  #      env:
-  #        APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
-  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #        GH_PR_NUMBER: ${{ github.event.number }}
+  stackhawk:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
+        with:
+          apiKey: ${{ secrets.HAWK_API_KEY }}
+        env:
+          APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PR_NUMBER: ${{ github.event.number }}

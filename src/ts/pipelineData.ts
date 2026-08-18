@@ -46,14 +46,6 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
     },
   ],
   [
-    "markdownlint",
-    {
-      description:
-        "Checks Markdown documentation for structure, formatting rules, and syntax correctness.",
-      url: "https://github.com/DavidAnson/markdownlint",
-    },
-  ],
-  [
     "actionlint",
     {
       description:
@@ -155,7 +147,6 @@ export const PIPELINE_GROUPS: PipelineGroup[] = [
       "prettier",
       "stylelint",
       "eslint",
-      "markdownlint",
       "actionlint",
       "betterleaks",
       "npm-audit",
