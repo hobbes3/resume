@@ -84,10 +84,10 @@ try {
 
   // Relative paths for the standalone saved HTML report
   const relativeCss = inlineCss
-    .replace(
-      /url\((['"]?)(?:http:\/\/localhost:\d+)?\/?fonts\//g,
-      "url($1../fonts/",
-    )
+    // Replace absolute localhost font URLs or absolute path font URLs with relative ones
+    .replace(/url\((['"]?)http:\/\/localhost:\d+\/fonts\//g, "url($1../fonts/")
+    .replace(/url\((['"]?)\/fonts\//g, "url($1../fonts/")
+    // Replace absolute assets URLs with relative ones
     .replace(/url\((['"]?)\/assets\//g, "url($1../assets/");
 
   const htmlContent = `<!DOCTYPE html>
