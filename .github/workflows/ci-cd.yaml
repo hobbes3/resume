@@ -3,7 +3,7 @@ name: CI/CD
 on:
   push:
     branches:
-      - main
+      - main # Runs ONLY when code is merged into main
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -28,7 +28,7 @@ jobs:
       - uses: reviewdog/action-misspell@d6429416b12b09b4e2768307d53bef58d172e962
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          reporter: github-pr-review
           fail_level: warning
           locale: "US"
           pattern: "index.html"
@@ -45,7 +45,7 @@ jobs:
       - uses: EPMatt/reviewdog-action-prettier@f691104cbeb4b0299df971275444c64be93c03ae
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          reporter: github-pr-review
           fail_level: warning
   stylelint:
     runs-on: ubuntu-latest
@@ -60,7 +60,7 @@ jobs:
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          reporter: github-pr-review
           stylelint_input: "src/scss/**/*.scss"
           fail_level: warning
   eslint:
@@ -76,7 +76,7 @@ jobs:
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          reporter: github-pr-review
           eslint_flags: "src/ts/**/*.ts"
           fail_level: warning
   actionlint:
@@ -92,7 +92,7 @@ jobs:
       - uses: reviewdog/action-actionlint@d63ba7532e0942965320cd8d73cbae4c7b3c5283
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          reporter: ${{ github.event_name == 'pull_request' && 'github-pr-review' || 'github-check' }}
+          reporter: github-pr-review
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
@@ -182,8 +182,7 @@ jobs:
           cache: npm
       - run: npm ci
       - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f
-      - run: |
-          npx --no-install html-validate -f checkstyle "dist/**/*.html" | reviewdog -f=checkstyle -reporter=github-pr-review -fail-on-error=false
+      - run: npx --no-install html-validate -f checkstyle "dist/**/*.html" | reviewdog -f=checkstyle -reporter=github-pr-review -path-prefix=dist/ -fail-on-error=false
         env:
           REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   codeql:
@@ -319,8 +318,6 @@ jobs:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
         with:
           pattern: dist-*
-      # Debug SSH
-      #- uses: mxschmitt/action-tmate@35b54afac29c97fb54faba5b513f8fbd1882f113
       - run: |
           mv dist-build dist
           mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
