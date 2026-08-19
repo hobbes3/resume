@@ -79,6 +79,25 @@ jobs:
           reporter: github-pr-review
           eslint_flags: "src/ts/**/*.ts"
           fail_level: warning
+  html5validator:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f
+      - run: npx --no-install html-validate -f checkstyle "index.html" | reviewdog -f=checkstyle -reporter=github-pr-review -fail-on-error=false
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   actionlint:
     runs-on: ubuntu-latest
     permissions:
@@ -132,6 +151,7 @@ jobs:
         prettier,
         stylelint,
         eslint,
+        html5validator,
         actionlint,
         betterleaks,
         npm-audit,
@@ -161,30 +181,6 @@ jobs:
           include-hidden-files: true
           retention-days: 1
 
-  html5validator:
-    needs: [build]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-        with:
-          persist-credentials: false
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c
-        with:
-          name: dist-build
-          path: dist
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
-        with:
-          node-version: 24
-          cache: npm
-      - run: npm ci
-      - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f
-      - run: npx --no-install html-validate -f checkstyle "dist/**/*.html" | reviewdog -f=checkstyle -reporter=github-pr-review -path-prefix=dist/ -fail-on-error=false
-        env:
-          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   codeql:
     needs: [build]
     runs-on: ubuntu-latest
