@@ -1,7 +1,8 @@
 import { spawnSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 
-// Run html-validate
+console.log("Running html-validate on source HTML files...");
+
 const result = spawnSync(
   "npx",
   [
@@ -15,15 +16,34 @@ const result = spawnSync(
   { encoding: "utf8" },
 );
 
-// Write stdout to the report XML
+// Always write checkstyle formatted XML for Reviewdog
 writeFileSync("html-validate-report.xml", result.stdout || "");
 
-// Exit code > 1 means the linter process crashed or threw a config error
-if (result.status !== null && result.status > 1) {
+// Print standard error/output logs to the terminal if any exist
+if (result.stdout && result.stdout.trim()) {
+  console.log("\n--- html-validate Output ---");
+  console.log(result.stdout);
+}
+
+if (result.stderr && result.stderr.trim()) {
+  console.error("\n--- html-validate Errors ---");
   console.error(result.stderr);
-  console.error(`html-validate failed to run with exit code ${result.status}`);
+}
+
+// Exit code > 1 means a runtime crash or configuration error
+if (result.status !== null && result.status > 1) {
+  console.error(
+    `❌ html-validate execution failed with exit code ${result.status}`,
+  );
   process.exit(result.status);
 }
 
-// Exit 0 for success or 1 (lint findings captured in report)
+if (result.status === 0) {
+  console.log("✅ html-validate completed: No linting issues found.");
+} else if (result.status === 1) {
+  console.log(
+    "⚠️ html-validate completed: Findings detected and saved to html-validate-report.xml",
+  );
+}
+
 process.exit(0);

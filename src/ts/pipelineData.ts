@@ -33,7 +33,7 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
     "stylelint",
     {
       description:
-        "Lints CSS and stylesheet files to enforce consistent conventions and catch syntax errors.",
+        "Lints SCSS stylesheet files to enforce consistent conventions and catch syntax errors.",
       url: "https://stylelint.io",
     },
   ],
@@ -41,7 +41,7 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
     "eslint",
     {
       description:
-        "Analyzes JavaScript files to enforce coding standards, best practices, and potential runtime bugs.",
+        "Analyzes TypeScript files to enforce coding standards, best practices, and potential runtime bugs.",
       url: "https://eslint.org",
     },
   ],
@@ -62,10 +62,10 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
     },
   ],
   [
-    "html5validator",
+    "html-validate-src",
     {
       description:
-        "Validates rendered or static HTML markup against W3C HTML5 specification standards.",
+        "Validates raw source template and component HTML markup prior to building.",
       url: "https://html-validate.org",
     },
   ],
@@ -83,6 +83,14 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
       description:
         "Compiles production static site assets using Vite, runs automated Node.js build scripts, and packages the dist/ artifact.",
       url: "https://vite.dev/",
+    },
+  ],
+  [
+    "html-validate-dist",
+    {
+      description:
+        "Validates final, fully rendered HTML assets generated in dist/ after the build completes.",
+      url: "https://html-validate.org",
     },
   ],
   [
@@ -137,16 +145,17 @@ export const PIPELINE_JOB_INFO = new Map<string, JobInfo>([
 
 export const PIPELINE_GROUPS: PipelineGroup[] = [
   {
-    left: 0.5,
-    width: 18,
-    height: 12,
-    topInitial: 7,
-    topIncrement: 12.4,
+    left: 0.3,
+    width: 18.2,
+    height: 11,
+    topInitial: 6,
+    topIncrement: 11.1,
     jobs: [
       "misspell",
       "prettier",
       "stylelint",
       "eslint",
+      "html-validate-src",
       "actionlint",
       "betterleaks",
       "npm-audit",
@@ -155,32 +164,38 @@ export const PIPELINE_GROUPS: PipelineGroup[] = [
   {
     left: 22,
     width: 16.4,
-    height: 12,
-    topInitial: 7,
+    height: 11,
+    topInitial: 6,
     topIncrement: 0,
     jobs: ["build"],
   },
   {
     left: 42,
     width: 18,
-    height: 12,
-    topInitial: 7,
-    topIncrement: 12.4,
-    jobs: ["html5validator", "codeql", "syft-grype", "lychee", "lighthouse"],
+    height: 11,
+    topInitial: 6,
+    topIncrement: 11.1,
+    jobs: [
+      "html-validate-dist",
+      "codeql",
+      "syft-grype",
+      "lychee",
+      "lighthouse",
+    ],
   },
   {
     left: 63.6,
-    width: 16.4,
-    height: 12,
-    topInitial: 7,
+    width: 16.3,
+    height: 11,
+    topInitial: 6,
     topIncrement: 0,
     jobs: ["deploy"],
   },
   {
     left: 83.5,
     width: 16.2,
-    height: 12,
-    topInitial: 7,
+    height: 11,
+    topInitial: 6,
     topIncrement: 0,
     jobs: ["stackhawk"],
   },
