@@ -211,6 +211,7 @@ jobs:
           path: .
           format: cyclonedx-json
           output-file: sbom.cyclonedx.json
+          artifact-name: dist-sbom
       - id: grype-scan
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
         with:
@@ -218,11 +219,6 @@ jobs:
           fail-build: false
           output-format: sarif
           severity-cutoff: high
-      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: dist-sbom
-          path: sbom.cyclonedx.json
-          retention-days: 1
       - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
         if: always()
         with:
