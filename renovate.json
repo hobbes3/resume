@@ -4,7 +4,7 @@
     "config:recommended",
     ":semanticCommits",
     ":pinVersions",
-    ":pinDigests"
+    "helpers:pinGitHubActionDigests"
   ],
   "timezone": "America/Los_Angeles",
   "schedule": ["before 4am on monday"],

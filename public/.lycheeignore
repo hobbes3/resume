@@ -1,4 +1,6 @@
+# Since Lychee's working directory is dist/, this file must be in public/ for Vite's build.
+
+^data:
 https://nethope.org
 https://www.mofd.org
 https://www.linkedin.com.*
-https://marketplace.visualstudio.com.*
