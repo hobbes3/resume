@@ -128,16 +128,15 @@ function updateJobInfo(button: HTMLButtonElement): void {
   const url = button.getAttribute("data-url");
   const description = button.getAttribute("data-description");
 
-  if (nameBox && name) nameBox.innerText = name;
-  if (descBox && description) descBox.innerText = description;
+  if (nameBox) nameBox.innerText = name ?? "";
+  if (descBox) descBox.innerText = description ?? "";
 
   if (linkAnchor) {
-    // 1. Always reset link state upfront
+    // Clear and hide state upfront
     linkAnchor.removeAttribute("href");
     linkAnchor.textContent = "";
     linkAnchor.style.display = "none";
 
-    // 2. Validate and populate only if it's a valid HTTP(S) URL
     if (url) {
       try {
         const parsedUrl = new URL(url, window.location.origin);
