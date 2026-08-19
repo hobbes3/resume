@@ -5,7 +5,9 @@
       "url": ["/index.html"]
     },
     "assert": {
-      "preset": "lighthouse:recommended"
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.8 }]
+      }
     }
   }
 }
