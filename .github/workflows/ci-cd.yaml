@@ -28,6 +28,7 @@ jobs:
       - uses: reviewdog/action-misspell@d6429416b12b09b4e2768307d53bef58d172e962
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
           fail_level: warning
           locale: "US"
           pattern: "index.html"
@@ -44,6 +45,7 @@ jobs:
       - uses: EPMatt/reviewdog-action-prettier@f691104cbeb4b0299df971275444c64be93c03ae
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
           fail_level: warning
   stylelint:
     runs-on: ubuntu-latest
@@ -58,6 +60,7 @@ jobs:
       - uses: reviewdog/action-stylelint@086959bc5cd70db1b4954f45d8d396d9e3786bbb
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
           stylelint_input: "src/scss/**/*.scss"
           fail_level: warning
   eslint:
@@ -73,6 +76,7 @@ jobs:
       - uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
           eslint_flags: "src/ts/**/*.ts"
           fail_level: warning
   actionlint:
@@ -88,6 +92,7 @@ jobs:
       - uses: reviewdog/action-actionlint@d63ba7532e0942965320cd8d73cbae4c7b3c5283
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
           fail_level: warning
   betterleaks:
     runs-on: ubuntu-latest
@@ -159,6 +164,10 @@ jobs:
   html5validator:
     needs: [build]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -172,7 +181,11 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
-      - run: npx --no-install html-validate "dist/**/*.html"
+      - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          npx --no-install html-validate -f checkstyle "dist/**/*.html" | reviewdog -f=checkstyle -reporter=github-pr-review -fail-on-error=false
   codeql:
     needs: [build]
     runs-on: ubuntu-latest
@@ -211,7 +224,7 @@ jobs:
           path: .
           format: cyclonedx-json
           output-file: sbom.cyclonedx.json
-          artifact-name: dist-sbom
+          upload-artifact: false
       - id: grype-scan
         uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2
         with:
@@ -219,6 +232,11 @@ jobs:
           fail-build: false
           output-format: sarif
           severity-cutoff: high
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dist-sbom
+          path: sbom.cyclonedx.json
+          retention-days: 1
       - uses: github/codeql-action/upload-sarif@c16c0f3f2812ec4bb3750a5ed64873fe2ce0fbef
         if: always()
         with:
