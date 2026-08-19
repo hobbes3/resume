@@ -1,4 +1,4 @@
 app:
   applicationId: "2a06d560-4aaf-4d57-a7a4-72b9ff3fd998"
   env: "Development"
-  host: ${APP_HOST:http://localhost:5500}
+  host: ${APP_HOST:http://localhost:8000}
