@@ -95,9 +95,7 @@ jobs:
           cache: npm
       - run: |
           npm ci
-          set +e
-          npx --no-install html-validate -f checkstyle "index.html" "src/**/*.html" > html-validate-report.xml
-          [ $? -le 1 ] || exit $?
+          node scripts/html-validate-src.js
       - uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f
       - run: reviewdog -f=checkstyle -reporter=github-pr-review -filter-mode=nofilter -fail-level=any < html-validate-report.xml
         env:
