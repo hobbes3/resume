@@ -1,4 +1,6 @@
 import tippy, { type Instance } from "tippy.js";
+import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipelineData";
+import { initModal } from "./modal";
 
 import "../scss/main.scss";
 import "tippy.js/dist/tippy.css";
@@ -7,8 +9,6 @@ import "@picocss/pico/css/pico.min.css";
 import "@fontsource/carlito/latin-400.css";
 import "@fontsource/carlito/latin-700.css";
 import "@fontsource/carlito/latin-400-italic.css";
-
-import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipelineData";
 
 interface TippyElement extends HTMLElement {
   _tippy?: Instance;
@@ -22,8 +22,17 @@ function initializeApp(): void {
 
   initAnchorLinks();
   initDynamicImages();
+
+  // 1. Generate hotspot buttons first
   initPipelineHotspots();
-  initModalListeners();
+
+  // 2. Bind modal listeners to the generated hotspot buttons
+  initModal({
+    dialogSelector: "dialog#job-dialog",
+    triggerSelector: "button.hotspot",
+    onOpen: updateJobInfo,
+  });
+
   initClipboardTooltips();
   initTippy();
 }
@@ -47,7 +56,6 @@ function initAnchorLinks(): void {
 }
 
 function initDynamicImages(): void {
-  // Load 6 high-priority conference pictures
   const confContainer = document.getElementById("conf-pics");
   if (confContainer) {
     const fragment = document.createDocumentFragment();
@@ -63,7 +71,6 @@ function initDynamicImages(): void {
     confContainer.appendChild(fragment);
   }
 
-  // Load 96 gallery pictures with low priority & lazy loading
   const galleryContainer = document.getElementById("my-pics");
   if (galleryContainer) {
     const fragment = document.createDocumentFragment();
@@ -110,54 +117,7 @@ function initPipelineHotspots(): void {
   );
 }
 
-function initModalListeners(): void {
-  const dialog = document.querySelector<HTMLDialogElement>("dialog");
-  const hotspots =
-    document.querySelectorAll<HTMLButtonElement>("button.hotspot");
-
-  hotspots.forEach((button) => {
-    button.addEventListener("click", () => updateJobInfo(button, dialog));
-  });
-
-  if (!dialog) return;
-
-  const closeModal = (): void => {
-    document.documentElement.classList.remove("modal-is-open");
-    dialog.close();
-  };
-
-  // Close button (X) listener
-  dialog
-    .querySelector<HTMLButtonElement>("button[aria-label='Close']")
-    ?.addEventListener("click", closeModal);
-
-  // Close on backdrop click
-  dialog.addEventListener("click", (event: MouseEvent) => {
-    const article = dialog.querySelector<HTMLElement>("article");
-    if (!article) return;
-
-    const rect = article.getBoundingClientRect();
-    const isInDialog =
-      rect.top <= event.clientY &&
-      event.clientY <= rect.top + rect.height &&
-      rect.left <= event.clientX &&
-      event.clientX <= rect.left + rect.width;
-
-    if (!isInDialog) {
-      closeModal();
-    }
-  });
-
-  // Handle ESC key press (native dialog close event)
-  dialog.addEventListener("close", () => {
-    document.documentElement.classList.remove("modal-is-open");
-  });
-}
-
-function updateJobInfo(
-  button: HTMLButtonElement,
-  dialog: HTMLDialogElement | null,
-): void {
+function updateJobInfo(button: HTMLButtonElement): void {
   const nameBox = document.getElementById("job-name");
   const linkAnchor = document.getElementById(
     "job-link",
@@ -169,25 +129,32 @@ function updateJobInfo(
   const description = button.getAttribute("data-description");
 
   if (nameBox && name) nameBox.innerText = name;
-  if (linkAnchor && url) {
-    try {
-      const parsedUrl = new URL(url, window.location.origin);
-      if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
-        linkAnchor.href = parsedUrl.href;
-        linkAnchor.textContent = parsedUrl.href
-          .replace(/^https?:\/\//, "")
-          .replace(/^www\./, "")
-          .replace(/\/$/, "");
+
+  if (linkAnchor) {
+    if (url) {
+      try {
+        const parsedUrl = new URL(url, window.location.origin);
+        if (parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:") {
+          linkAnchor.href = parsedUrl.href;
+          linkAnchor.textContent = parsedUrl.href
+            .replace(/^https?:\/\//, "")
+            .replace(/^www\./, "")
+            .replace(/\/$/, "");
+          linkAnchor.style.display = "inline";
+        }
+      } catch {
+        linkAnchor.removeAttribute("href");
+        linkAnchor.textContent = "";
+        linkAnchor.style.display = "none";
       }
-    } catch {
-      // Ignore invalid URLs gracefully
+    } else {
+      linkAnchor.removeAttribute("href");
+      linkAnchor.textContent = "";
+      linkAnchor.style.display = "none";
     }
   }
+
   if (descBox && description) descBox.innerText = description;
-  if (dialog && typeof dialog.showModal === "function") {
-    document.documentElement.classList.add("modal-is-open");
-    dialog.showModal();
-  }
 }
 
 function initClipboardTooltips(): void {
