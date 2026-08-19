@@ -129,8 +129,15 @@ function updateJobInfo(button: HTMLButtonElement): void {
   const description = button.getAttribute("data-description");
 
   if (nameBox && name) nameBox.innerText = name;
+  if (descBox && description) descBox.innerText = description;
 
   if (linkAnchor) {
+    // 1. Always reset link state upfront
+    linkAnchor.removeAttribute("href");
+    linkAnchor.textContent = "";
+    linkAnchor.style.display = "none";
+
+    // 2. Validate and populate only if it's a valid HTTP(S) URL
     if (url) {
       try {
         const parsedUrl = new URL(url, window.location.origin);
@@ -143,18 +150,10 @@ function updateJobInfo(button: HTMLButtonElement): void {
           linkAnchor.style.display = "inline";
         }
       } catch {
-        linkAnchor.removeAttribute("href");
-        linkAnchor.textContent = "";
-        linkAnchor.style.display = "none";
+        // Handled by upfront reset
       }
-    } else {
-      linkAnchor.removeAttribute("href");
-      linkAnchor.textContent = "";
-      linkAnchor.style.display = "none";
     }
   }
-
-  if (descBox && description) descBox.innerText = description;
 }
 
 function initClipboardTooltips(): void {
