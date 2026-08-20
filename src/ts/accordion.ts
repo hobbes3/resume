@@ -68,6 +68,7 @@ export function initStickyAccordions(): void {
     pendingCloses.set(details, pendingClose);
 
     window.scrollTo({ top: targetScrollY, behavior: "smooth" });
+    timeoutId = window.setTimeout(cancelPendingClose, 2000);
     animationFrameId = requestAnimationFrame(waitForScrollToFinish);
   });
 }
