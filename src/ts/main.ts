@@ -1,6 +1,7 @@
 import tippy, { type Instance } from "tippy.js";
 import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipelineData";
 import { initModal } from "./modal";
+import { initStickyAccordions } from "./accordion";
 
 import "../scss/main.scss";
 import "tippy.js/dist/tippy.css";
@@ -15,6 +16,12 @@ interface TippyElement extends HTMLElement {
 }
 
 let appInitialized = false;
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initializeApp, { once: true });
+} else {
+  initializeApp();
+}
 
 function initializeApp(): void {
   if (appInitialized) return;
@@ -35,12 +42,8 @@ function initializeApp(): void {
 
   initClipboardTooltips();
   initTippy();
-}
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initializeApp, { once: true });
-} else {
-  initializeApp();
+  initStickyAccordions();
 }
 
 function initAnchorLinks(): void {
