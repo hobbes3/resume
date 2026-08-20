@@ -30,7 +30,6 @@ export function initStickyAccordions(): void {
     const targetScrollY = Math.max(0, Math.round(originalHeaderY - stickyTop));
 
     let animationFrameId = 0;
-    let timeoutId: number | undefined;
     let settledFrames = 0;
     let cancelled = false;
 
@@ -38,9 +37,7 @@ export function initStickyAccordions(): void {
       if (cancelled) return;
       cancelled = true;
       cancelAnimationFrame(animationFrameId);
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-      }
+      clearTimeout(timeoutId);
       pendingCloses.delete(details);
     };
 
@@ -48,9 +45,7 @@ export function initStickyAccordions(): void {
       if (cancelled) return;
       cancelled = true;
       cancelAnimationFrame(animationFrameId);
-      if (timeoutId !== undefined) {
-        clearTimeout(timeoutId);
-      }
+      clearTimeout(timeoutId);
       pendingCloses.delete(details);
       details.open = false;
     };
@@ -71,11 +66,12 @@ export function initStickyAccordions(): void {
       animationFrameId = requestAnimationFrame(waitForScrollToFinish);
     };
 
+    const timeoutId = window.setTimeout(cancelPendingClose, 2000);
+
     const pendingClose: PendingClose = { cancel: cancelPendingClose };
     pendingCloses.set(details, pendingClose);
 
     window.scrollTo({ top: targetScrollY, behavior: "smooth" });
-    timeoutId = window.setTimeout(cancelPendingClose, 2000);
     animationFrameId = requestAnimationFrame(waitForScrollToFinish);
   });
 }
