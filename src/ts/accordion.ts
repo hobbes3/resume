@@ -30,6 +30,7 @@ export function initStickyAccordions(): void {
     const targetScrollY = Math.max(0, Math.round(originalHeaderY - stickyTop));
 
     let animationFrameId = 0;
+    let timeoutId: number | undefined;
     let settledFrames = 0;
     let cancelled = false;
 
@@ -37,6 +38,9 @@ export function initStickyAccordions(): void {
       if (cancelled) return;
       cancelled = true;
       cancelAnimationFrame(animationFrameId);
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
       pendingCloses.delete(details);
     };
 
@@ -44,6 +48,9 @@ export function initStickyAccordions(): void {
       if (cancelled) return;
       cancelled = true;
       cancelAnimationFrame(animationFrameId);
+      if (timeoutId !== undefined) {
+        clearTimeout(timeoutId);
+      }
       pendingCloses.delete(details);
       details.open = false;
     };
