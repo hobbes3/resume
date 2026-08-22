@@ -7,6 +7,8 @@
     "Betterleaks",
     "Carlito",
     "cyclonedx",
+    "dmarc",
+    "domainkey",
     "domcontentloaded",
     "dortort",
     "Duboce",
@@ -39,6 +41,8 @@
     "Splunking",
     "stackhawk",
     "Syft",
+    "tfstate",
+    "tfvars",
     "treosh",
     "webp"
   ],
