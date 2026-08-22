@@ -347,8 +347,8 @@ jobs:
       - id: deploy_pages
         uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0
         with:
+          accountId: ecb38e99c15d28c64e8794aeca162eac
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
           command: pages deploy dist --project-name=site-resume --branch=${{ github.head_ref || github.ref_name }}
 

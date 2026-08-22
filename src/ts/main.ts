@@ -44,6 +44,7 @@ function initializeApp(): void {
   initTippy();
 
   initStickyAccordions();
+  initSiteSectionJump();
 }
 
 function initAnchorLinks(): void {
@@ -56,6 +57,86 @@ function initAnchorLinks(): void {
     const linkText = link.textContent?.trim() || "section";
     link.setAttribute("data-tippy-content", `Jump to ${linkText}`);
   });
+}
+
+function initSiteSectionJump(): void {
+  const jumpSelect =
+    document.querySelector<HTMLSelectElement>("#this-site-jump");
+  if (!jumpSelect) return;
+
+  const sections = Array.from(jumpSelect.options, (option) =>
+    option.value ? document.querySelector<HTMLElement>(option.value) : null,
+  ).filter((section): section is HTMLElement => section !== null);
+
+  if (sections.length === 0) return;
+
+  let programmaticScroll = false;
+  let programmaticScrollTimeoutId = 0;
+
+  const finishProgrammaticScroll = (): void => {
+    if (!programmaticScroll) return;
+
+    programmaticScroll = false;
+    window.clearTimeout(programmaticScrollTimeoutId);
+    updateSelectedSection();
+  };
+
+  jumpSelect.addEventListener("change", () => {
+    const section = document.querySelector<HTMLElement>(jumpSelect.value);
+    if (!section) return;
+
+    jumpSelect.value = `#${section.id}`;
+    programmaticScroll = true;
+    window.clearTimeout(programmaticScrollTimeoutId);
+    programmaticScrollTimeoutId = window.setTimeout(() => {
+      finishProgrammaticScroll();
+    }, 2000);
+    section.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  let animationFrameId = 0;
+  const updateSelectedSection = (): void => {
+    animationFrameId = 0;
+    if (programmaticScroll) return;
+
+    const stickyNavigation = document.getElementById("this-site-jump");
+    const stickyNavigationBounds = stickyNavigation?.getBoundingClientRect();
+    const threshold = (stickyNavigationBounds?.bottom ?? 0) + 80;
+    let currentSection = "";
+
+    sections.forEach((section) => {
+      if (section.getBoundingClientRect().top <= threshold) {
+        currentSection = `#${section.id}`;
+      }
+    });
+
+    const isAtDocumentBottom =
+      window.scrollY + window.innerHeight >=
+      document.documentElement.scrollHeight - 1;
+    if (isAtDocumentBottom) {
+      const visibleSection = sections.findLast(
+        (section) => section.getBoundingClientRect().top <= window.innerHeight,
+      );
+      currentSection = `#${(visibleSection ?? sections[sections.length - 1]).id}`;
+    }
+
+    if (jumpSelect.value !== currentSection) {
+      jumpSelect.value = currentSection;
+    }
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (animationFrameId === 0) {
+        animationFrameId = requestAnimationFrame(updateSelectedSection);
+      }
+    },
+    { passive: true },
+  );
+  window.addEventListener("scrollend", finishProgrammaticScroll);
+  window.addEventListener("resize", updateSelectedSection);
+  updateSelectedSection();
 }
 
 function initDynamicImages(): void {

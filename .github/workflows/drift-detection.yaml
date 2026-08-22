@@ -1,0 +1,48 @@
+name: OpenTofu Drift Detection
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  detect-drift:
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_account_id: ecb38e99c15d28c64e8794aeca162eac
+      TF_VAR_zone_id: f3528c90e0b1c9516a279b76be10da07
+      TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4
+        with:
+          tofu_version: "1.8.0"
+      - run: tofu init
+        working-directory: opentofu
+      - id: drift
+        continue-on-error: true
+        run: |
+          # Exit codes: 0 = no drift, 2 = drift detected, 1 = error
+          tofu plan -detailed-exitcode -no-color > drift_plan.txt || exit_code=$?
+
+          if [ "${exit_code:-0}" -eq 2 ]; then
+            echo "DRIFT_DETECTED=true" >> $GITHUB_ENV
+          elif [ "${exit_code:-0}" -eq 1 ]; then
+            echo "Error running tofu plan"
+            exit 1
+          fi
+        working-directory: opentofu
+      - uses: peter-evans/create-issue-from-file@v5
+        if: env.DRIFT_DETECTED == 'true'
+        with:
+          title: "🚨 OpenTofu Infrastructure Drift Detected"
+          content-filepath: opentofu/drift_plan.txt
+          labels: |
+            drift
+            infrastructure
+            automated-issue

@@ -181,7 +181,16 @@
       </details>
       <details>
         <summary role="button">🔐 This site (DevSecOps)</summary>
-        <article>
+
+        <select id="this-site-jump">
+          <option selected disabled value="">Jump to a section</option>
+          <option value="#section-tools">🛠️ Tools used</option>
+          <option value="#section-devops">🔁 DevOps</option>
+          <option value="#section-devsecops">🔐 DevSecOps (Security)</option>
+          <option value="#section-lighthouse">⚡ Lighthouse report</option>
+          <option value="#section-iac">🏗️ Infrastructure as a Code</option>
+        </select>
+        <article id="section-tools">
           <header>🛠️ Tools used:</header>
           <table id="tools">
             <tbody>
@@ -277,8 +286,8 @@
             <a href="https://github.com/hobbes3/site-resume">GitHub</a>.
           </footer>
         </article>
-        <article>
-          <header id="section-workflow">🔁 DevOps</header>
+        <article id="section-devops">
+          <header>🔁 DevOps</header>
           <p>
             Explore the
             <a
@@ -347,7 +356,7 @@
             </li>
           </ul>
         </article>
-        <article>
+        <article id="section-devsecops">
           <header>🔐 DevSecOps (Security)</header>
           <ul>
             <li>
@@ -404,6 +413,13 @@
               <ul>
                 <li><em>Same as the VS Code extensions above*</em></li>
                 <li>Betterleaks</li>
+                <li>
+                  <a
+                    href="https://github.com/rhysd/actionlint"
+                    class="secondary"
+                    >Actionlint</a
+                  >*
+                </li>
               </ul>
             </li>
             <li>
@@ -514,7 +530,7 @@
               *
               <em
                 >Note: VS Code extensions, pre-commit, and
-                <a href="#section-workflow">workflow jobs</a> all share the same
+                <a href="#section-devops">workflow jobs</a> all share the same
                 underlying configuration files.
               </em>
             </p>
@@ -532,8 +548,8 @@
             </p>
           </footer>
         </article>
-        <article>
-          <header id="section-lighthouse">⚡ Lighthouse Report</header>
+        <article id="section-lighthouse">
+          <header>⚡ Lighthouse report</header>
           <p>
             <a
               href="https://developer.chrome.com/docs/lighthouse"
@@ -617,6 +633,27 @@
               </tr>
             </tbody>
           </table>
+        </article>
+        <article id="section-iac">
+          <header>🏗️ Infrastructure as a Code (IaC)</header>
+          <p>
+            This repository uses
+            <a href="https://opentofu.org/" class="secondary">OpenTofu</a> to
+            declaratively manage all
+            <a href="https://www.cloudflare.com/" class="secondary"
+              >Cloudflare infrastructure</a
+            >
+            for <code>hobbes3.com</code> and its subdomains (<code>www</code>,
+            <code>resume</code>, <code>fec</code>).
+          </p>
+          <p>
+            View the
+            <a
+              href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+              >OpenTofu file</a
+            >
+            for this site.
+          </p>
         </article>
       </details>
       <details>

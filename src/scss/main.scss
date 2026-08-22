@@ -14,6 +14,10 @@ html {
   scroll-margin-top: 80px;
 }
 
+article[id^="section-"] {
+  scroll-margin-top: 8rem;
+}
+
 @media (width >= 1200px) {
   main.container {
     max-width: 960px;
@@ -164,20 +168,16 @@ button.hotspot {
   }
 }
 
-.force-single-row {
-  display: flex !important;
-  flex-flow: row nowrap !important;
-  width: 100%;
-  gap: 0.5rem;
-  align-items: center;
-
-  img {
-    flex: 1 1 0;
-    min-width: 0;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+#this-site-jump {
+  position: sticky;
+  top: 4.5rem;
+  z-index: 99;
+  width: auto;
+  margin-left: auto;
+  margin-right: 0;
+  display: block;
+  background-color: var(--pico-card-background-color, #fff);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 }
 
 #resume-header {
