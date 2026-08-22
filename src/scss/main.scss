@@ -180,6 +180,13 @@ button.hotspot {
   }
 }
 
+#resume-header {
+  text-align: left;
+  justify-content: flex-start;
+  pointer-events: none;
+  cursor: default;
+}
+
 #resume-wrapper {
   container-type: inline-size;
   width: 100%;
