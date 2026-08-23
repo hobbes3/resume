@@ -70,6 +70,13 @@ function initSiteSectionJump(): void {
 
   if (sections.length === 0) return;
 
+  const siteDetails = jumpSelect.closest<HTMLDetailsElement>("details");
+  siteDetails?.addEventListener("toggle", () => {
+    if (siteDetails.open) {
+      jumpSelect.value = "";
+    }
+  });
+
   let programmaticScroll = false;
   let programmaticScrollTimeoutId = 0;
 

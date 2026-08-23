@@ -123,10 +123,6 @@ resource "cloudflare_dns_record" "spf" {
   type    = "TXT"
   content = "v=spf1 include:_spf.mx.cloudflare.net ~all"
   ttl     = 1
-
-  lifecycle {
-    ignore_changes = [content, ttl]
-  }
 }
 
 resource "cloudflare_dns_record" "dmarc" {
@@ -145,7 +141,7 @@ resource "cloudflare_dns_record" "dkim" {
   ttl     = 1
 
   lifecycle {
-    ignore_changes = [content, ttl]
+    ignore_changes = [content]
   }
 }
 

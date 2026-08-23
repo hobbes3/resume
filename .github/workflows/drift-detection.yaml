@@ -18,27 +18,39 @@ jobs:
       TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
-      - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
         with:
           tofu_version: "1.8.0"
-      - run: tofu init
-        working-directory: opentofu
-      - id: drift
-        continue-on-error: true
-        run: |
-          # Exit codes: 0 = no drift, 2 = drift detected, 1 = error
-          tofu plan -detailed-exitcode -no-color > drift_plan.txt || exit_code=$?
 
-          if [ "${exit_code:-0}" -eq 2 ]; then
-            echo "DRIFT_DETECTED=true" >> $GITHUB_ENV
-          elif [ "${exit_code:-0}" -eq 1 ]; then
-            echo "Error running tofu plan"
-            exit 1
+      - name: OpenTofu Init
+        run: tofu init
+        working-directory: opentofu
+
+      - name: Run Drift Check
+        id: drift
+        run: |
+          # Capture output and exit code safely
+          set +e
+          tofu plan -detailed-exitcode -no-color > drift_plan.txt
+          exit_code=$?
+          set -e
+
+          if [ "$exit_code" -eq 2 ]; then
+            echo "Drift detected!"
+            echo "DRIFT_DETECTED=true" >> "$GITHUB_ENV"
+          elif [ "$exit_code" -ne 0 ]; then
+            echo "::error::OpenTofu plan failed with error code $exit_code"
+            exit "$exit_code"
           fi
         working-directory: opentofu
-      - uses: peter-evans/create-issue-from-file@v5
+
+      - name: Create Issue on Drift
         if: env.DRIFT_DETECTED == 'true'
+        uses: peter-evans/create-issue-from-file@v5
         with:
           title: "🚨 OpenTofu Infrastructure Drift Detected"
           content-filepath: opentofu/drift_plan.txt

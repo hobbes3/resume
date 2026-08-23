@@ -14,7 +14,7 @@ html {
   scroll-margin-top: 80px;
 }
 
-article[id^="section-"] {
+[id^="section-"]:target {
   scroll-margin-top: 8rem;
 }
 
@@ -180,11 +180,25 @@ button.hotspot {
   box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
 }
 
+#section-resume {
+  margin-top: 1rem;
+}
+
 #resume-header {
+  /* Pico CSS button appearance */
+  display: block;
+  width: 100%;
+  padding: var(--pico-form-element-spacing-vertical)
+    var(--pico-form-element-spacing-horizontal);
+  background-color: var(--pico-primary-background);
+  color: var(--pico-primary-inverse);
+  border: var(--pico-border-width) solid var(--pico-primary-border);
+  border-radius: var(--pico-border-radius);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: normal;
   text-align: left;
-  justify-content: flex-start;
-  pointer-events: none;
-  cursor: default;
+  margin-top: 0;
 }
 
 #resume-wrapper {
