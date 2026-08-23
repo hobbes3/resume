@@ -48,7 +48,13 @@ jobs:
       - if: env.DRIFT_DETECTED == 'true'
         id: find-issue
         run: |
-          issue_number=$(gh issue list --label "drift" --state "open" --json number -q '.[0].number')
+          issue_number=$(gh issue list \
+            --label "drift" \
+            --label "automated-issue" \
+            --state "open" \
+            --search "🚨 OpenTofu Infrastructure Drift Detected in:title" \
+            --json number \
+            -q '.[0].number')
           echo "issue_number=$issue_number" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
