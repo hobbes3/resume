@@ -3,7 +3,7 @@
 # ==============================================================================
 
 terraform {
-  required_version = ">= 1.6.0"
+  required_version = ">= 1.8.0"
 
   required_providers {
     cloudflare = {
@@ -11,9 +11,7 @@ terraform {
       version = "~> 5.0"
     }
   }
-}
-
-terraform {
+  
   backend "s3" {
     bucket                      = "site-resume-tfstate"
     key                         = "cloudflare/terraform.tfstate"

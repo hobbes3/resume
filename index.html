@@ -187,8 +187,9 @@
           <option value="#section-tools">🛠️ Tools used</option>
           <option value="#section-devops">🔁 DevOps</option>
           <option value="#section-devsecops">🔐 DevSecOps (Security)</option>
+          <option value="#section-secrets">🔑 Secrets Management</option>
           <option value="#section-lighthouse">⚡ Lighthouse report</option>
-          <option value="#section-iac">🏗️ Infrastructure as a Code</option>
+          <option value="#section-iac">🏗️ Infrastructure as Code</option>
         </select>
         <article id="section-tools">
           <header>🛠️ Tools used:</header>
@@ -412,7 +413,6 @@
               >)
               <ul>
                 <li><em>Same as the VS Code extensions above*</em></li>
-                <li>Betterleaks</li>
                 <li>
                   <a
                     href="https://github.com/rhysd/actionlint"
@@ -420,6 +420,7 @@
                     >Actionlint</a
                   >*
                 </li>
+                <li>Betterleaks</li>
               </ul>
             </li>
             <li>
@@ -525,28 +526,74 @@
               </ul>
             </li>
           </ul>
-          <footer>
-            <p>
-              *
-              <em
-                >Note: VS Code extensions, pre-commit, and
-                <a href="#section-devops">workflow jobs</a> all share the same
-                underlying configuration files.
-              </em>
-            </p>
-            <p>
-              †
-              <em
-                >Note: Integrated via
-                <a
-                  href="https://docs.github.com/en/apps/overview"
-                  class="secondary"
-                  >GitHub Apps</a
-                >
-                (instead of defined as a workflow job).</em
+          <p>
+            *
+            <em
+              >Note: VS Code extensions, pre-commit, and
+              <a href="#section-devops">workflow jobs</a> all share the same
+              underlying configuration files.
+            </em>
+          </p>
+          <p>
+            †
+            <em
+              >Note: Integrated via
+              <a
+                href="https://docs.github.com/en/apps/overview"
+                class="secondary"
+                >GitHub Apps</a
               >
-            </p>
-          </footer>
+              (instead of defined as a workflow job).</em
+            >
+          </p>
+        </article>
+        <article id="section-secrets">
+          <header>🔑 Secrets management</header>
+          <ul>
+            <li>
+              <strong>GitHub repository secrets</strong>
+              <ul>
+                <li>
+                  Encrypts API tokens and securely injects them into GitHub
+                  Actions workflows at runtime as environment variables.
+                  <ul>
+                    <li>
+                      <code>AWS_ACCESS_KEY_ID</code> (for Cloudflare R2 buckets)
+                    </li>
+                    <li><code>AWS_ENDPOINT_URL_S3</code></li>
+                    <li><code>AWS_SECRET_ACCESS_KEY</code></li>
+                    <li><code>CLOUDFLARE_API_TOKEN</code></li>
+                    <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <code><strong>terraform.tfvars</strong></code>
+              <ul>
+                <li>
+                  Defines sensitive variables for local OpenTofu runs while
+                  keeping secrets out of the repository via
+                  <code>.gitignore</code>.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <code><strong>terraform.tfstate</strong></code>
+              <ul>
+                <li>
+                  Stores state files containing sensitive data in a private
+                  Cloudflare R2 bucket. See
+                  <a
+                    href="#section-iac"
+                    data-tippy-content="Jump to Infrastructure as Code"
+                    >IaC</a
+                  >
+                  for more information.
+                </li>
+              </ul>
+            </li>
+          </ul>
         </article>
         <article id="section-lighthouse">
           <header>⚡ Lighthouse report</header>
@@ -635,7 +682,7 @@
           </table>
         </article>
         <article id="section-iac">
-          <header>🏗️ Infrastructure as a Code (IaC)</header>
+          <header>🏗️ Infrastructure as Code</header>
           <p>
             This repository uses
             <a href="https://opentofu.org/" class="secondary">OpenTofu</a> to
@@ -646,14 +693,52 @@
             for <code>hobbes3.com</code> and its subdomains (<code>www</code>,
             <code>resume</code>, <code>fec</code>).
           </p>
-          <p>
-            View the
-            <a
-              href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
-              >OpenTofu file</a
-            >
-            for this site.
-          </p>
+
+          <ul>
+            <li>
+              <strong
+                ><a
+                  href="https://www.cloudflare.com/products/r2/"
+                  class="secondary"
+                  >Cloudflare R2 buckets</a
+                ></strong
+              >
+              <ul>
+                <li>
+                  Stores the <code>terraform.tfstate</code> file in an
+                  S3-compatible R2 bucket for security, state persistence, and
+                  locking across environments.
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <strong>Declarative infrastructure</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Defines Cloudflare resources, including Pages projects, custom
+                  domains, DNS records, and redirect rules.
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <strong>Automated CI/CD</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Runs <code>tofu plan</code> and
+                  <code>tofu apply</code> pipelines to reconcile configurations
+                  against the R2 state and trigger automated drift detection.
+                </li>
+              </ul>
+            </li>
+          </ul>
         </article>
       </details>
       <details>

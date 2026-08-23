@@ -21,11 +21,11 @@ jobs:
       AWS_ENDPOINT_URL_S3: ${{ secrets.AWS_ENDPOINT_URL_S3 }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
 
-      - uses: opentofu/setup-opentofu@v1
+      - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4
         with:
           tofu_version: "1.12.6"
 
@@ -52,7 +52,7 @@ jobs:
         working-directory: opentofu
 
       - if: env.DRIFT_DETECTED == 'true'
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
         with:
           title: "🚨 OpenTofu Infrastructure Drift Detected"
           content-filepath: opentofu/drift_plan.txt

@@ -54,8 +54,10 @@ function initAnchorLinks(): void {
   anchorLinks.forEach((link) => {
     link.setAttribute("target", "_self");
     link.classList.add("contrast");
-    const linkText = link.textContent?.trim() || "section";
-    link.setAttribute("data-tippy-content", `Jump to ${linkText}`);
+    if (!link.hasAttribute("data-tippy-content")) {
+      const linkText = link.textContent?.trim() || "section";
+      link.setAttribute("data-tippy-content", `Jump to ${linkText}`);
+    }
   });
 }
 
@@ -90,7 +92,6 @@ function initSiteSectionJump(): void {
 
     programmaticScroll = false;
     window.clearTimeout(programmaticScrollTimeoutId);
-    updateSelectedSection();
   };
 
   jumpSelect.addEventListener("change", () => {
