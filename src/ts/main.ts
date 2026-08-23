@@ -58,6 +58,24 @@ function initAnchorLinks(): void {
       const linkText = link.textContent?.trim() || "section";
       link.setAttribute("data-tippy-content", `Jump to ${linkText}`);
     }
+
+    link.addEventListener("click", (event) => {
+      const target = document.querySelector<HTMLElement>(link.hash);
+      const jumpSelect =
+        document.querySelector<HTMLSelectElement>("#this-site-jump");
+      const siteDetails = jumpSelect?.closest<HTMLDetailsElement>("details");
+
+      if (!target || !jumpSelect || !siteDetails?.open) return;
+
+      event.preventDefault();
+      const selectTop =
+        parseFloat(window.getComputedStyle(jumpSelect).top) || 0;
+      const targetScrollY = Math.max(
+        0,
+        window.scrollY + target.getBoundingClientRect().top - selectTop,
+      );
+      window.scrollTo({ top: targetScrollY, behavior: "smooth" });
+    });
   });
 }
 

@@ -188,8 +188,8 @@
           <option value="#section-devops">🔁 DevOps</option>
           <option value="#section-devsecops">🔐 DevSecOps (Security)</option>
           <option value="#section-secrets">🔑 Secrets Management</option>
-          <option value="#section-lighthouse">⚡ Lighthouse report</option>
           <option value="#section-iac">🏗️ Infrastructure as Code</option>
+          <option value="#section-lighthouse">⚡ Lighthouse report</option>
         </select>
         <article id="section-tools">
           <header>🛠️ Tools used:</header>
@@ -595,6 +595,62 @@
             </li>
           </ul>
         </article>
+        <article id="section-iac">
+          <header>🏗️ Infrastructure as Code</header>
+          <p>
+            This repository uses
+            <a href="https://opentofu.org/" class="secondary">OpenTofu</a> to
+            declaratively manage all
+            <a href="https://www.cloudflare.com/" class="secondary"
+              >Cloudflare infrastructure</a
+            >
+            for <code>hobbes3.com</code> and its subdomains (<code>www</code>,
+            <code>resume</code>, <code>fec</code>).
+          </p>
+          <ul>
+            <li>
+              <strong
+                ><a
+                  href="https://www.cloudflare.com/products/r2/"
+                  class="secondary"
+                  >Cloudflare R2 buckets</a
+                ></strong
+              >
+              <ul>
+                <li>
+                  Stores the <code>terraform.tfstate</code> file in an
+                  S3-compatible R2 bucket with native state locking enabled for
+                  security, state persistence, and concurrent execution safety.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Declarative infrastructure</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Defines Cloudflare resources, including Pages projects, custom
+                  domains, DNS records, and redirect rules.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Automated CI/CD</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Executes scheduled <code>tofu plan</code> runs against the
+                  remote state to detect configuration drift and automatically
+                  raise tracking issues.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </article>
         <article id="section-lighthouse">
           <header>⚡ Lighthouse report</header>
           <p>
@@ -680,65 +736,6 @@
               </tr>
             </tbody>
           </table>
-        </article>
-        <article id="section-iac">
-          <header>🏗️ Infrastructure as Code</header>
-          <p>
-            This repository uses
-            <a href="https://opentofu.org/" class="secondary">OpenTofu</a> to
-            declaratively manage all
-            <a href="https://www.cloudflare.com/" class="secondary"
-              >Cloudflare infrastructure</a
-            >
-            for <code>hobbes3.com</code> and its subdomains (<code>www</code>,
-            <code>resume</code>, <code>fec</code>).
-          </p>
-
-          <ul>
-            <li>
-              <strong
-                ><a
-                  href="https://www.cloudflare.com/products/r2/"
-                  class="secondary"
-                  >Cloudflare R2 buckets</a
-                ></strong
-              >
-              <ul>
-                <li>
-                  Stores the <code>terraform.tfstate</code> file in an
-                  S3-compatible R2 bucket for security, state persistence, and
-                  locking across environments.
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <strong>Declarative infrastructure</strong> (<a
-                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
-                >view code</a
-              >)
-              <ul>
-                <li>
-                  Defines Cloudflare resources, including Pages projects, custom
-                  domains, DNS records, and redirect rules.
-                </li>
-              </ul>
-            </li>
-
-            <li>
-              <strong>Automated CI/CD</strong> (<a
-                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
-                >view code</a
-              >)
-              <ul>
-                <li>
-                  Runs <code>tofu plan</code> and
-                  <code>tofu apply</code> pipelines to reconcile configurations
-                  against the R2 state and trigger automated drift detection.
-                </li>
-              </ul>
-            </li>
-          </ul>
         </article>
       </details>
       <details>

@@ -19,24 +19,21 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_ENDPOINT_URL_S3: ${{ secrets.AWS_ENDPOINT_URL_S3 }}
-
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           persist-credentials: false
-
+          ref: ${{ github.event.repository.default_branch }}
       - uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4
         with:
           tofu_version: "1.12.6"
-
+          tofu_wrapper: false
       - name: OpenTofu Init
         run: tofu init
         working-directory: opentofu
-
       - name: OpenTofu Plan (Drift Check)
         id: drift
         run: |
-          # Capture output and exit code safely
           set +e
           tofu plan -detailed-exitcode -no-color > drift_plan.txt
           exit_code=$?
@@ -46,11 +43,10 @@ jobs:
             echo "Drift detected!"
             echo "DRIFT_DETECTED=true" >> "$GITHUB_ENV"
           elif [ "$exit_code" -ne 0 ]; then
-            echo "::error::OpenTofu plan failed with error code $exit_code"
+            echo "::error::OpenTofu plan failed with exit code $exit_code"
             exit "$exit_code"
           fi
         working-directory: opentofu
-
       - if: env.DRIFT_DETECTED == 'true'
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
         with:
