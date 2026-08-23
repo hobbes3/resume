@@ -80,6 +80,11 @@ function initSiteSectionJump(): void {
   let programmaticScroll = false;
   let programmaticScrollTimeoutId = 0;
 
+  const getStickySelectTop = (): number => {
+    const style = window.getComputedStyle(jumpSelect);
+    return parseFloat(style.top) || 0;
+  };
+
   const finishProgrammaticScroll = (): void => {
     if (!programmaticScroll) return;
 
@@ -98,7 +103,13 @@ function initSiteSectionJump(): void {
     programmaticScrollTimeoutId = window.setTimeout(() => {
       finishProgrammaticScroll();
     }, 2000);
-    section.scrollIntoView({ behavior: "smooth", block: "start" });
+    const targetScrollY = Math.max(
+      0,
+      window.scrollY +
+        section.getBoundingClientRect().top -
+        getStickySelectTop(),
+    );
+    window.scrollTo({ top: targetScrollY, behavior: "smooth" });
   });
 
   let animationFrameId = 0;
@@ -106,9 +117,7 @@ function initSiteSectionJump(): void {
     animationFrameId = 0;
     if (programmaticScroll) return;
 
-    const stickyNavigation = document.getElementById("this-site-jump");
-    const stickyNavigationBounds = stickyNavigation?.getBoundingClientRect();
-    const threshold = (stickyNavigationBounds?.bottom ?? 0) + 80;
+    const threshold = getStickySelectTop();
     let currentSection = "";
 
     sections.forEach((section) => {
@@ -154,7 +163,6 @@ function initDynamicImages(): void {
       const img = document.createElement("img");
       img.src = `images/conf${i}.webp`;
       img.alt = "Splunk .conf";
-      img.width = 200;
       img.height = 200;
       img.fetchPriority = "high";
       fragment.appendChild(img);
