@@ -1,4 +1,11 @@
-.DS_Store
 node_modules/
 dist/
 .lighthouseci/
+
+*.tfvars
+*.tfstate
+*.tfstate.*
+.terraform/
+.tfplan
+
+.DS_Store

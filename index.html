@@ -157,7 +157,7 @@
             </li>
             <li>
               Refugee tracking and connectivity using
-              <a href="https://meraki.cisco.com" class="secondary"
+              <a href="https://www.cisco.com" class="secondary"
                 >Cisco Meraki devices</a
               >
               with <a href="https://nethope.org">NetHope</a>.
@@ -181,7 +181,17 @@
       </details>
       <details>
         <summary role="button">🔐 This site (DevSecOps)</summary>
-        <article>
+
+        <select id="this-site-jump">
+          <option selected disabled value="">Jump to a section</option>
+          <option value="#section-tools">🛠️ Tools used</option>
+          <option value="#section-devops">🔁 DevOps</option>
+          <option value="#section-devsecops">🔐 DevSecOps (Security)</option>
+          <option value="#section-secrets">🔑 Secrets Management</option>
+          <option value="#section-iac">🏗️ Infrastructure as Code</option>
+          <option value="#section-lighthouse">⚡ Lighthouse report</option>
+        </select>
+        <article id="section-tools">
           <header>🛠️ Tools used:</header>
           <table id="tools">
             <tbody>
@@ -200,7 +210,9 @@
               <tr>
                 <td>Hosting</td>
                 <td>
-                  <a href="https://pages.cloudflare.com" class="secondary"
+                  <a
+                    href=" https://www.cloudflare.com/products/pages/"
+                    class="secondary"
                     >Cloudflare Pages</a
                   >
                 </td>
@@ -277,8 +289,8 @@
             <a href="https://github.com/hobbes3/site-resume">GitHub</a>.
           </footer>
         </article>
-        <article>
-          <header id="section-workflow">🔁 DevOps</header>
+        <article id="section-devops">
+          <header>🔁 DevOps</header>
           <p>
             Explore the
             <a
@@ -347,7 +359,7 @@
             </li>
           </ul>
         </article>
-        <article>
+        <article id="section-devsecops">
           <header>🔐 DevSecOps (Security)</header>
           <ul>
             <li>
@@ -403,6 +415,13 @@
               >)
               <ul>
                 <li><em>Same as the VS Code extensions above*</em></li>
+                <li>
+                  <a
+                    href="https://github.com/rhysd/actionlint"
+                    class="secondary"
+                    >Actionlint</a
+                  >*
+                </li>
                 <li>Betterleaks</li>
               </ul>
             </li>
@@ -514,7 +533,7 @@
               *
               <em
                 >Note: VS Code extensions, pre-commit, and
-                <a href="#section-workflow">workflow jobs</a> all share the same
+                <a href="#section-devops">workflow jobs</a> all share the same
                 underlying configuration files.
               </em>
             </p>
@@ -532,8 +551,112 @@
             </p>
           </footer>
         </article>
-        <article>
-          <header id="section-lighthouse">⚡ Lighthouse Report</header>
+        <article id="section-secrets">
+          <header>🔑 Secrets management</header>
+          <ul>
+            <li>
+              <strong>GitHub repository secrets</strong>
+              <ul>
+                <li>
+                  Encrypts API tokens and securely injects them into GitHub
+                  Actions workflows at runtime as environment variables.
+                  <ul>
+                    <li>
+                      <code>AWS_ACCESS_KEY_ID</code> (for Cloudflare R2 buckets)
+                    </li>
+                    <li><code>AWS_ENDPOINT_URL_S3</code></li>
+                    <li><code>AWS_SECRET_ACCESS_KEY</code></li>
+                    <li><code>CLOUDFLARE_API_TOKEN</code></li>
+                    <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <code><strong>terraform.tfvars</strong></code>
+              <ul>
+                <li>
+                  Defines sensitive variables for local OpenTofu runs while
+                  keeping secrets out of the repository via
+                  <code>.gitignore</code>.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <code><strong>terraform.tfstate</strong></code>
+              <ul>
+                <li>
+                  Stores state files containing sensitive data in a private
+                  Cloudflare R2 bucket. See
+                  <a
+                    href="#section-iac"
+                    data-tippy-content="Jump to Infrastructure as Code"
+                    >IaC</a
+                  >
+                  for more information.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </article>
+        <article id="section-iac">
+          <header>🏗️ Infrastructure as Code</header>
+          <p>
+            This repository uses
+            <a href="https://opentofu.org/" class="secondary">OpenTofu</a> to
+            declaratively manage all
+            <a href="https://www.cloudflare.com/" class="secondary"
+              >Cloudflare infrastructure</a
+            >
+            for <code>hobbes3.com</code> and its subdomains (<code>www</code>,
+            <code>resume</code>, <code>fec</code>).
+          </p>
+          <ul>
+            <li>
+              <strong
+                ><a
+                  href="https://www.cloudflare.com/products/r2/"
+                  class="secondary"
+                  >Cloudflare R2 buckets</a
+                ></strong
+              >
+              <ul>
+                <li>
+                  Stores the <code>terraform.tfstate</code> file in an
+                  S3-compatible R2 bucket with native state locking enabled for
+                  security, state persistence, and concurrent execution safety.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Declarative infrastructure</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Defines Cloudflare resources, including Pages projects, custom
+                  domains, DNS records, and redirect rules.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Automated CI/CD</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Executes scheduled <code>tofu plan</code> runs against the
+                  remote state to detect configuration drift and automatically
+                  raise tracking issues.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </article>
+        <article id="section-lighthouse">
+          <header>⚡ Lighthouse report</header>
           <p>
             <a
               href="https://developer.chrome.com/docs/lighthouse"
@@ -751,201 +874,195 @@
         <summary role="button">📸 My likes (gallery)</summary>
         <div id="my-pics" class="gallery"></div>
       </details>
-      <details id="resume-details" open>
-        <summary role="button">📃 My resume</summary>
-        <p id="section-resume">
-          View my resume in a
-          <a href="/resumes/hobbes3_resume_latest.pdf">PDF format</a> (ready for
-          printing or attaching).
-        </p>
-        <p>
-          <svg width="1em" height="1em">
-            <use href="#icon-email"></use>
+      <h1 id="resume-header">📃 My resume</h1>
+      <p id="section-resume">
+        View my resume in a
+        <a href="/resumes/hobbes3_resume_latest.pdf">PDF format</a> (ready for
+        printing or attaching).
+      </p>
+      <p>
+        <svg width="1em" height="1em">
+          <use href="#icon-email"></use>
+        </svg>
+        <a
+          href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online."
+          >satoshi@hobbes3.com</a
+        >
+        <span class="tooltip-wrapper" data-tippy-content="Copy email">
+          <svg width="1em" height="1em" class="copy-btn">
+            <use href="#icon-copy"></use>
           </svg>
-          <a
-            href="mailto:satoshi@hobbes3.com?subject=I%20saw%20your%20resume%20online."
-            >satoshi@hobbes3.com</a
+
+          <svg
+            width="1em"
+            height="1em"
+            class="check-btn"
+            style="display: none; color: #2ea44f"
           >
-          <span class="tooltip-wrapper" data-tippy-content="Copy email">
-            <svg width="1em" height="1em" class="copy-btn">
-              <use href="#icon-copy"></use>
-            </svg>
-
-            <svg
-              width="1em"
-              height="1em"
-              class="check-btn"
-              style="display: none; color: #2ea44f"
-            >
-              <use href="#icon-check"></use>
-            </svg>
-          </span>
-          <br />
-          <svg width="1em" height="1em">
-            <use href="#icon-linkedin"></use>
+            <use href="#icon-check"></use>
           </svg>
-          <a href="https://www.linkedin.com/in/hobbes3">LinkedIn</a>
-          <br />
-          <svg width="1em" height="1em">
-            <use href="#icon-github"></use>
-          </svg>
+        </span>
+        <br />
+        <svg width="1em" height="1em">
+          <use href="#icon-linkedin"></use>
+        </svg>
+        <a href="https://www.linkedin.com/in/hobbes3">LinkedIn</a>
+        <br />
+        <svg width="1em" height="1em">
+          <use href="#icon-github"></use>
+        </svg>
 
-          <a href="https://github.com/hobbes3">GitHub</a>
-        </p>
-        <div id="resume-wrapper">
-          <div id="resume">
-            <header>
-              <h1 class="blue">Satoshi Kawasaki</h1>
-              <div class="grey contact">
-                <a href="mailto:satoshi@hobbes3.com">satoshi@hobbes3.com</a>
-                <span class="small-dot">•</span> 404-333-2310
-                <span class="small-dot">•</span> San Francisco, CA 94114<br />
-                <a href="https://hobbes3.com">hobbes3.com</a>
-                <span class="small-dot">•</span>
-                <a href="https://www.linkedin.com/in/hobbes3"
-                  >linkedin.com/in/hobbes3</a
-                >
-                <span class="small-dot">•</span>
-                <a href="https://github.com/hobbes3">github.com/hobbes3</a
-                ><br />
-                US Citizen <span class="small-dot">•</span> Japanese &amp;
-                Chinese speaker
-              </div>
-            </header>
+        <a href="https://github.com/hobbes3">GitHub</a>
+      </p>
+      <div id="resume-wrapper">
+        <div id="resume">
+          <header>
+            <h1 class="blue">Satoshi Kawasaki</h1>
+            <div class="grey contact">
+              <a href="mailto:satoshi@hobbes3.com">satoshi@hobbes3.com</a>
+              <span class="small-dot">•</span> 404-333-2310
+              <span class="small-dot">•</span> San Francisco, CA 94114<br />
+              <a href="https://hobbes3.com">hobbes3.com</a>
+              <span class="small-dot">•</span>
+              <a href="https://www.linkedin.com/in/hobbes3"
+                >linkedin.com/in/hobbes3</a
+              >
+              <span class="small-dot">•</span>
+              <a href="https://github.com/hobbes3">github.com/hobbes3</a><br />
+              US Citizen <span class="small-dot">•</span> Japanese &amp; Chinese
+              speaker
+            </div>
+          </header>
 
-            <section>
-              <h2>Summary</h2>
-              <p>
-                A self-taught coder who went on to study rocket science,
-                bringing 8+ years of expertise in
-                <span class="blue">enterprise software</span> and
-                <span class="blue">client-facing</span>
-                roles. Seeking an individual contributor role to leverage
-                technical depth and direct client engagement in solving complex
-                enterprise problems.
-              </p>
-            </section>
+          <section>
+            <h2>Summary</h2>
+            <p>
+              A self-taught coder who went on to study rocket science, bringing
+              8+ years of expertise in
+              <span class="blue">enterprise software</span> and
+              <span class="blue">client-facing</span>
+              roles. Seeking an individual contributor role to leverage
+              technical depth and direct client engagement in solving complex
+              enterprise problems.
+            </p>
+          </section>
 
-            <section>
-              <h2>Skills</h2>
-              <p class="skills">
-                <strong>Languages:</strong> Python, JavaScript / TypeScript,
-                SQL, Bash / Zsh, Vim
-              </p>
-              <p class="skills">
-                <strong>Infrastructure:</strong> Linux, AWS, Docker, DevOps /
-                DevSecOps, System Engineering
-              </p>
-              <p class="skills">
-                <strong>AI &amp; Engineering:</strong> Full-Stack Web, Machine
-                Learning, LLM, Prompt Engineering
-              </p>
-            </section>
+          <section>
+            <h2>Skills</h2>
+            <p class="skills">
+              <strong>Languages:</strong> Python, JavaScript / TypeScript, SQL,
+              Bash / Zsh, Vim
+            </p>
+            <p class="skills">
+              <strong>Infrastructure:</strong> Linux, AWS, Docker, DevOps /
+              DevSecOps, System Engineering
+            </p>
+            <p class="skills">
+              <strong>AI &amp; Engineering:</strong> Full-Stack Web, Machine
+              Learning, LLM, Prompt Engineering
+            </p>
+          </section>
 
-            <section>
-              <h2>Experiences</h2>
+          <section>
+            <h2>Experiences</h2>
 
-              <div class="event-info">
-                <span class="event">Family Leave</span>
-                <span class="grey date-loc"
-                  >2021-2026 | Tokyo and Shanghai</span
-                >
-              </div>
-              <p class="role">
-                Full-time caretaker <span class="normal">to my father</span>
-              </p>
-              <ul>
-                <li>
-                  <span class="blue">Maintained technical currency</span>
-                  through hands-on development in DevSecOps and Generative AI,
-                  building CI/CD security pipelines, containerized
-                  microservices, and RAG architectures with local LLMs and
-                  vector databases.
-                </li>
-              </ul>
+            <div class="event-info">
+              <span class="event">Family Leave</span>
+              <span class="grey date-loc">2021-2026 | Tokyo and Shanghai</span>
+            </div>
+            <p class="role">
+              Full-time caretaker <span class="normal">to my father</span>
+            </p>
+            <ul>
+              <li>
+                <span class="blue">Maintained technical currency</span>
+                through hands-on development in DevSecOps and Generative AI,
+                building CI/CD security pipelines, containerized microservices,
+                and RAG architectures with local LLMs and vector databases.
+              </li>
+            </ul>
 
-              <div class="event-info">
-                <span class="event">Splunk</span>
-                <span class="grey date-loc">2013-2020 | San Francisco</span>
-              </div>
-              <ul>
-                <li>
-                  Selected
-                  <span class="blue">9 times as a featured speaker</span> for
-                  technical sessions across Splunk annual user conferences.
-                </li>
-              </ul>
+            <div class="event-info">
+              <span class="event">Splunk</span>
+              <span class="grey date-loc">2013-2020 | San Francisco</span>
+            </div>
+            <ul>
+              <li>
+                Selected
+                <span class="blue">9 times as a featured speaker</span> for
+                technical sessions across Splunk annual user conferences.
+              </li>
+            </ul>
 
-              <p class="role">Senior Engineering Manager</p>
-              <ul>
-                <li>
-                  <span class="blue">Managed engineering execution</span> for
-                  Splunk for Good, driving impact and sustaining 30%+ YoY growth
-                  in recipient organizations for 3 consecutive years.
-                </li>
-                <li>
-                  Led cross-functional teams to ensure high adoption rates and
-                  technical delivery across global social impact organizations.
-                </li>
-              </ul>
+            <p class="role">Senior Engineering Manager</p>
+            <ul>
+              <li>
+                <span class="blue">Managed engineering execution</span> for
+                Splunk for Good, driving impact and sustaining 30%+ YoY growth
+                in recipient organizations for 3 consecutive years.
+              </li>
+              <li>
+                Led cross-functional teams to ensure high adoption rates and
+                technical delivery across global social impact organizations.
+              </li>
+            </ul>
 
-              <p class="role">Technical Lead</p>
-              <ul>
-                <li>
-                  Served as the
-                  <span class="blue">global technical lead</span> for Splunk for
-                  Good social impact initiatives, partnering with nonprofit,
-                  academic, and government agencies to architect and implement
-                  tailored data analytics solutions.
-                </li>
-                <li>
-                  Helped design and launch the $100M Splunk Pledge, a 10-year
-                  global initiative delivering software, training, and technical
-                  support to social impact organizations.
-                </li>
-              </ul>
+            <p class="role">Technical Lead</p>
+            <ul>
+              <li>
+                Served as the
+                <span class="blue">global technical lead</span> for Splunk for
+                Good social impact initiatives, partnering with nonprofit,
+                academic, and government agencies to architect and implement
+                tailored data analytics solutions.
+              </li>
+              <li>
+                Helped design and launch the $100M Splunk Pledge, a 10-year
+                global initiative delivering software, training, and technical
+                support to social impact organizations.
+              </li>
+            </ul>
 
-              <p class="role">Professional Services Consultant</p>
-              <ul>
-                <li>
-                  Advised enterprise customers on custom analytics, complex
-                  dashboard design, and advanced data visualizations using
-                  full-stack web development skills.
-                </li>
-                <li>
-                  <span class="blue">Achieved 100% billable utilization</span>
-                  during the final 12 months, driven by direct client
-                  re-engagements and repeat requests.
-                </li>
-              </ul>
+            <p class="role">Professional Services Consultant</p>
+            <ul>
+              <li>
+                Advised enterprise customers on custom analytics, complex
+                dashboard design, and advanced data visualizations using
+                full-stack web development skills.
+              </li>
+              <li>
+                <span class="blue">Achieved 100% billable utilization</span>
+                during the final 12 months, driven by direct client
+                re-engagements and repeat requests.
+              </li>
+            </ul>
 
-              <div class="event-info">
-                <span class="event">CA Technologies</span>
-                <span class="grey date-loc">2011-2013 | Atlanta</span>
-              </div>
-              <p class="role">Associate Services Consultant</p>
-              <ul>
-                <li>
-                  Specialized in cloud deployment and enterprise process
-                  automation utilizing CA AppLogic and CA IT Process Automation
-                  Manager.
-                </li>
-              </ul>
-            </section>
+            <div class="event-info">
+              <span class="event">CA Technologies</span>
+              <span class="grey date-loc">2011-2013 | Atlanta</span>
+            </div>
+            <p class="role">Associate Services Consultant</p>
+            <ul>
+              <li>
+                Specialized in cloud deployment and enterprise process
+                automation utilizing CA AppLogic and CA IT Process Automation
+                Manager.
+              </li>
+            </ul>
+          </section>
 
-            <section>
-              <h2>Education</h2>
-              <div class="event-info">
-                <span class="event">Georgia Institute of Technology</span>
-                <span class="grey date-loc">2007-2011 | Atlanta</span>
-              </div>
-              <p class="role">B.S. in Aerospace Engineering</p>
-            </section>
+          <section>
+            <h2>Education</h2>
+            <div class="event-info">
+              <span class="event">Georgia Institute of Technology</span>
+              <span class="grey date-loc">2007-2011 | Atlanta</span>
+            </div>
+            <p class="role">B.S. in Aerospace Engineering</p>
+          </section>
 
-            <footer>v10.3</footer>
-          </div>
+          <footer>v10.3</footer>
         </div>
-      </details>
+      </div>
     </main>
   </body>
 </html>

@@ -14,6 +14,10 @@ html {
   scroll-margin-top: 80px;
 }
 
+[id^="section-"]:target {
+  scroll-margin-top: 9rem;
+}
+
 @media (width >= 1200px) {
   main.container {
     max-width: 960px;
@@ -164,20 +168,37 @@ button.hotspot {
   }
 }
 
-.force-single-row {
-  display: flex !important;
-  flex-flow: row nowrap !important;
-  width: 100%;
-  gap: 0.5rem;
-  align-items: center;
+#this-site-jump {
+  position: sticky;
+  top: 4.5rem;
+  z-index: 99;
+  width: auto;
+  margin-left: auto;
+  margin-right: 0;
+  display: block;
+  background-color: var(--pico-card-background-color, #fff);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 10%);
+}
 
-  img {
-    flex: 1 1 0;
-    min-width: 0;
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
+#section-resume {
+  margin-top: 1rem;
+}
+
+#resume-header {
+  /* Pico CSS button appearance */
+  display: block;
+  width: 100%;
+  padding: var(--pico-form-element-spacing-vertical)
+    var(--pico-form-element-spacing-horizontal);
+  background-color: var(--pico-primary-background);
+  color: var(--pico-primary-inverse);
+  border: var(--pico-border-width) solid var(--pico-primary-border);
+  border-radius: var(--pico-border-radius);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: normal;
+  text-align: left;
+  margin-top: 0;
 }
 
 #resume-wrapper {
