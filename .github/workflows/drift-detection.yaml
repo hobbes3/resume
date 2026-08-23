@@ -28,12 +28,12 @@ jobs:
         with:
           tofu_version: "1.12.6"
           tofu_wrapper: false
-      - run: tofu init
+      - run: tofu init -input=false -no-color
         working-directory: opentofu
       - id: drift
         run: |
           set +e
-          tofu plan -detailed-exitcode -no-color > drift_plan.txt
+          tofu plan -detailed-exitcode -no-color -input=false > drift_plan.txt 2>&1
           exit_code=$?
           set -e
 
@@ -46,9 +46,17 @@ jobs:
           fi
         working-directory: opentofu
       - if: env.DRIFT_DETECTED == 'true'
+        id: find-issue
+        run: |
+          issue_number=$(gh issue list --label "drift" --state "open" --json number -q '.[0].number')
+          echo "issue_number=$issue_number" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - if: env.DRIFT_DETECTED == 'true'
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710
         with:
           title: "🚨 OpenTofu Infrastructure Drift Detected"
+          issue-number: ${{ steps.find-issue.outputs.issue_number }}
           content-filepath: opentofu/drift_plan.txt
           labels: |
             drift
