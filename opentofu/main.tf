@@ -1,6 +1,4 @@
-# ==============================================================================
-# 1. PROVIDER & VARIABLES
-# ==============================================================================
+# PROVIDER & VARIABLES
 
 terraform {
   required_version = ">= 1.12.0"
@@ -48,9 +46,7 @@ variable "dns_records" {
   }
 }
 
-# ==============================================================================
-# 2. RESOURCE DEFINITIONS 
-# ==============================================================================
+# RESOURCE DEFINITIONS 
 
 # --- Cloudflare Pages ---
 
@@ -157,9 +153,55 @@ resource "cloudflare_dns_record" "dkim" {
   }
 }
 
-# ==============================================================================
-# 3. IMPORT BLOCKS 
-# ==============================================================================
+# Global Security Headers
+resource "cloudflare_ruleset" "response_header_transforms" {
+  zone_id     = "f3528c90e0b1c9516a279b76be10da07"
+  name        = "Security Response Headers"
+  description = "Enforce HSTS, CSP, and security headers zone-wide"
+  kind        = "zone"
+  phase       = "http_response_headers_transform"
+
+  rules = [
+    # Rule 1: Global Security Headers (Excludes /reports/*)
+    {
+      action      = "rewrite"
+      description = "Global security response headers"
+      expression  = "(http.request.uri.path ne \"/reports/*\")"
+
+      action_parameters = {
+        headers = {
+          "Content-Security-Policy"   = { operation = "set", value = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" }
+          "X-Frame-Options"           = { operation = "set", value = "DENY" }
+          "X-Content-Type-Options"    = { operation = "set", value = "nosniff" }
+          "Referrer-Policy"           = { operation = "set", value = "strict-origin-when-cross-origin" }
+          "Permissions-Policy"        = { operation = "set", value = "camera=(), microphone=(), geolocation=(), payment=()" }
+          "Strict-Transport-Security" = { operation = "set", value = "max-age=31536000; includeSubDomains; preload" }
+        }
+      }
+    },
+    # Rule 2: Relaxed CSP & CORS for /reports/*
+    {
+      action      = "rewrite"
+      description = "Reports route security and CORS headers"
+      expression  = "starts_with(http.request.uri.path, \"/reports/\")"
+
+      action_parameters = {
+        headers = {
+          "Content-Security-Policy"   = { operation = "set", value = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';" }
+          "Access-Control-Allow-Origin"  = { operation = "set", value = "*" }
+          "Access-Control-Allow-Methods" = { operation = "set", value = "GET, HEAD, OPTIONS" }
+          "X-Frame-Options"           = { operation = "set", value = "DENY" }
+          "X-Content-Type-Options"    = { operation = "set", value = "nosniff" }
+          "Referrer-Policy"           = { operation = "set", value = "strict-origin-when-cross-origin" }
+          "Permissions-Policy"        = { operation = "set", value = "camera=(), microphone=(), geolocation=(), payment=()" }
+          "Strict-Transport-Security" = { operation = "set", value = "max-age=31536000; includeSubDomains; preload" }
+        }
+      }
+    }
+  ]
+}
+
+# IMPORT BLOCKS 
 
 #import {
 #  to = cloudflare_pages_project.site

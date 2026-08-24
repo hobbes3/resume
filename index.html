@@ -208,37 +208,6 @@
                 </td>
               </tr>
               <tr>
-                <td>Hosting</td>
-                <td>
-                  <a
-                    href=" https://www.cloudflare.com/products/pages/"
-                    class="secondary"
-                    >Cloudflare Pages</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>Build Tool</td>
-                <td>
-                  <a href="https://vite.dev/" class="secondary">Vite</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span
-                    data-tippy-content="Continuous Integration / Continuous Deployment"
-                    >CI/CD</span
-                  >
-                </td>
-                <td>
-                  <a
-                    href="https://github.com/features/actions"
-                    class="secondary"
-                    >GitHub Actions</a
-                  >
-                </td>
-              </tr>
-              <tr>
                 <td>Style</td>
                 <td>
                   <a href="https://picocss.com" class="secondary">Pico CSS</a>
@@ -262,6 +231,64 @@
                   <a href="https://atomiks.github.io/tippyjs/" class="secondary"
                     >Tippy.js</a
                   >
+                </td>
+              </tr>
+              <tr>
+                <td>Hosting</td>
+                <td>
+                  <a
+                    href=" https://www.cloudflare.com/products/pages/"
+                    class="secondary"
+                    >Cloudflare Pages</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Build tool</td>
+                <td>
+                  <a href="https://vite.dev/" class="secondary">Vite</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span
+                    data-tippy-content="Continuous Integration / Continuous Deployment"
+                    >CI/CD</span
+                  >
+                </td>
+                <td>
+                  <a
+                    href="https://github.com/features/actions"
+                    class="secondary"
+                    >GitHub Actions</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Object storage</td>
+                <td>
+                  <a
+                    href="https://www.cloudflare.com/products/r2/"
+                    class="secondary"
+                    >Cloudflare R2</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>AI</td>
+                <td>
+                  <a href="https://gemini.google.com/app" class="secondary"
+                    >Google Gemini</a
+                  >
+                  for research <br />
+                  <a href="https://copilot.microsoft.com" class="secondary"
+                    >Microsoft Copilot</a
+                  >
+                  for coding <br />
+                  <a href="https://www.coderabbit.ai" class="secondary"
+                    >CodeRabbit</a
+                  >
+                  for code review
                 </td>
               </tr>
             </tbody>
@@ -561,12 +588,13 @@
                   Encrypts API tokens and securely injects them into GitHub
                   Actions workflows at runtime as environment variables.
                   <ul>
+                    <li><code>CLOUDFLARE_API_TOKEN</code></li>
                     <li>
-                      <code>AWS_ACCESS_KEY_ID</code> (for Cloudflare R2 buckets)
+                      <code>AWS_ACCESS_KEY_ID</code> (<code>AWS_</code> for
+                      Cloudflare R2 buckets)
                     </li>
                     <li><code>AWS_ENDPOINT_URL_S3</code></li>
                     <li><code>AWS_SECRET_ACCESS_KEY</code></li>
-                    <li><code>CLOUDFLARE_API_TOKEN</code></li>
                     <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
                   </ul>
                 </li>
@@ -613,6 +641,18 @@
           </p>
           <ul>
             <li>
+              <strong>Declarative infrastructure</strong> (<a
+                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+                >view code</a
+              >)
+              <ul>
+                <li>
+                  Defines Cloudflare resources, including Pages projects, custom
+                  domains, DNS records, and redirect rules.
+                </li>
+              </ul>
+            </li>
+            <li>
               <strong
                 ><a
                   href="https://www.cloudflare.com/products/r2/"
@@ -622,21 +662,9 @@
               >
               <ul>
                 <li>
-                  Stores the <code>terraform.tfstate</code> file in an
-                  S3-compatible R2 bucket with native state locking enabled for
-                  security, state persistence, and concurrent execution safety.
-                </li>
-              </ul>
-            </li>
-            <li>
-              <strong>Declarative infrastructure</strong> (<a
-                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
-                >view code</a
-              >)
-              <ul>
-                <li>
-                  Defines Cloudflare resources, including Pages projects, custom
-                  domains, DNS records, and redirect rules.
+                  Stores the <code>terraform.tfstate</code> file in a private R2
+                  bucket with native state locking enabled for security, state
+                  persistence, and concurrent execution safety.
                 </li>
               </ul>
             </li>

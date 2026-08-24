@@ -156,7 +156,7 @@ button.hotspot {
   }
 }
 
-#tools td:not([colspan="2"]) {
+#tools td:first-child:not([colspan="2"]) {
   text-indent: 0.5em;
 }
 
