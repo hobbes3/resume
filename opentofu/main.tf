@@ -174,7 +174,7 @@ resource "cloudflare_dns_record" "dkim" {
 
 # Zero Trust Access Control (Pages Preview Deployment Protection)
 
-# GitHub Identity Provider Integration
+# GitHub Identity Provider Integration for Zero Trust SSO
 resource "cloudflare_zero_trust_access_identity_provider" "github_sso" {
   account_id = "ecb38e99c15d28c64e8794aeca162eac"
   name       = "GitHub SSO"
@@ -184,6 +184,13 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_sso" {
     client_id     = var.github_client_id
     client_secret = var.github_client_secret
   }
+}
+
+# Service Token for Automated Scanning (StackHawk)
+resource "cloudflare_zero_trust_access_service_token" "stackhawk" {
+  account_id = "ecb38e99c15d28c64e8794aeca162eac"
+  name       = "StackHawk Security Scanner Token"
+  duration   = "8760h" # 1 year
 }
 
 # Wildcard Access Protection for Pages Preview URLs (*.site-resume-618.pages.dev)
@@ -213,10 +220,19 @@ resource "cloudflare_zero_trust_access_application" "site_resume_preview" {
           email = {
             email = "hobbes3@gmail.com"
           }
+        },
+        {
+          service_token = {
+            token_id = cloudflare_zero_trust_access_service_token.stackhawk.id
+          }
         }
       ]
     }
   ]
+
+  lifecycle {
+    ignore_changes = [policies]
+  }
 }
 
 # HTTP Response Header Transformation Rules
