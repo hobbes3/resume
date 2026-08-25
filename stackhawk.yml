@@ -3,7 +3,6 @@ app:
   env: Development
   host: ${APP_HOST:http://localhost:8000}
 hawk:
-  failureThreshold: off
   spider:
     minRoutesFound: 1
     basePath: /
