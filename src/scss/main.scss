@@ -139,6 +139,11 @@ button.hotspot {
   }
 }
 
+.center-img-container {
+  display: flex;
+  justify-content: center;
+}
+
 .gallery {
   display: grid;
   gap: 5px;

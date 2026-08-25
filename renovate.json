@@ -12,6 +12,7 @@
     {
       "matchManagers": ["github-actions"],
       "groupName": "github-actions dependencies",
+      "pinDigests": true,
       "automerge": true
     },
     {

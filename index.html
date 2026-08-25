@@ -201,7 +201,10 @@
               <tr>
                 <td>Resume</td>
                 <td>
-                  HTML +
+                  <span data-tippy-content="HyperText Markup Language 5"
+                    >HTML5</span
+                  >
+                  +
                   <span data-tippy-content="Sassy Cascading Style Sheets"
                     >SCSS</span
                   >
@@ -319,51 +322,85 @@
         <article id="section-devops">
           <header>🔁 DevOps</header>
           <p>
-            Explore the
-            <a
-              href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/ci-cd.yaml"
-              >ci-cd.yaml</a
+            Automated
+            <a href="https://github.com/features/actions" class="secondary"
+              >GitHub Actions</a
             >
-            workflow pipeline below — click any job (e.g., ✅ misspell) for
-            details. <br />
-            Scroll horizontally to view all jobs.
+            workflows:
           </p>
-          <!-- Interactive Image Wrapper -->
-          <div class="image-wrapper">
-            <div class="pipeline-container">
-              <img
-                src="/images/ci-cd.webp"
-                alt="Diagram of CI/CD workflow"
-                width="1265"
-                height="400"
-                id="pipeline-img"
-              />
+          <ul>
+            <li>
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/ci-cd.yaml"
+                >ci-cd.yaml</a
+              >: Executes the
+              <span
+                data-tippy-content="Continuous Integration / Continuous Deployment"
+              >
+                CI/CD</span
+              >
+              pipeline on pull requests and branch merges to <code>main</code>.
+              <br />
+              Click any job (e.g., ✅ misspell) for details or scroll
+              horizontally to view all jobs.
+              <!-- Interactive Image Wrapper -->
+              <div class="image-wrapper">
+                <div class="pipeline-container">
+                  <img
+                    src="/images/ci-cd.webp"
+                    alt="Diagram of CI/CD workflow"
+                    width="1265"
+                    height="400"
+                    id="pipeline-img"
+                  />
 
-              <div id="pipeline-hotspots"></div>
-            </div>
-          </div>
+                  <div id="pipeline-hotspots"></div>
+                </div>
+              </div>
 
-          <dialog id="job-dialog">
-            <article>
-              <header>
-                <button type="button" aria-label="Close" class="close"></button>
-                <code id="job-name"></code>
-              </header>
-              <table>
-                <tbody>
-                  <tr>
-                    <td><a id="job-link"></a></td>
-                  </tr>
-                  <tr>
-                    <td><div id="job-description"></div></td>
-                  </tr>
-                </tbody>
-              </table>
-            </article>
-          </dialog>
+              <dialog id="job-dialog">
+                <article>
+                  <header>
+                    <button
+                      type="button"
+                      aria-label="Close"
+                      class="close"
+                    ></button>
+                    <code id="job-name"></code>
+                  </header>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <td><a id="job-link"></a></td>
+                      </tr>
+                      <tr>
+                        <td><div id="job-description"></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </article>
+              </dialog>
+            </li>
+            <li>
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
+                >drift-detection.yaml</a
+              >: Runs <code>tofu plan</code> daily to detect and report
+              unmanaged changes between
+              <a href="https://www.cloudflare.com/" class="secondary"
+                >Cloudflare</a
+              >
+              and the
+              <a href="https://opentofu.org/" class="secondary">OpenTofu</a>
+              state. See <a href="#section-iac">Infrastructure as Code</a> for
+              details.
+            </li>
+          </ul>
 
           <p>
-            Automated Node.js scripts using
+            Automated
+            <a href="https://nodejs.org/en" class="secondary">Node.js</a>
+            scripts using
             <a href="https://pptr.dev" class="secondary">Puppeteer</a>
             (a headless Chrome browser automation library):
           </p>
@@ -424,7 +461,7 @@
                     href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
                     class="secondary"
                     >ESLint</a
-                  >*: including <code>eslint-plugin-security</code>
+                  >* including <code>eslint-plugin-security</code>
                 </li>
                 <li>
                   <a
@@ -436,9 +473,10 @@
               </ul>
             </li>
             <li>
-              <strong>Pre-commit hooks</strong> (<a
+              <strong>Pre-commit hooks</strong> (view
+              <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
-                >view code</a
+                >.pre-commit-config.yaml</a
               >)
               <ul>
                 <li><em>Same as the VS Code extensions above*</em></li>
@@ -470,7 +508,8 @@
               <strong data-tippy-content="Software Bill of Materials"
                 >SBOM</strong
               >
-              (<a href="/reports/sbom.cyclonedx.json">view report</a>)
+              (view
+              <a href="/reports/sbom.cyclonedx.json">sbom.cyclonedx.json</a>)
               <ul>
                 <li>
                   <a
@@ -554,7 +593,54 @@
                 </li>
               </ul>
             </li>
+            <li>
+              <strong id="section-edge-headers">Edge security headers</strong>
+              <ul>
+                <li>
+                  Hardens HTTP responses (<span
+                    data-tippy-content="Content-Security-Policy"
+                    >CSP</span
+                  >,
+                  <span data-tippy-content="HTTP Strict Transport Security"
+                    >HSTS</span
+                  >, X-Frame-Options) via
+                  <a
+                    href="#section-iac"
+                    data-tippy-content="Jump to Infrastructure as Code"
+                    >OpenTofu rulesets</a
+                  >
+                  on Cloudflare to protect site visitors from
+                  <span data-tippy-content="Cross-Site Scripting">XSS</span>,
+                  clickjacking, and
+                  <span
+                    data-tippy-content="Multipurpose Internet Mail Extensions"
+                    >MIME</span
+                  >-sniffing attacks.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong id="section-zero-trust">Zero trust</strong>
+              <ul>
+                <li>
+                  Restricts preview deployments
+                  (<code>*.site-resume-618.pages.dev</code>) via via
+                  identity-gated access (requiring either a GitHub
+                  <span data-tippy-content="Single Sign-On">SSO</span> login or
+                  an email one-time PIN) while keeping production public through
+                  OpenTofu rulesets.
+                </li>
+              </ul>
+            </li>
           </ul>
+          <div class="center-img-container">
+            <img
+              src="images/github-sso.webp"
+              alt="Zero trust with GitHub SSO"
+              width="400"
+              height="423"
+            />
+          </div>
           <footer>
             <p>
               *
@@ -580,52 +666,35 @@
         </article>
         <article id="section-secrets">
           <header>🔑 Secrets management</header>
+          <p>
+            <strong>GitHub repository secrets</strong>: Encrypts API tokens and
+            securely injects them into GitHub Actions workflows at runtime as
+            environment variables.
+          </p>
           <ul>
+            <li><code>CLOUDFLARE_API_TOKEN</code></li>
             <li>
-              <strong>GitHub repository secrets</strong>
-              <ul>
-                <li>
-                  Encrypts API tokens and securely injects them into GitHub
-                  Actions workflows at runtime as environment variables.
-                  <ul>
-                    <li><code>CLOUDFLARE_API_TOKEN</code></li>
-                    <li>
-                      <code>AWS_ACCESS_KEY_ID</code> (<code>AWS_</code> for
-                      Cloudflare R2 buckets)
-                    </li>
-                    <li><code>AWS_ENDPOINT_URL_S3</code></li>
-                    <li><code>AWS_SECRET_ACCESS_KEY</code></li>
-                    <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
-                  </ul>
-                </li>
-              </ul>
+              <code>AWS_ACCESS_KEY_ID</code> (<code>AWS_</code> for Cloudflare
+              R2 buckets)
             </li>
-            <li>
-              <code><strong>terraform.tfvars</strong></code>
-              <ul>
-                <li>
-                  Defines sensitive variables for local OpenTofu runs while
-                  keeping secrets out of the repository via
-                  <code>.gitignore</code>.
-                </li>
-              </ul>
-            </li>
-            <li>
-              <code><strong>terraform.tfstate</strong></code>
-              <ul>
-                <li>
-                  Stores state files containing sensitive data in a private
-                  Cloudflare R2 bucket. See
-                  <a
-                    href="#section-iac"
-                    data-tippy-content="Jump to Infrastructure as Code"
-                    >IaC</a
-                  >
-                  for more information.
-                </li>
-              </ul>
-            </li>
+            <li><code>AWS_ENDPOINT_URL_S3</code></li>
+            <li><code>AWS_SECRET_ACCESS_KEY</code></li>
+            <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
           </ul>
+          <p>
+            <code><strong>terraform.tfvars</strong></code
+            >: Defines sensitive variables for local OpenTofu runs while keeping
+            secrets out of the repository via <code>.gitignore</code>.
+          </p>
+          <p>
+            <code><strong>terraform.tfstate</strong></code
+            >: Stores state files containing sensitive data in a private
+            <a
+              href="#section-iac"
+              data-tippy-content="Jump to Infrastructure as Code"
+              >Cloudflare R2 bucket</a
+            >.
+          </p>
         </article>
         <article id="section-iac">
           <header>🏗️ Infrastructure as Code</header>
@@ -641,14 +710,20 @@
           </p>
           <ul>
             <li>
-              <strong>Declarative infrastructure</strong> (<a
+              <strong>Declarative infrastructure</strong> (view
+              <a
                 href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
-                >view code</a
+                >main.tf</a
               >)
               <ul>
                 <li>
                   Defines Cloudflare resources, including Pages projects, custom
-                  domains, DNS records, and redirect rules.
+                  domains,
+                  <span data-tippy-content="Domain Name System">DNS</span>
+                  records,
+                  <a href="#section-edge-headers">edge security headers</a>,
+                  <a href="#section-zero-trust">zero trust</a>, and redirect
+                  rules.
                 </li>
               </ul>
             </li>
@@ -669,9 +744,10 @@
               </ul>
             </li>
             <li>
-              <strong>Automated CI/CD</strong> (<a
+              <strong>Automated CI/CD</strong> (view
+              <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
-                >view code</a
+                >drift-detection.yaml</a
               >)
               <ul>
                 <li>

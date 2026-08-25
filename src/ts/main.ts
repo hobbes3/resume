@@ -180,7 +180,7 @@ function initDynamicImages(): void {
     const fragment = document.createDocumentFragment();
     for (let i = 1; i <= 6; i++) {
       const img = document.createElement("img");
-      img.src = `images/conf${i}.webp`;
+      img.src = `images/gallery/conf${i}.webp`;
       img.alt = "Splunk .conf";
       img.height = 200;
       img.fetchPriority = "high";
