@@ -5,6 +5,7 @@ interface PendingClose {
 let accordionInitialized = false;
 const pendingCloses = new WeakMap<HTMLDetailsElement, PendingClose>();
 
+/** Initializes scroll-aware behavior for closing sticky accordions. */
 export function initStickyAccordions(): void {
   if (accordionInitialized) return;
   accordionInitialized = true;
@@ -33,6 +34,7 @@ export function initStickyAccordions(): void {
     let settledFrames = 0;
     let cancelled = false;
 
+    /** Cancels the pending accordion close without changing its open state. */
     const cancelPendingClose = (): void => {
       if (cancelled) return;
       cancelled = true;
@@ -41,6 +43,7 @@ export function initStickyAccordions(): void {
       pendingCloses.delete(details);
     };
 
+    /** Closes the accordion after its header has returned to the sticky position. */
     const finish = (): void => {
       if (cancelled) return;
       cancelled = true;
@@ -50,6 +53,7 @@ export function initStickyAccordions(): void {
       details.open = false;
     };
 
+    /** Watches the smooth scroll until it settles or is cancelled. */
     const waitForScrollToFinish = (): void => {
       if (cancelled) return;
 

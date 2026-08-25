@@ -2,6 +2,10 @@ app:
   applicationId: 2a06d560-4aaf-4d57-a7a4-72b9ff3fd998
   env: Development
   host: ${APP_HOST:http://localhost:8000}
+  redact:
+    headers:
+      - "CF-Access-Client-Id"
+      - "CF-Access-Client-Secret"
 hawk:
   spider:
     minRoutesFound: 1

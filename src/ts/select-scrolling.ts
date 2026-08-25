@@ -1,8 +1,10 @@
+/** Initializes anchor-link and section-select scrolling behavior. */
 export function initScrolling(): void {
   initAnchorLinks();
   initSiteSectionJump();
 }
 
+/** Adds smooth scrolling and sticky-offset handling to in-page links. */
 function initAnchorLinks(): void {
   const anchorLinks =
     document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
@@ -35,6 +37,7 @@ function initAnchorLinks(): void {
   });
 }
 
+/** Connects the section select to scrolling and scroll-position tracking. */
 function initSiteSectionJump(): void {
   const jumpSelect =
     document.querySelector<HTMLSelectElement>("#this-site-jump");
@@ -56,11 +59,13 @@ function initSiteSectionJump(): void {
   let programmaticScroll = false;
   let programmaticScrollTimeoutId = 0;
 
+  /** Returns the current top offset of the sticky section select. */
   const getStickySelectTop = (): number => {
     const style = window.getComputedStyle(jumpSelect);
     return parseFloat(style.top) || 0;
   };
 
+  /** Allows scroll tracking to resume after a programmatic scroll. */
   const finishProgrammaticScroll = (): void => {
     if (!programmaticScroll) return;
 
@@ -88,6 +93,7 @@ function initSiteSectionJump(): void {
   });
 
   let animationFrameId = 0;
+  /** Selects the section currently aligned with the sticky navigation. */
   const updateSelectedSection = (): void => {
     animationFrameId = 0;
     if (programmaticScroll) return;

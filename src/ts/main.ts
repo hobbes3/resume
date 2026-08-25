@@ -24,6 +24,7 @@ if (document.readyState === "loading") {
   initializeApp();
 }
 
+/** Initializes the application's interactive features after the document is ready. */
 function initializeApp(): void {
   if (appInitialized) return;
   appInitialized = true;
@@ -47,6 +48,7 @@ function initializeApp(): void {
   initStickyAccordions();
 }
 
+/** Generates the conference and gallery image elements. */
 function initDynamicImages(): void {
   const confContainer = document.getElementById("conf-pics");
   if (confContainer) {
@@ -80,6 +82,7 @@ function initDynamicImages(): void {
   }
 }
 
+/** Creates clickable hotspot buttons for each pipeline job. */
 function initPipelineHotspots(): void {
   const hotspotContainer = document.getElementById("pipeline-hotspots");
   if (!hotspotContainer) return;
@@ -108,6 +111,7 @@ function initPipelineHotspots(): void {
   );
 }
 
+/** Updates the job details modal from a clicked pipeline hotspot. */
 function updateJobInfo(button: HTMLButtonElement): void {
   const nameBox = document.getElementById("job-name");
   const linkAnchor = document.getElementById(
@@ -146,6 +150,7 @@ function updateJobInfo(button: HTMLButtonElement): void {
   }
 }
 
+/** Adds clipboard behavior to the email tooltip control. */
 function initClipboardTooltips(): void {
   const wrapper = document.querySelector<TippyElement>(".tooltip-wrapper");
   if (!wrapper) return;
@@ -178,6 +183,7 @@ function initClipboardTooltips(): void {
   });
 }
 
+/** Initializes Tippy tooltips for annotated page elements. */
 function initTippy(): void {
   const targets = document.querySelectorAll<HTMLElement>(
     "[data-tippy-content]",

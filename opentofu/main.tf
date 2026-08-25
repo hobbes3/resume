@@ -229,10 +229,6 @@ resource "cloudflare_zero_trust_access_application" "site_resume_preview" {
       ]
     }
   ]
-
-  lifecycle {
-    ignore_changes = [policies]
-  }
 }
 
 # HTTP Response Header Transformation Rules
