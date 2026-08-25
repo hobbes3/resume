@@ -370,3 +370,5 @@ jobs:
           APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_PR_NUMBER: ${{ github.event.number }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}

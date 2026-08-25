@@ -630,6 +630,10 @@
                   an email one-time PIN) while keeping production public through
                   OpenTofu rulesets.
                 </li>
+                <li>
+                  Still allows StackHawk to scan the preview deployments via
+                  Cloudflare service tokens.
+                </li>
               </ul>
             </li>
           </ul>
@@ -680,6 +684,11 @@
             <li><code>AWS_ENDPOINT_URL_S3</code></li>
             <li><code>AWS_SECRET_ACCESS_KEY</code></li>
             <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
+            <li>
+              <code>CF_ACCESS_CLIENT_ID</code> (for StackHawk to bypass
+              <a href="#section-zero-trust">zero trust</a>)
+            </li>
+            <li><code>CF_ACCESS_CLIENT_SECRET</code></li>
           </ul>
           <p>
             <code><strong>terraform.tfvars</strong></code
