@@ -1,4 +1,16 @@
 app:
-  applicationId: "2a06d560-4aaf-4d57-a7a4-72b9ff3fd998"
-  env: "Development"
+  applicationId: 2a06d560-4aaf-4d57-a7a4-72b9ff3fd998
+  env: Development
   host: ${APP_HOST:http://localhost:8000}
+hawk:
+  failureThreshold: low
+  spider:
+    minRoutesFound: 1
+    basePath: /
+    seedPaths:
+      - /index.html
+    customHeaders:
+      - name: CF-Access-Client-Id
+        value: ${CF_ACCESS_CLIENT_ID}
+      - name: CF-Access-Client-Secret
+        value: ${CF_ACCESS_CLIENT_SECRET}
