@@ -594,28 +594,40 @@
               </ul>
             </li>
             <li>
-              <strong id="section-edge-headers">Edge security headers</strong>
+              <strong id="section-edge-headers"
+                >Edge security &amp; response hardening</strong
+              >
               <ul>
                 <li>
-                  Hardens HTTP responses (<span
-                    data-tippy-content="Content-Security-Policy"
-                    >CSP</span
-                  >,
+                  Enforces
+                  <span data-tippy-content="Content-Security-Policy">CSP</span>,
                   <span data-tippy-content="HTTP Strict Transport Security"
                     >HSTS</span
-                  >, X-Frame-Options) via
-                  <a
-                    href="#section-iac"
-                    data-tippy-content="Jump to Infrastructure as Code"
-                    >OpenTofu rulesets</a
-                  >
-                  on Cloudflare to protect site visitors from
+                  >, X-Frame-Options, and protective headers across all
+                  endpoints to prevent
                   <span data-tippy-content="Cross-Site Scripting">XSS</span>,
                   clickjacking, and
                   <span
                     data-tippy-content="Multipurpose Internet Mail Extensions"
                     >MIME</span
-                  >-sniffing attacks.
+                  >-sniffing.
+                </li>
+                <li>
+                  Managed via
+                  <a
+                    href="#section-iac"
+                    data-tippy-content="Jump to Infrastructure as Code"
+                    >OpenTofu rulesets</a
+                  >
+                  for the production domain (<code>hobbes3.com</code>) and a
+                  repository
+                  <a
+                    href="https://github.com/hobbes3/site-resume/blob/main/public/_headers"
+                    >_headers</a
+                  >
+                  file for <code>*.pages.dev</code> preview environments outside
+                  the primary
+                  <span data-tippy-content="Domain Name System">DNS</span> zone.
                 </li>
               </ul>
             </li>
@@ -623,8 +635,7 @@
               <strong id="section-zero-trust">Zero trust</strong>
               <ul>
                 <li>
-                  Restricts preview deployments
-                  (<code>*.site-resume-618.pages.dev</code>) via via
+                  Restricts preview deployments (<code>*.pages.dev</code>) via
                   identity-gated access (requiring either a GitHub
                   <span data-tippy-content="Single Sign-On">SSO</span> login or
                   an email one-time PIN) while keeping production public through

@@ -22,3 +22,5 @@ hawk:
         value: ${CF_ACCESS_CLIENT_ID}
       - name: CF-Access-Client-Secret
         value: ${CF_ACCESS_CLIENT_SECRET}
+    ignoreList:
+      - 10054 # Ignores "Cookie Without SameSite Attribute"
