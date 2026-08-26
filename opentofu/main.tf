@@ -186,42 +186,72 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_sso" {
   }
 }
 
+# Standalone Policy: StackHawk Service Auth
+resource "cloudflare_zero_trust_access_policy" "stackhawk_service_auth" {
+  account_id       = "ecb38e99c15d28c64e8794aeca162eac"
+  name             = "Service Token - StackHawk Scanner"
+  decision         = "non_identity"
+  session_duration = "15m"
+
+  include = [
+    {
+      service_token = {
+        token_id = "3e4a836a-79f3-41b3-85fc-ba5deac0b273" # betterleaks:allow
+      }
+    }
+  ]
+}
+
+# Standalone Policy: Restricted Owners SSO
+resource "cloudflare_zero_trust_access_policy" "allow_owners" {
+  account_id       = "ecb38e99c15d28c64e8794aeca162eac"
+  name             = "Allow Owners SSO and PIN"
+  decision         = "allow"
+  session_duration = "15m"
+
+  include = [
+    {
+      login_method = {
+        id = cloudflare_zero_trust_access_identity_provider.github_sso.id
+      }
+    },
+    {
+      login_method = {
+        id = "337223b3-6f42-4502-9b4b-2339d55f60ef"
+      }
+    }
+  ]
+  require = [
+    {
+      email = {
+        email = "hobbes3@gmail.com"
+      }
+    }
+  ]
+}
+
+# Base Application referencing Reusable Policy IDs
 resource "cloudflare_zero_trust_access_application" "site_resume_preview" {
   account_id                = "ecb38e99c15d28c64e8794aeca162eac"
   name                      = "site-resume - Cloudflare Pages"
   domain                    = "*.site-resume-618.pages.dev"
   type                      = "self_hosted"
-  session_duration          = "24h"
+  session_duration          = "15m"
   auto_redirect_to_identity = false
 
   policies = [
     {
-      name       = "Allow Owners and Security Scanners"
-      decision   = "allow"
+      id         = cloudflare_zero_trust_access_policy.stackhawk_service_auth.id
       precedence = 1
-      include = [
-        {
-          service_token = {
-            token_id = "3e4a836a-79f3-41b3-85fc-ba5deac0b273" # betterleaks:allow
-          }
-        },
-        {
-          login_method = {
-            id = "337223b3-6f42-4502-9b4b-2339d55f60ef"
-          },
-        },
-        {
-          login_method = {
-            id = cloudflare_zero_trust_access_identity_provider.github_sso.id
-          }
-        }
-      ]
+    },
+    {
+      id         = cloudflare_zero_trust_access_policy.allow_owners.id
+      precedence = 2
     }
   ]
 }
 
 # HTTP Response Header Transformation Rules
-
 resource "cloudflare_ruleset" "response_header_transforms" {
   zone_id     = "f3528c90e0b1c9516a279b76be10da07"
   name        = "Security Response Headers"
