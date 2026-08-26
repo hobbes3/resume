@@ -1,5 +1,5 @@
 app:
-  applicationId: 2a06d560-4aaf-4d57-a7a4-72b9ff3fd998
+  applicationId: dcc930ca-cce3-45bb-ba53-2fe485c3b247
   env: Development
   host: ${APP_HOST:http://localhost:8000}
   redact:
