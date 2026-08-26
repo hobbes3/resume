@@ -98,7 +98,7 @@ function initSiteSectionJump(): void {
     animationFrameId = 0;
     if (programmaticScroll) return;
 
-    const threshold = getStickySelectTop();
+    const threshold = getStickySelectTop() + 1;
     let currentSection = "";
 
     sections.forEach((section) => {

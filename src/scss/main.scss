@@ -142,12 +142,14 @@ button.hotspot {
 .center-img-container {
   display: flex;
   justify-content: center;
+  width: 100%;
+  padding-inline: 2rem;
   margin-bottom: 1rem;
 }
 
 .gallery {
   display: grid;
-  gap: 5px;
+  gap: 0.3rem;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 
   @media (width >= 600px) {

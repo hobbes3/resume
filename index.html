@@ -343,44 +343,42 @@
               <br />
               Click any job (e.g., ✅ misspell) for details or scroll
               horizontally to view all jobs.
-              <!-- Interactive Image Wrapper -->
-              <div class="image-wrapper">
-                <div class="pipeline-container">
-                  <img
-                    src="/images/ci-cd.webp"
-                    alt="Diagram of CI/CD workflow"
-                    width="1265"
-                    height="400"
-                    id="pipeline-img"
-                  />
-
-                  <div id="pipeline-hotspots"></div>
-                </div>
-              </div>
-
-              <dialog id="job-dialog">
-                <article>
-                  <header>
-                    <button
-                      type="button"
-                      aria-label="Close"
-                      class="close"
-                    ></button>
-                    <code id="job-name"></code>
-                  </header>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <td><a id="job-link"></a></td>
-                      </tr>
-                      <tr>
-                        <td><div id="job-description"></div></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </article>
-              </dialog>
             </li>
+          </ul>
+          <!-- Interactive Image Wrapper -->
+          <div class="image-wrapper">
+            <div class="pipeline-container">
+              <img
+                src="/images/ci-cd.webp"
+                alt="Diagram of CI/CD workflow"
+                width="1265"
+                height="400"
+                id="pipeline-img"
+              />
+
+              <div id="pipeline-hotspots"></div>
+            </div>
+          </div>
+
+          <dialog id="job-dialog">
+            <article>
+              <header>
+                <button type="button" aria-label="Close" class="close"></button>
+                <code id="job-name"></code>
+              </header>
+              <table>
+                <tbody>
+                  <tr>
+                    <td><a id="job-link"></a></td>
+                  </tr>
+                  <tr>
+                    <td><div id="job-description"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </article>
+          </dialog>
+          <ul>
             <li>
               <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
@@ -613,7 +611,7 @@
                   >-sniffing.
                 </li>
                 <li>
-                  Managed via
+                  Managed through
                   <a
                     href="#section-iac"
                     data-tippy-content="Jump to Infrastructure as Code"
@@ -652,8 +650,8 @@
             <img
               src="images/github-sso.webp"
               alt="Zero trust with GitHub SSO"
-              width="400"
-              height="423"
+              width="300"
+              height="317"
             />
           </div>
           <footer>
