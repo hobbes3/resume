@@ -186,44 +186,33 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_sso" {
   }
 }
 
-# Service Token for Automated Scanning (StackHawk)
-resource "cloudflare_zero_trust_access_service_token" "stackhawk" {
-  account_id = "ecb38e99c15d28c64e8794aeca162eac"
-  name       = "StackHawk Security Scanner Token"
-  duration   = "8760h" # 1 year
-}
-
-# Wildcard Access Protection for Pages Preview URLs (*.site-resume-618.pages.dev)
 resource "cloudflare_zero_trust_access_application" "site_resume_preview" {
   account_id                = "ecb38e99c15d28c64e8794aeca162eac"
   name                      = "site-resume - Cloudflare Pages"
   domain                    = "*.site-resume-618.pages.dev"
   type                      = "self_hosted"
   session_duration          = "24h"
-  auto_redirect_to_identity = false 
+  auto_redirect_to_identity = false
 
   policies = [
     {
-      name       = "Allow Authenticated Owners"
+      name       = "Allow Owners and Security Scanners"
       decision   = "allow"
       precedence = 1
       include = [
         {
-          github = [
-            {
-              identity_provider_id = cloudflare_zero_trust_access_identity_provider.github_sso.id
-              username             = "hobbes3"
-            }
-          ]
-        },
-        {
-          email = {
-            email = "hobbes3@gmail.com"
+          service_token = {
+            token_id = "3e4a836a-79f3-41b3-85fc-ba5deac0b273" # betterleaks:allow
           }
         },
         {
-          service_token = {
-            token_id = cloudflare_zero_trust_access_service_token.stackhawk.id
+          login_method = {
+            id = "337223b3-6f42-4502-9b4b-2339d55f60ef"
+          },
+        },
+        {
+          login_method = {
+            id = cloudflare_zero_trust_access_identity_provider.github_sso.id
           }
         }
       ]
