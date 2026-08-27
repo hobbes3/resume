@@ -383,15 +383,10 @@
               <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
                 >drift-detection.yaml</a
-              >: Runs <code>tofu plan</code> daily to detect and report
-              unmanaged changes between
-              <a href="https://www.cloudflare.com/" class="secondary"
-                >Cloudflare</a
-              >
-              and the
-              <a href="https://opentofu.org/" class="secondary">OpenTofu</a>
-              state. See <a href="#section-iac">Infrastructure as Code</a> for
-              details.
+              >: Runs <code>tofu plan</code> daily to detect configuration drift
+              between Cloudflare and OpenTofu state and report unmanaged changes
+              as GitHub issues. <br />
+              See <a href="#section-iac">Infrastructure as Code</a> for details.
             </li>
           </ul>
 
@@ -645,7 +640,7 @@
               <ul>
                 <li>
                   Restricts preview deployments (<code>*.pages.dev</code>) via
-                  identity-gated access (requiring either a GitHub
+                  identity-gated access (either a GitHub
                   <span data-tippy-content="Single Sign-On">SSO</span> login or
                   an email one-time PIN) while keeping production public through
                   OpenTofu rulesets.
@@ -696,17 +691,27 @@
             environment variables.
           </p>
           <ul>
-            <li><code>CLOUDFLARE_API_TOKEN</code></li>
             <li>
-              <code>AWS_ACCESS_KEY_ID</code> (<code>AWS_</code> for Cloudflare
-              R2 buckets)
+              <code>CLOUDFLARE_API_TOKEN</code> for
+              <a
+                href="#section-devops"
+                data-tippy-content="Jump to workflow jobs"
+                >deploying Pages</a
+              >
+              and detecting
+              <a
+                href="#section-iac"
+                data-tippy-content="Jump to Infrastructure as Code"
+                >configuration drifts</a
+              >
             </li>
+            <li><code>AWS_ACCESS_KEY_ID</code> for Cloudflare R2 buckets</li>
             <li><code>AWS_ENDPOINT_URL_S3</code></li>
             <li><code>AWS_SECRET_ACCESS_KEY</code></li>
-            <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
+            <li><code>HAWK_API_KEY</code> for StackHawk job</li>
             <li>
-              <code>CF_ACCESS_CLIENT_ID</code> (for StackHawk to bypass
-              <a href="#section-zero-trust">zero trust</a>)
+              <code>CF_ACCESS_CLIENT_ID</code>* for StackHawk to bypass
+              <a href="#section-zero-trust">Cloudflare zero trust</a>
             </li>
             <li><code>CF_ACCESS_CLIENT_SECRET</code></li>
           </ul>
@@ -715,6 +720,17 @@
             >: Defines sensitive variables for local OpenTofu runs while keeping
             secrets out of the repository via <code>.gitignore</code>.
           </p>
+          <ul>
+            <li>
+              <code>cloudflare_api_token</code> for running
+              <code>tofu</code> commands to modify Cloudflare configurations
+            </li>
+            <li>
+              <code>github_client_id</code>* for GitHub
+              <span data-tippy-content="Single Sign-On">SSO</span> in zero trust
+            </li>
+            <li><code>github_client_secret</code></li>
+          </ul>
           <p>
             <code><strong>terraform.tfstate</strong></code
             >: Stores state files containing sensitive data in a private
@@ -724,6 +740,13 @@
               >Cloudflare R2 bucket</a
             >.
           </p>
+          <footer>
+            <em>
+              * Note: Client ID is technically not a secret, but co-locating
+              alongside client secret allows cleaner code and a single lens of
+              truth.
+            </em>
+          </footer>
         </article>
         <article id="section-iac">
           <header>🏗️ Infrastructure as Code</header>
@@ -780,9 +803,9 @@
               >)
               <ul>
                 <li>
-                  Executes scheduled <code>tofu plan</code> runs against the
-                  remote state to detect configuration drift and automatically
-                  raise tracking issues.
+                  Runs <code>tofu plan</code> daily to detect configuration
+                  drift between Cloudflare and OpenTofu state and report
+                  unmanaged changes as GitHub issues.
                 </li>
               </ul>
             </li>
@@ -1009,9 +1032,8 @@
       </details>
       <h1 id="resume-header">📃 My resume</h1>
       <p id="section-resume">
-        View my resume in a
-        <a href="/resumes/hobbes3_resume_latest.pdf">PDF format</a> (ready for
-        printing or attaching).
+        PDF format downloadable at
+        <a href="https://resume.hobbes3.com">resume.hobbes3.com</a>
       </p>
       <p>
         <svg width="1em" height="1em">
