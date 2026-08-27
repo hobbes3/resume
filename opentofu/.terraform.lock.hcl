@@ -3,7 +3,7 @@
 
 provider "registry.opentofu.org/cloudflare/cloudflare" {
   version     = "5.23.0"
-  constraints = "~> 5.0"
+  constraints = "5.23.0"
   hashes = [
     "h1:AHGT3iXr4NMNymUXeRXu3WcKIVUbvHKpYRUbdgiQv/4=",
     "h1:C6JU7d5XoRQnksREiFD3hTgGRQ18ciV7ynKvpvGIteA=",
@@ -21,6 +21,5 @@ provider "registry.opentofu.org/cloudflare/cloudflare" {
     "zh:cb2c86565c94822733760015f892c71d3ed886d7db4549c561d62ec7bc20a175",
     "zh:ccc101c27eec4ffdcbf43eaedc85a5ba5850c29d38dca7b1d7e20d668edb7a96",
     "zh:e029d245d2470b350e12b4747a9a6c6d637010628bfe4f46644ff79f676f56e5",
-    "zh:f809ab383cca0a5f83072981c64208cbd7fa67e986a86ee02dd2c82333221e32",
   ]
 }
