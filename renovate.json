@@ -12,22 +12,7 @@
     {
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non-major dependencies",
-      "groupSlug": "all-minor-patch"
-    },
-    {
-      "matchManagers": ["github-actions"],
-      "groupName": "github-actions dependencies",
-      "pinDigests": true,
-      "automerge": true
-    },
-    {
-      "matchManagers": ["pre-commit"],
-      "groupName": "pre-commit hooks",
-      "automerge": true
-    },
-    {
-      "matchManagers": ["npm"],
-      "matchUpdateTypes": ["minor", "patch"],
+      "groupSlug": "all-minor-patch",
       "automerge": true
     },
     {
