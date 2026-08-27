@@ -19,7 +19,7 @@
     "playwright": "1.62.1",
     "prettier": "3.9.6",
     "puppeteer-core": "25.7.0",
-    "sass": "1.102.0",
+    "sass": "1.103.1",
     "stylelint": "17.14.1",
     "stylelint-config-standard-scss": "17.0.0",
     "tippy.js": "6.3.7",
