@@ -260,11 +260,11 @@ resource "cloudflare_ruleset" "response_header_transforms" {
   phase       = "http_response_headers_transform"
 
   rules = [
-    # Global HTTP Security Policies (Standard Routes)
+    # Global HTTP Security Policies (Excludes /reports/* and fec.hobbes3.com)
     {
       action      = "rewrite"
       description = "Apply standard zone-wide security response headers"
-      expression  = "(http.request.uri.path ne \"/reports/*\")"
+      expression  = "(http.request.uri.path ne \"/reports/*\" and http.host ne \"fec.hobbes3.com\")"
 
       action_parameters = {
         headers = {
@@ -298,73 +298,3 @@ resource "cloudflare_ruleset" "response_header_transforms" {
     }
   ]
 }
-
-# STATE IMPORT BLOCKS (COMMENTED)
-
-# import {
-#   to = cloudflare_pages_project.site
-#   id = "ecb38e99c15d28c64e8794aeca162eac/site-resume"
-# }
-#
-# import {
-#   to = cloudflare_pages_project.fec_2016
-#   id = "ecb38e99c15d28c64e8794aeca162eac/site-fec-2016"
-# }
-#
-# import {
-#   to = cloudflare_page_rule.resume_redirect
-#   id = "f3528c90e0b1c9516a279b76be10da07/ee70d6b6bf5e1e9b1d2d0f9ba2618f09"
-# }
-#
-# # CNAME Record Imports
-# import {
-#   to = cloudflare_dns_record.records["root"]
-#   id = "f3528c90e0b1c9516a279b76be10da07/20ae2ce49b22b924ba0775b8f8ec9922"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.records["resume"]
-#   id = "f3528c90e0b1c9516a279b76be10da07/88a9bbaf8d4bce784da5cbdc33996b25"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.records["fec"]
-#   id = "f3528c90e0b1c9516a279b76be10da07/7e541d39dd8aecdc80a70cf34481bb7d"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.records["www"]
-#   id = "f3528c90e0b1c9516a279b76be10da07/299ba9a75a6d567ff266d4f6c735d6f8"
-# }
-#
-# # MX Record Imports
-# import {
-#   to = cloudflare_dns_record.mx1
-#   id = "f3528c90e0b1c9516a279b76be10da07/de7d3e99b596f291f7a29618c64e2215"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.mx2
-#   id = "f3528c90e0b1c9516a279b76be10da07/3249f68028886830414bb4fc8f95c8e3"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.mx3
-#   id = "f3528c90e0b1c9516a279b76be10da07/c4b4af39a2b0bc2991c7fc7f754eb3d9"
-# }
-#
-# # TXT Record Imports
-# import {
-#   to = cloudflare_dns_record.spf
-#   id = "f3528c90e0b1c9516a279b76be10da07/2d042ca0971f7afde69f679229209789"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.dmarc
-#   id = "f3528c90e0b1c9516a279b76be10da07/798ef319a42be8832ee4d944e3d67fac"
-# }
-#
-# import {
-#   to = cloudflare_dns_record.dkim
-#   id = "f3528c90e0b1c9516a279b76be10da07/7e2fdebaf649ec48e51fafd26c4f3fb7"
-# }
