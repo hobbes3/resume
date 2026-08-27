@@ -359,6 +359,7 @@ jobs:
       contents: read
       pull-requests: write
       checks: write
+      security-events: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -366,7 +367,12 @@ jobs:
       - uses: stackhawk/hawkscan-action@12ab3b88301233144e15e03efb4d380c8c9bf4d1
         with:
           apiKey: ${{ secrets.HAWK_API_KEY }}
+          version: 6.4.0
+          codeScanningAlerts: true
+          githubToken: ${{ github.token }}
         env:
           APP_HOST: ${{ needs.deploy.outputs.deployment_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_PR_NUMBER: ${{ github.event.number }}
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+          CF_ACCESS_CLIENT_ID: ${{ secrets.CF_ACCESS_CLIENT_ID }}
+          CF_ACCESS_CLIENT_SECRET: ${{ secrets.CF_ACCESS_CLIENT_SECRET }}

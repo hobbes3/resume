@@ -201,40 +201,12 @@
               <tr>
                 <td>Resume</td>
                 <td>
-                  HTML +
+                  <span data-tippy-content="HyperText Markup Language 5"
+                    >HTML5</span
+                  >
+                  +
                   <span data-tippy-content="Sassy Cascading Style Sheets"
                     >SCSS</span
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>Hosting</td>
-                <td>
-                  <a
-                    href=" https://www.cloudflare.com/products/pages/"
-                    class="secondary"
-                    >Cloudflare Pages</a
-                  >
-                </td>
-              </tr>
-              <tr>
-                <td>Build Tool</td>
-                <td>
-                  <a href="https://vite.dev/" class="secondary">Vite</a>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <span
-                    data-tippy-content="Continuous Integration / Continuous Deployment"
-                    >CI/CD</span
-                  >
-                </td>
-                <td>
-                  <a
-                    href="https://github.com/features/actions"
-                    class="secondary"
-                    >GitHub Actions</a
                   >
                 </td>
               </tr>
@@ -262,6 +234,64 @@
                   <a href="https://atomiks.github.io/tippyjs/" class="secondary"
                     >Tippy.js</a
                   >
+                </td>
+              </tr>
+              <tr>
+                <td>Hosting</td>
+                <td>
+                  <a
+                    href=" https://www.cloudflare.com/products/pages/"
+                    class="secondary"
+                    >Cloudflare Pages</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Build tool</td>
+                <td>
+                  <a href="https://vite.dev/" class="secondary">Vite</a>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span
+                    data-tippy-content="Continuous Integration / Continuous Deployment"
+                    >CI/CD</span
+                  >
+                </td>
+                <td>
+                  <a
+                    href="https://github.com/features/actions"
+                    class="secondary"
+                    >GitHub Actions</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>Object storage</td>
+                <td>
+                  <a
+                    href="https://www.cloudflare.com/products/r2/"
+                    class="secondary"
+                    >Cloudflare R2</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>AI</td>
+                <td>
+                  <a href="https://gemini.google.com" class="secondary"
+                    >Google Gemini</a
+                  >
+                  for research <br />
+                  <a href="https://copilot.microsoft.com" class="secondary"
+                    >Microsoft Copilot</a
+                  >
+                  for coding <br />
+                  <a href="https://www.coderabbit.ai" class="secondary"
+                    >CodeRabbit</a
+                  >
+                  for code review
                 </td>
               </tr>
             </tbody>
@@ -292,15 +322,29 @@
         <article id="section-devops">
           <header>🔁 DevOps</header>
           <p>
-            Explore the
-            <a
-              href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/ci-cd.yaml"
-              >ci-cd.yaml</a
+            Automated
+            <a href="https://github.com/features/actions" class="secondary"
+              >GitHub Actions</a
             >
-            workflow pipeline below — click any job (e.g., ✅ misspell) for
-            details. <br />
-            Scroll horizontally to view all jobs.
+            workflows:
           </p>
+          <ul>
+            <li>
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/ci-cd.yaml"
+                >ci-cd.yaml</a
+              >: Executes the
+              <span
+                data-tippy-content="Continuous Integration / Continuous Deployment"
+              >
+                CI/CD</span
+              >
+              pipeline on pull requests and branch merges to <code>main</code>.
+              <br />
+              Click any job (e.g., ✅ misspell) for details or scroll
+              horizontally to view all jobs.
+            </li>
+          </ul>
           <!-- Interactive Image Wrapper -->
           <div class="image-wrapper">
             <div class="pipeline-container">
@@ -334,9 +378,22 @@
               </table>
             </article>
           </dialog>
+          <ul>
+            <li>
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
+                >drift-detection.yaml</a
+              >: Runs <code>tofu plan</code> daily to detect configuration drift
+              between Cloudflare and OpenTofu state and report unmanaged changes
+              as GitHub issues. <br />
+              See <a href="#section-iac">Infrastructure as Code</a> for details.
+            </li>
+          </ul>
 
           <p>
-            Automated Node.js scripts using
+            Automated
+            <a href="https://nodejs.org/en" class="secondary">Node.js</a>
+            scripts using
             <a href="https://pptr.dev" class="secondary">Puppeteer</a>
             (a headless Chrome browser automation library):
           </p>
@@ -397,7 +454,7 @@
                     href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
                     class="secondary"
                     >ESLint</a
-                  >*: including <code>eslint-plugin-security</code>
+                  >* including <code>eslint-plugin-security</code>
                 </li>
                 <li>
                   <a
@@ -409,9 +466,10 @@
               </ul>
             </li>
             <li>
-              <strong>Pre-commit hooks</strong> (<a
+              <strong>Pre-commit hooks</strong> (view
+              <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
-                >view code</a
+                >.pre-commit-config.yaml</a
               >)
               <ul>
                 <li><em>Same as the VS Code extensions above*</em></li>
@@ -425,6 +483,16 @@
                 <li>Betterleaks</li>
               </ul>
             </li>
+          </ul>
+          <div class="center-img-container">
+            <img
+              src="images/betterleaks.webp"
+              alt="BetterLeaks pre-commit"
+              width="500"
+              height="342"
+            />
+          </div>
+          <ul>
             <li>
               <strong>Secret scanner</strong>
               <ul>
@@ -443,7 +511,8 @@
               <strong data-tippy-content="Software Bill of Materials"
                 >SBOM</strong
               >
-              (<a href="/reports/sbom.cyclonedx.json">view report</a>)
+              (view
+              <a href="/reports/sbom.cyclonedx.json">sbom.cyclonedx.json</a>)
               <ul>
                 <li>
                   <a
@@ -528,6 +597,78 @@
               </ul>
             </li>
           </ul>
+          <div class="center-img-container">
+            <img
+              src="images/coderabbit.webp"
+              alt="CodeRabbit AI Code Review"
+              width="500"
+              height="409"
+            />
+          </div>
+          <ul>
+            <li>
+              <strong id="section-edge-headers"
+                >Edge security &amp; response hardening</strong
+              >
+              <ul>
+                <li>
+                  Enforces
+                  <span data-tippy-content="Content-Security-Policy">CSP</span>,
+                  <span data-tippy-content="HTTP Strict Transport Security"
+                    >HSTS</span
+                  >, X-Frame-Options, and protective headers across all
+                  endpoints to prevent
+                  <span data-tippy-content="Cross-Site Scripting">XSS</span>,
+                  clickjacking, and
+                  <span
+                    data-tippy-content="Multipurpose Internet Mail Extensions"
+                    >MIME</span
+                  >-sniffing.
+                </li>
+                <li>
+                  Managed through
+                  <a
+                    href="#section-iac"
+                    data-tippy-content="Jump to Infrastructure as Code"
+                    >OpenTofu rulesets</a
+                  >
+                  for the production domain (<code>hobbes3.com</code>) and a
+                  repository
+                  <a
+                    href="https://github.com/hobbes3/site-resume/blob/main/public/_headers"
+                    >_headers</a
+                  >
+                  file for <code>*.pages.dev</code> preview environments outside
+                  the primary
+                  <span data-tippy-content="Domain Name System">DNS</span> zone.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong id="section-zero-trust">Zero trust</strong>
+              <ul>
+                <li>
+                  Restricts preview deployments (<code>*.pages.dev</code>) via
+                  identity-gated access (either a GitHub
+                  <span data-tippy-content="Single Sign-On">SSO</span> login or
+                  an email one-time PIN) while keeping production public through
+                  OpenTofu rulesets.
+                </li>
+                <li>
+                  Still allows StackHawk to scan the preview deployments via
+                  Cloudflare access service tokens.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <div class="center-img-container">
+            <img
+              src="images/github-sso.webp"
+              alt="Zero trust with GitHub SSO"
+              width="300"
+              height="317"
+            />
+          </div>
           <footer>
             <p>
               *
@@ -553,51 +694,68 @@
         </article>
         <article id="section-secrets">
           <header>🔑 Secrets management</header>
+          <p>
+            <strong>GitHub repository secrets</strong>: Encrypts API tokens and
+            securely injects them into GitHub Actions workflows at runtime as
+            environment variables.
+          </p>
           <ul>
             <li>
-              <strong>GitHub repository secrets</strong>
-              <ul>
-                <li>
-                  Encrypts API tokens and securely injects them into GitHub
-                  Actions workflows at runtime as environment variables.
-                  <ul>
-                    <li>
-                      <code>AWS_ACCESS_KEY_ID</code> (for Cloudflare R2 buckets)
-                    </li>
-                    <li><code>AWS_ENDPOINT_URL_S3</code></li>
-                    <li><code>AWS_SECRET_ACCESS_KEY</code></li>
-                    <li><code>CLOUDFLARE_API_TOKEN</code></li>
-                    <li><code>HAWK_API_KEY</code> (for StackHawk job)</li>
-                  </ul>
-                </li>
-              </ul>
+              <code>CLOUDFLARE_API_TOKEN</code> for
+              <a
+                href="#section-devops"
+                data-tippy-content="Jump to workflow jobs"
+                >deploying Pages</a
+              >
+              and detecting
+              <a
+                href="#section-iac"
+                data-tippy-content="Jump to Infrastructure as Code"
+                >configuration drifts</a
+              >
             </li>
+            <li><code>AWS_ACCESS_KEY_ID</code> for Cloudflare R2 buckets</li>
+            <li><code>AWS_ENDPOINT_URL_S3</code></li>
+            <li><code>AWS_SECRET_ACCESS_KEY</code></li>
+            <li><code>HAWK_API_KEY</code> for StackHawk job</li>
             <li>
-              <code><strong>terraform.tfvars</strong></code>
-              <ul>
-                <li>
-                  Defines sensitive variables for local OpenTofu runs while
-                  keeping secrets out of the repository via
-                  <code>.gitignore</code>.
-                </li>
-              </ul>
+              <code>CF_ACCESS_CLIENT_ID</code>* for StackHawk to bypass
+              <a href="#section-zero-trust">Cloudflare zero trust</a>
             </li>
-            <li>
-              <code><strong>terraform.tfstate</strong></code>
-              <ul>
-                <li>
-                  Stores state files containing sensitive data in a private
-                  Cloudflare R2 bucket. See
-                  <a
-                    href="#section-iac"
-                    data-tippy-content="Jump to Infrastructure as Code"
-                    >IaC</a
-                  >
-                  for more information.
-                </li>
-              </ul>
-            </li>
+            <li><code>CF_ACCESS_CLIENT_SECRET</code></li>
           </ul>
+          <p>
+            <code><strong>terraform.tfvars</strong></code
+            >: Defines sensitive variables for local OpenTofu runs while keeping
+            secrets out of the repository via <code>.gitignore</code>.
+          </p>
+          <ul>
+            <li>
+              <code>cloudflare_api_token</code> for running
+              <code>tofu</code> commands to modify Cloudflare configurations
+            </li>
+            <li>
+              <code>github_client_id</code>* for GitHub
+              <span data-tippy-content="Single Sign-On">SSO</span> in zero trust
+            </li>
+            <li><code>github_client_secret</code></li>
+          </ul>
+          <p>
+            <code><strong>terraform.tfstate</strong></code
+            >: Stores state files containing sensitive data in a private
+            <a
+              href="#section-iac"
+              data-tippy-content="Jump to Infrastructure as Code"
+              >Cloudflare R2 bucket</a
+            >.
+          </p>
+          <footer>
+            <em>
+              * Note: Client ID is technically not a secret, but co-locating
+              alongside client secret allows cleaner code and a single lens of
+              truth.
+            </em>
+          </footer>
         </article>
         <article id="section-iac">
           <header>🏗️ Infrastructure as Code</header>
@@ -613,6 +771,24 @@
           </p>
           <ul>
             <li>
+              <strong>Declarative infrastructure</strong> (view
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+                >main.tf</a
+              >)
+              <ul>
+                <li>
+                  Defines Cloudflare resources, including Pages projects, custom
+                  domains,
+                  <span data-tippy-content="Domain Name System">DNS</span>
+                  records,
+                  <a href="#section-edge-headers">edge security headers</a>,
+                  <a href="#section-zero-trust">zero trust</a>, and redirect
+                  rules.
+                </li>
+              </ul>
+            </li>
+            <li>
               <strong
                 ><a
                   href="https://www.cloudflare.com/products/r2/"
@@ -622,34 +798,23 @@
               >
               <ul>
                 <li>
-                  Stores the <code>terraform.tfstate</code> file in an
-                  S3-compatible R2 bucket with native state locking enabled for
-                  security, state persistence, and concurrent execution safety.
+                  Stores the <code>terraform.tfstate</code> file in a private R2
+                  bucket with native state locking enabled for security, state
+                  persistence, and concurrent execution safety.
                 </li>
               </ul>
             </li>
             <li>
-              <strong>Declarative infrastructure</strong> (<a
-                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
-                >view code</a
-              >)
-              <ul>
-                <li>
-                  Defines Cloudflare resources, including Pages projects, custom
-                  domains, DNS records, and redirect rules.
-                </li>
-              </ul>
-            </li>
-            <li>
-              <strong>Automated CI/CD</strong> (<a
+              <strong>Automated CI/CD</strong> (view
+              <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
-                >view code</a
+                >drift-detection.yaml</a
               >)
               <ul>
                 <li>
-                  Executes scheduled <code>tofu plan</code> runs against the
-                  remote state to detect configuration drift and automatically
-                  raise tracking issues.
+                  Runs <code>tofu plan</code> daily to detect configuration
+                  drift between Cloudflare and OpenTofu state and report
+                  unmanaged changes as GitHub issues.
                 </li>
               </ul>
             </li>
@@ -667,7 +832,7 @@
             accessibility, and
             <span data-tippy-content="Search Engine Optimization">SEO</span>.
           </p>
-          <p>
+          <div class="center-img-container">
             <a href="/reports/lhr-latest.html"
               ><img
                 src="/images/lhr-score.webp"
@@ -675,7 +840,7 @@
                 width="200"
                 height="200"
             /></a>
-          </p>
+          </div>
           <p>
             Click the score above to view the latest
             <a href="/reports/lhr-latest.html">Lighthouse audit report</a>.
@@ -876,9 +1041,8 @@
       </details>
       <h1 id="resume-header">📃 My resume</h1>
       <p id="section-resume">
-        View my resume in a
-        <a href="/resumes/hobbes3_resume_latest.pdf">PDF format</a> (ready for
-        printing or attaching).
+        PDF format downloadable at
+        <a href="https://resume.hobbes3.com">resume.hobbes3.com</a>
       </p>
       <p>
         <svg width="1em" height="1em">

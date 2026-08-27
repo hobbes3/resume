@@ -15,11 +15,13 @@ export interface ModalOptions {
 }
 
 // Helper: Get scrollbar width to prevent page jump on open
+/** Calculates the scrollbar width so modal opening does not shift the page. */
 const getScrollbarWidth = (): number => {
   return window.innerWidth - document.documentElement.clientWidth;
 };
 
 // Open modal
+/** Opens a modal dialog and starts its opening transition. */
 export const openModal = (modal: HTMLDialogElement): void => {
   const { documentElement: html } = document;
   const scrollbarWidth = getScrollbarWidth();
@@ -48,6 +50,7 @@ export const openModal = (modal: HTMLDialogElement): void => {
 };
 
 // Close modal
+/** Closes a modal dialog after its closing transition completes. */
 export const closeModal = (modal: HTMLDialogElement): void => {
   // Clear opening animation timer if closed before completion
   if (openingTimer) {
@@ -70,9 +73,11 @@ export const closeModal = (modal: HTMLDialogElement): void => {
 };
 
 // Return active modal instance if needed
+/** Returns the dialog currently tracked as visible, if any. */
 export const getVisibleModal = (): HTMLDialogElement | null => visibleModal;
 
 // Initialize modal triggers and listeners
+/** Binds trigger, close-control, backdrop, and Escape-key handlers to dialogs. */
 export function initModal(options: ModalOptions = {}): void {
   const {
     triggerSelector = "button.hotspot",
