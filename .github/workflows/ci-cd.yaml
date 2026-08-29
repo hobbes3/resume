@@ -318,7 +318,7 @@ jobs:
         run: |
           npm ci
           mv .lighthouseci/lhr-*.html .lighthouseci/lhr-latest.html
-          node scripts/generate-lighthouse-score-img.js
+          node scripts/generate-lighthouse-scores.js
       - if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
         with:
@@ -342,6 +342,7 @@ jobs:
       - run: |
           mv dist-build dist
           mv dist-lighthouse/lhr-latest.html dist/reports/lhr-latest.html
+          mv dist-lighthouse/lhr-scores.json dist/reports/lhr-scores.json
           mv dist-lighthouse/lhr-score.webp dist/images/lhr-score.webp
           mv dist-sbom/sbom.cyclonedx.json dist/reports/
       - id: deploy_pages

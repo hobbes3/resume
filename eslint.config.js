@@ -1,7 +1,8 @@
+import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 import securityPlugin from "eslint-plugin-security";
 
-export default tseslint.config(
+export default defineConfig([
   ...tseslint.configs.recommended,
   securityPlugin.configs.recommended,
-);
+]);
