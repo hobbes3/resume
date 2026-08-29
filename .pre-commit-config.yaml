@@ -17,12 +17,12 @@ repos:
           [javascript, jsx, ts, tsx, css, scss, html, json, yaml, markdown]
       - id: stylelint
         name: stylelint
-        entry: npx stylelint --fix
+        entry: npx stylelint
         language: system
         files: \.(css|scss|sass|less)$
       - id: eslint
         name: eslint
-        entry: npx eslint --fix
+        entry: npx eslint
         language: system
         types_or: [javascript, jsx, ts, tsx]
       - id: html-validate
