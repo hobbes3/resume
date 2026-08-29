@@ -148,22 +148,22 @@
               >.
             </li>
             <li>
-              Detecting wildfires with
+              Detecting wildfires using
               <span data-tippy-content="Internet of Things">IoT</span> ground
-              sensors with the
+              sensors alongside the
               <a href="https://www.mofd.org"
                 >Moraga-Orinda Fire District of CA</a
               >.
             </li>
             <li>
-              Refugee tracking and connectivity using
+              Refugee tracking and connectivity via
               <a href="https://www.cisco.com" class="secondary"
                 >Cisco Meraki devices</a
               >
               with <a href="https://nethope.org">NetHope</a>.
             </li>
             <li>
-              City tree maintenance using machine learning with
+              Optimizing city tree maintenance using machine learning with
               <a href="https://sfpublicworks.org">San Francisco Public Works</a
               >.
             </li>
@@ -383,10 +383,9 @@
               <a
                 href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
                 >drift-detection.yaml</a
-              >: Runs <code>tofu plan</code> daily to detect configuration drift
-              between Cloudflare and OpenTofu state and report unmanaged changes
-              as GitHub issues. <br />
-              See <a href="#section-iac">Infrastructure as Code</a> for details.
+              >: Runs daily <code>tofu plan</code> checks to catch Cloudflare
+              state drift and trigger GitHub issues. See
+              <a href="#section-iac">Infrastructure as Code</a> for details.
             </li>
           </ul>
 
@@ -403,8 +402,8 @@
                 href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-resume-pdf.js"
                 >generate-resume-pdf.js</a
               >: Renders the <a href="#section-resume">HTML resume</a> as a PDF
-              during <code>build</code> to keep public downloads in sync with
-              source updates.
+              during the <code>build</code> job to keep public downloads in sync
+              with source updates.
             </li>
             <li>
               <a
@@ -412,7 +411,7 @@
                 >generate-lighthouse-scores.js</a
               >: Screenshots the
               <a href="#section-lighthouse">Lighthouse audit ring score</a>
-              and passes the scores to this page during
+              and passes the scores to this page during the
               <code>lighthouse</code> job for every build.
             </li>
           </ul>
@@ -488,12 +487,33 @@
           <div class="center-img-container">
             <img
               src="images/betterleaks.webp"
-              alt="BetterLeaks pre-commit"
+              alt="Betterleaks pre-commit"
               width="500"
               height="342"
             />
           </div>
           <ul>
+            <li>
+              <strong>Linting</strong>
+              <ul>
+                <li>
+                  <em>Same as the pre-commit hooks above*</em>
+                </li>
+                <li>
+                  Every
+                  <span data-tippy-content="Continuous Integration">CI</span>
+                  linting job (except <code>html-validate</code>) uses
+                  <a
+                    href="https://github.com/reviewdog/reviewdog"
+                    class="secondary"
+                    >ReviewDog</a
+                  >
+                  wrappers to post findings as inline
+                  <span data-tippy-content="GitHub Pull Request">PR</span>
+                  comments.
+                </li>
+              </ul>
+            </li>
             <li>
               <strong>Secret scanner</strong>
               <ul>
@@ -502,9 +522,7 @@
                     href="https://github.com/betterleaks/betterleaks"
                     class="secondary"
                     >Betterleaks</a
-                  >: Runs as a dedicated
-                  <span data-tippy-content="Continuous Integration">CI</span>
-                  job to scan repository history
+                  >: Runs as a dedicated CI job to scan repository history
                 </li>
               </ul>
             </li>
@@ -531,22 +549,6 @@
               <ul>
                 <li>
                   <a
-                    href="https://github.com/renovatebot/renovate"
-                    class="secondary"
-                    >Renovate</a
-                  >† : Proactive dependency updates via automated
-                  <span data-tippy-content="GitHub Pull Requests">PRs</span>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities/"
-                    class="secondary"
-                    >npm audit</a
-                  >: Fails CI on high/critical
-                  <code>package-lock.json</code> vulnerabilities
-                </li>
-                <li>
-                  <a
                     href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
                     class="secondary"
                     >Grype</a
@@ -555,6 +557,21 @@
                     data-tippy-content="Static Analysis Results Interchange Format"
                     >SARIF</span
                   >
+                </li>
+                <li>
+                  <a
+                    href="https://github.com/renovatebot/renovate"
+                    class="secondary"
+                    >Renovate</a
+                  >† : Proactive dependency updates via automated PRs
+                </li>
+                <li>
+                  <a
+                    href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities/"
+                    class="secondary"
+                    >npm audit</a
+                  >: Fails CI on high/critical
+                  <code>package-lock.json</code> vulnerabilities
                 </li>
               </ul>
             </li>
@@ -753,7 +770,7 @@
           <footer>
             <em>
               * Note: Client ID is technically not a secret, but co-locating
-              alongside client secret allows cleaner code and a single lens of
+              alongside client secret allows cleaner code and a single source of
               truth.
             </em>
           </footer>
@@ -813,9 +830,9 @@
               >)
               <ul>
                 <li>
-                  Runs <code>tofu plan</code> daily to detect configuration
-                  drift between Cloudflare and OpenTofu state and report
-                  unmanaged changes as GitHub issues.
+                  Runs a daily scheduled <code>tofu plan</code> check against
+                  Cloudflare API configurations to detect state drift and
+                  automatically open GitHub issues for remediation.
                 </li>
               </ul>
             </li>
@@ -845,13 +862,13 @@
           <p>
             Click the score above to view the latest
             <a href="/reports/lhr-latest.html">Lighthouse audit report</a>. The
-            ring score and the scores are generated on every page build by a
+            ring score and metrics are generated on every page build by a
             <a
               href="#section-nodejs-scripts"
               data-tippy-content="Jump to Node.js scripts"
               >Node.js script</a
             >. <br />
-            <span id="lighthouse-datetime"></span>.
+            <em>Captured on <span id="lighthouse-datetime"></span></em>.
           </p>
           <table>
             <thead>
@@ -1055,7 +1072,7 @@
       </details>
       <h1 id="resume-header">📃 My resume</h1>
       <p id="section-resume">
-        PDF format downloadable at
+        Downloadable PDF available at
         <a href="https://resume.hobbes3.com">resume.hobbes3.com</a>
       </p>
       <p>
@@ -1146,7 +1163,7 @@
 
             <div class="event-info">
               <span class="event">Family Leave</span>
-              <span class="grey date-loc">2021-2026 | Tokyo and Shanghai</span>
+              <span class="grey date-loc">2021–2026 | Tokyo and Shanghai</span>
             </div>
             <p class="role">
               Full-time caretaker <span class="normal">to my father</span>
@@ -1162,7 +1179,7 @@
 
             <div class="event-info">
               <span class="event">Splunk</span>
-              <span class="grey date-loc">2013-2020 | San Francisco</span>
+              <span class="grey date-loc">2013–2020 | San Francisco</span>
             </div>
             <ul>
               <li>
@@ -1217,13 +1234,13 @@
 
             <div class="event-info">
               <span class="event">CA Technologies</span>
-              <span class="grey date-loc">2011-2013 | Atlanta</span>
+              <span class="grey date-loc">2011–2013 | Atlanta</span>
             </div>
             <p class="role">Associate Services Consultant</p>
             <ul>
               <li>
-                Specialized in cloud deployment and enterprise process
-                automation utilizing CA AppLogic and CA IT Process Automation
+                Specialized in cloud deployments and enterprise process
+                automation using CA AppLogic and CA IT Process Automation
                 Manager.
               </li>
             </ul>
@@ -1233,12 +1250,12 @@
             <h2>Education</h2>
             <div class="event-info">
               <span class="event">Georgia Institute of Technology</span>
-              <span class="grey date-loc">2007-2011 | Atlanta</span>
+              <span class="grey date-loc">2007–2011 | Atlanta</span>
             </div>
             <p class="role">B.S. in Aerospace Engineering</p>
           </section>
 
-          <footer>v10.3</footer>
+          <footer>v10.3.1</footer>
         </div>
       </div>
     </main>
