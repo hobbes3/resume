@@ -6,12 +6,6 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const projectRoot = path.resolve(__dirname, "..");
 const htmlPath = path.join(projectRoot, ".lighthouseci", "lhr-latest.html");
-const reportHtmlPath = path.join(
-  projectRoot,
-  "public",
-  "reports",
-  "lhr-latest.html",
-);
 const outputDir = path.join(projectRoot, ".lighthouseci");
 const scoreOutputPath = path.join(outputDir, "lhr-scores.json");
 const outputPath = path.join(outputDir, "lhr-score.webp");
@@ -34,7 +28,7 @@ const browser = await puppeteer.launch({
 
 try {
   const page = await browser.newPage();
-  await page.goto(`file://${reportHtmlPath}`, { waitUntil: "networkidle0" });
+  await page.goto(`file://${htmlPath}`, { waitUntil: "networkidle0" });
 
   const metricValues = await page.evaluate(() =>
     Array.from(document.querySelectorAll("text.metric__value")).map((el) =>
