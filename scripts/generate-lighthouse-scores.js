@@ -71,7 +71,10 @@ try {
 
   const datetime = await page.evaluate(() => {
     const item = document.querySelector(".lh-report-icon--date");
-    return item ? item.textContent.trim() : "";
+    const rawText = item
+      ? item.textContent.trim().replace(/^Captured at\s+/i, "")
+      : "";
+    return rawText;
   });
 
   const scoreObject = Object.fromEntries(scores);
