@@ -2,6 +2,7 @@ import tippy, { type Instance } from "tippy.js";
 import { initModal } from "./modal";
 import { initStickyAccordions } from "./accordion-scrolling";
 import { initScrolling } from "./select-scrolling";
+import { initLighthouseScores } from "./lighthouse-scores";
 import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipeline-job-data";
 
 import "../scss/main.scss";
@@ -31,6 +32,7 @@ function initializeApp(): void {
 
   initScrolling();
   initDynamicImages();
+  initLighthouseScores();
 
   // 1. Generate hotspot buttons first
   initPipelineHotspots();

@@ -1,0 +1,23 @@
+{
+  "FCP": {
+    "score": 10,
+    "value": 1523
+  },
+  "LCP": {
+    "score": 22,
+    "value": 2585
+  },
+  "TBT": {
+    "score": 30,
+    "value": 0
+  },
+  "CLS": {
+    "score": 25,
+    "value": 0
+  },
+  "SI": {
+    "score": 10,
+    "value": 1523
+  },
+  "datetime": "Captured at Aug 18, 2026, 9:50 PM GMT+8"
+}

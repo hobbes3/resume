@@ -390,7 +390,7 @@
             </li>
           </ul>
 
-          <p>
+          <p id="section-nodejs-scripts">
             Automated
             <a href="https://nodejs.org/en" class="secondary">Node.js</a>
             scripts using
@@ -409,10 +409,11 @@
             <li>
               <a
                 href="https://github.com/hobbes3/site-resume/blob/main/scripts/generate-lighthouse-score-img.js"
-                >generate-lighthouse-score-img.js</a
+                >generate-lighthouse-scores.js</a
               >: Screenshots the
               <a href="#section-lighthouse">Lighthouse audit ring score</a>
-              during <code>lighthouse</code> for every release.
+              and passes the scores to this page during
+              <code>lighthouse</code> job for every build.
             </li>
           </ul>
         </article>
@@ -843,12 +844,20 @@
           </div>
           <p>
             Click the score above to view the latest
-            <a href="/reports/lhr-latest.html">Lighthouse audit report</a>.
+            <a href="/reports/lhr-latest.html">Lighthouse audit report</a>. The
+            ring score and the scores are generated on every page build by a
+            <a
+              href="#section-nodejs-scripts"
+              data-tippy-content="Jump to Node.js scripts"
+              >Node.js script</a
+            >. <br />
+            <span id="lighthouse-datetime"></span>.
           </p>
           <table>
             <thead>
               <tr>
                 <th>Metric</th>
+                <th>Score</th>
                 <th>Description</th>
               </tr>
             </thead>
@@ -859,6 +868,7 @@
                     >FCP</strong
                   >
                 </td>
+                <td><span id="lighthouse-fcp">0</span>/10</td>
                 <td>
                   Measures how fast the first text or image renders on screen.
                 </td>
@@ -869,6 +879,7 @@
                     >LCP</strong
                   >
                 </td>
+                <td><span id="lighthouse-lcp">0</span>/25</td>
                 <td>
                   Measures when the main page content has likely finished
                   loading.
@@ -878,6 +889,7 @@
                 <td>
                   <strong data-tippy-content="Total Blocking Time">TBT</strong>
                 </td>
+                <td><span id="lighthouse-tbt">0</span>/30</td>
                 <td>
                   Measures page unresponsiveness during loading before user
                   interaction.
@@ -889,6 +901,7 @@
                     >CLS</strong
                   >
                 </td>
+                <td><span id="lighthouse-cls">0</span>/25</td>
                 <td>
                   Measures visual stability by tracking unexpected page layout
                   shifts.
@@ -898,6 +911,7 @@
                 <td>
                   <strong data-tippy-content="Speed Index">SI</strong>
                 </td>
+                <td><span id="lighthouse-si">0</span>/10</td>
                 <td>
                   Measures how quickly content is visually displayed during
                   load.
