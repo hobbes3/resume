@@ -1,3 +1,5 @@
+// Numerical formula taken from Google's Lighthouse calculator: https://googlechrome.github.io/lighthouse/scorecalc/
+
 export type LighthouseMetric = "FCP" | "SI" | "LCP" | "TBT" | "CLS";
 export type MetricRating = "pass" | "average" | "fail"; // pass = green, average = yellow, fail = red
 
@@ -7,13 +9,13 @@ interface CurveParams {
 }
 
 // Mobile curve parameters for Lighthouse v10, v11, v12
-const MOBILE_CURVES: Record<LighthouseMetric, CurveParams> = {
-  FCP: { median: 3000, p10: 1800 },
-  SI: { median: 5800, p10: 3387 },
-  LCP: { median: 4000, p10: 2500 },
-  TBT: { median: 600, p10: 200 },
-  CLS: { median: 0.25, p10: 0.1 },
-};
+const MOBILE_CURVES = new Map<LighthouseMetric, CurveParams>([
+  ["FCP", { median: 3000, p10: 1800 }],
+  ["SI", { median: 5800, p10: 3387 }],
+  ["LCP", { median: 4000, p10: 2500 }],
+  ["TBT", { median: 600, p10: 200 }],
+  ["CLS", { median: 0.25, p10: 0.1 }],
+]);
 
 function internalErf(x: number): number {
   const sign = x < 0 ? -1 : 1;
@@ -60,7 +62,10 @@ export function getMetricRating(
   rating: MetricRating;
   color: string;
 } {
-  const curve = MOBILE_CURVES[metric];
+  const curve = MOBILE_CURVES.get(metric);
+  if (!curve) {
+    throw new Error(`Invalid metric: ${metric}`);
+  }
 
   // Calculate raw log-normal score and round to 0-100 integer
   const rawScore = quantileAtValue(curve, value);
