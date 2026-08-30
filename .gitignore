@@ -1,11 +1,23 @@
+# Dependencies
 node_modules/
+
+# Build & Report Outputs
 dist/
 .lighthouseci/
 
+# OpenTofu / Terraform State & Variables
 *.tfvars
 *.tfstate
 *.tfstate.*
 .terraform/
 .tfplan
 
+# Local AWS Credentials & Environment Files
+.aws/
+.env
+.env.*
+.envrc
+
+# OS & Editor Files
 .DS_Store
+Thumbs.db

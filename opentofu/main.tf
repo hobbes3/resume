@@ -15,6 +15,10 @@ terraform {
     bucket                      = "site-resume-tfstate"
     key                         = "cloudflare/terraform.tfstate"
     region                      = "auto"
+    profile                     = "site-resume"
+    endpoints                   = { 
+      s3 = "https://ecb38e99c15d28c64e8794aeca162eac.r2.cloudflarestorage.com"
+    }
     skip_credentials_validation = true
     skip_region_validation      = true
     skip_requesting_account_id  = true
@@ -34,11 +38,6 @@ variable "cloudflare_api_token" {
   type        = string
   description = "Cloudflare API Token with Zone and Access management permissions"
   sensitive   = true
-}
-
-variable "github_client_id" {
-  type        = string
-  description = "Client ID for GitHub OAuth Application used in Zero Trust SSO"
 }
 
 variable "github_client_secret" {
@@ -181,7 +180,7 @@ resource "cloudflare_zero_trust_access_identity_provider" "github_sso" {
   type       = "github"
 
   config = {
-    client_id     = var.github_client_id
+    client_id     = "Ov23liVrM7tRDqiP4rNQ"
     client_secret = var.github_client_secret
   }
 }
