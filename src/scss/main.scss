@@ -291,7 +291,7 @@ button.hotspot {
   .role {
     font-size: 1em;
     font-style: italic;
-    padding-left: 1rem;
+    padding-left: 2cqw;
   }
 
   .normal {
@@ -302,7 +302,7 @@ button.hotspot {
   .date-loc {
     font-size: 0.85em;
     color: $color-grey;
-    padding-left: 0.5rem;
+    padding-left: 1cqw;
     letter-spacing: 0.01rem;
   }
 
@@ -312,7 +312,9 @@ button.hotspot {
   }
 
   ul {
-    padding-left: 2rem;
+    padding-left: 6cqw;
+    padding-inline-start: 6cqw;
+    margin-inline-start: 0;
   }
 
   li {
