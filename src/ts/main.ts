@@ -5,13 +5,13 @@ import { initScrolling } from "./select-scrolling";
 import { initLighthouseScores } from "./lighthouse-scores";
 import { PIPELINE_JOB_INFO, PIPELINE_GROUPS } from "./pipeline-job-data";
 
-import "../scss/main.scss";
 import "tippy.js/dist/tippy.css";
 import "tippy.js/animations/scale.css";
 import "@picocss/pico/css/pico.min.css";
 import "@fontsource/carlito/latin-400.css";
 import "@fontsource/carlito/latin-700.css";
 import "@fontsource/carlito/latin-400-italic.css";
+import "../scss/main.scss";
 
 interface TippyElement extends HTMLElement {
   _tippy?: Instance;

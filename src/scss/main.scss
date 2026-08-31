@@ -32,8 +32,13 @@ html {
   color: $color-grey;
 }
 
+p,
+ul {
+  margin-bottom: 0.25rem;
+}
+
 :is(ul, ol) :is(ul, ol) {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
 #name {
@@ -207,6 +212,10 @@ button.hotspot {
   font-weight: normal;
   text-align: left;
   margin-top: 0;
+}
+
+#contact-links {
+  margin-bottom: 1rem;
 }
 
 #resume-wrapper {
