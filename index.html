@@ -418,71 +418,67 @@
         </article>
         <article id="section-devsecops">
           <header>🔐 DevSecOps (Security)</header>
+          <p>
+            <strong
+              ><a href="https://code.visualstudio.com" class="secondary"
+                >Visual Studio Code</a
+              >
+              <span data-tippy-content="Integrated Development Environment"
+                >IDE</span
+              ></strong
+            >
+            extensions (including
+            <a
+              href="https://marketplace.visualstudio.com/items?itemName=asvetliakov.vscode-neovim"
+              class="secondary"
+              >Neovim</a
+            >)
+          </p>
           <ul>
             <li>
-              <strong
-                ><a href="https://code.visualstudio.com" class="secondary"
-                  >Visual Studio Code</a
-                >
-                <span data-tippy-content="Integrated Development Environment"
-                  >IDE</span
-                ></strong
-              >
-              extensions (including
               <a
-                href="https://marketplace.visualstudio.com/items?itemName=asvetliakov.vscode-neovim"
+                href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"
                 class="secondary"
-                >Neovim</a
-              >)
-              <ul>
-                <li>
-                  <a
-                    href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode"
-                    class="secondary"
-                    >Prettier</a
-                  >*
-                </li>
-                <li>
-                  <a
-                    href="https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint"
-                    class="secondary"
-                    >Stylelint</a
-                  >*
-                </li>
-                <li>
-                  <a
-                    href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
-                    class="secondary"
-                    >ESLint</a
-                  >* including <code>eslint-plugin-security</code>
-                </li>
-                <li>
-                  <a
-                    href="https://marketplace.visualstudio.com/items?itemName=html-validate.vscode-html-validate"
-                    class="secondary"
-                    >HTML-validate</a
-                  >*
-                </li>
-              </ul>
+                >Prettier</a
+              >*
             </li>
             <li>
-              <strong>Pre-commit hooks</strong> (view
               <a
-                href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
-                >.pre-commit-config.yaml</a
-              >)
-              <ul>
-                <li><em>Identical to the VS Code extensions above*</em></li>
-                <li>
-                  <a
-                    href="https://github.com/rhysd/actionlint"
-                    class="secondary"
-                    >Actionlint</a
-                  >*
-                </li>
-                <li>Betterleaks</li>
-              </ul>
+                href="https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint"
+                class="secondary"
+                >Stylelint</a
+              >*
             </li>
+            <li>
+              <a
+                href="https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint"
+                class="secondary"
+                >ESLint</a
+              >* including <code>eslint-plugin-security</code>
+            </li>
+            <li>
+              <a
+                href="https://marketplace.visualstudio.com/items?itemName=html-validate.vscode-html-validate"
+                class="secondary"
+                >HTML-validate</a
+              >*
+            </li>
+          </ul>
+          <p>
+            <strong>Pre-commit hooks</strong> (view
+            <a
+              href="https://github.com/hobbes3/site-resume/blob/main/.pre-commit-config.yaml"
+              >.pre-commit-config.yaml</a
+            >)
+          </p>
+          <ul>
+            <li><em>Identical to the VS Code extensions above*</em></li>
+            <li>
+              <a href="https://github.com/rhysd/actionlint" class="secondary"
+                >Actionlint</a
+              >*
+            </li>
+            <li>Betterleaks</li>
           </ul>
           <div class="center-img-container">
             <img
@@ -492,128 +488,118 @@
               height="342"
             />
           </div>
+          <p>
+            <strong>
+              <span data-tippy-content="Continuous Integration">CI</span>
+              workflow jobs
+            </strong>
+          </p>
           <ul>
             <li>
-              <strong>
-                <span data-tippy-content="Continuous Integration">CI</span>
-                workflow jobs</strong
+              <em>Identical to the pre-commit hooks above*</em>
+            </li>
+            <li>
+              Every CI linting job (except <code>html-validate</code>) uses
+              <a href="https://github.com/reviewdog/reviewdog" class="secondary"
+                >ReviewDog</a
               >
-              <ul>
-                <li>
-                  <em>Identical to the pre-commit hooks above*</em>
-                </li>
-                <li>
-                  Every CI linting job (except <code>html-validate</code>) uses
-                  <a
-                    href="https://github.com/reviewdog/reviewdog"
-                    class="secondary"
-                    >ReviewDog</a
-                  >
-                  wrappers to post findings as inline
-                  <span data-tippy-content="GitHub Pull Request">PR</span>
-                  comments.
-                </li>
-              </ul>
+              wrappers to post findings as inline
+              <span data-tippy-content="GitHub Pull Request">PR</span>
+              comments.
             </li>
+          </ul>
+          <p><strong>Secret scanner</strong></p>
+          <ul>
             <li>
-              <strong>Secret scanner</strong>
-              <ul>
-                <li>
-                  <a
-                    href="https://github.com/betterleaks/betterleaks"
-                    class="secondary"
-                    >Betterleaks</a
-                  >: Runs as a dedicated CI job to scan repository history
-                </li>
-              </ul>
-            </li>
-            <li>
-              <strong data-tippy-content="Software Bill of Materials"
-                >SBOM</strong
+              <a
+                href="https://github.com/betterleaks/betterleaks"
+                class="secondary"
               >
-              (view
-              <a href="/reports/sbom.cyclonedx.json">sbom.cyclonedx.json</a>)
-              <ul>
-                <li>
-                  <a
-                    href="https://oss.anchore.com/docs/guides/sbom/getting-started/"
-                    class="secondary"
-                    >Syft</a
-                  >: Catalogs dependencies into a CycloneDX manifest
-                </li>
-              </ul>
+                Betterleaks </a
+              >: Runs as a dedicated CI job to scan repository history
             </li>
+          </ul>
+          <p>
+            <strong data-tippy-content="Software Bill of Materials">
+              SBOM
+            </strong>
+            (view
+            <a href="/reports/sbom.cyclonedx.json">sbom.cyclonedx.json</a>)
+          </p>
+          <ul>
             <li>
-              <strong data-tippy-content="Software Composition Analysis"
-                >SCA</strong
+              <a
+                href="https://oss.anchore.com/docs/guides/sbom/getting-started/"
+                class="secondary"
+                >Syft</a
+              >: Catalogs dependencies into a CycloneDX manifest
+            </li>
+          </ul>
+          <p>
+            <strong data-tippy-content="Software Composition Analysis">
+              SCA
+            </strong>
+          </p>
+          <ul>
+            <li>
+              <a
+                href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
+                class="secondary"
+                >Grype</a
+              >: Scans Syft's SBOM and reports findings via
+              <span
+                data-tippy-content="Static Analysis Results Interchange Format"
+                >SARIF</span
               >
-              <ul>
-                <li>
-                  <a
-                    href="https://oss.anchore.com/docs/guides/vulnerability/getting-started/"
-                    class="secondary"
-                    >Grype</a
-                  >: Scans Syft's SBOM and reports findings via
-                  <span
-                    data-tippy-content="Static Analysis Results Interchange Format"
-                    >SARIF</span
-                  >
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/renovatebot/renovate"
-                    class="secondary"
-                    >Renovate</a
-                  >† : Proactive dependency updates via automated PRs
-                </li>
-                <li>
-                  <a
-                    href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities/"
-                    class="secondary"
-                    >npm audit</a
-                  >: Fails CI on high/critical
-                  <code>package-lock.json</code> vulnerabilities
-                </li>
-              </ul>
             </li>
             <li>
-              <strong data-tippy-content="Static Application Security Testing"
-                >SAST</strong
-              >
-              <ul>
-                <li>
-                  <a href="https://semgrep.dev" class="secondary">Semgrep</a>†:
-                  Lightweight, fast pattern matching for PR feedback
-                </li>
-                <li>
-                  <a href="https://codeql.github.com" class="secondary"
-                    >CodeQL</a
-                  >: Deep semantic data-flow analysis
-                </li>
-              </ul>
+              <a
+                href="https://github.com/renovatebot/renovate"
+                class="secondary"
+                >Renovate</a
+              >† : Proactive dependency updates via automated PRs
             </li>
             <li>
-              <strong data-tippy-content="Dynamic Application Security Testing"
-                >DAST</strong
-              >
-              <ul>
-                <li>
-                  <a href="https://www.stackhawk.com" class="secondary"
-                    >StackHawk</a
-                  >: Scans live Cloudflare Pages preview deployments
-                  post-release
-                </li>
-              </ul>
+              <a
+                href="https://docs.npmjs.com/auditing-package-dependencies-for-security-vulnerabilities/"
+                class="secondary"
+                >npm audit</a
+              >: Fails CI on high/critical
+              <code>package-lock.json</code> vulnerabilities
+            </li>
+          </ul>
+          <p>
+            <strong data-tippy-content="Static Application Security Testing">
+              SAST
+            </strong>
+          </p>
+          <ul>
+            <li>
+              <a href="https://semgrep.dev" class="secondary">Semgrep</a>†:
+              Lightweight, fast pattern matching for PR feedback
             </li>
             <li>
-              <strong>AI Code Review</strong>
-              <ul>
-                <li>
-                  <a href="https://www.coderabbit.ai" class="secondary"
-                    >CodeRabbit</a
-                  >†: Automated PR summaries and context-aware code reviews
-                </li>
-              </ul>
+              <a href="https://codeql.github.com" class="secondary">CodeQL</a>:
+              Deep semantic data-flow analysis
+            </li>
+          </ul>
+          <p>
+            <strong data-tippy-content="Dynamic Application Security Testing">
+              DAST
+            </strong>
+          </p>
+          <ul>
+            <li>
+              <a href="https://www.stackhawk.com" class="secondary">StackHawk</a
+              >: Scans live Cloudflare Pages preview deployments post-release
+            </li>
+          </ul>
+          <p><strong>AI Code Review</strong></p>
+          <ul>
+            <li>
+              <a href="https://www.coderabbit.ai" class="secondary"
+                >CodeRabbit</a
+              >†: Automated PR summaries and context-aware code reviews
             </li>
           </ul>
           <div class="center-img-container">
@@ -624,60 +610,55 @@
               height="409"
             />
           </div>
+          <p>
+            <strong id="section-edge-headers">
+              Edge security &amp; response hardening
+            </strong>
+          </p>
           <ul>
             <li>
-              <strong id="section-edge-headers"
-                >Edge security &amp; response hardening</strong
-              >
-              <ul>
-                <li>
-                  Enforces
-                  <span data-tippy-content="Content-Security-Policy">CSP</span>,
-                  <span data-tippy-content="HTTP Strict Transport Security"
-                    >HSTS</span
-                  >, X-Frame-Options, and protective headers across all
-                  endpoints to prevent
-                  <span data-tippy-content="Cross-Site Scripting">XSS</span>,
-                  clickjacking, and
-                  <span
-                    data-tippy-content="Multipurpose Internet Mail Extensions"
-                    >MIME</span
-                  >-sniffing.
-                </li>
-                <li>
-                  Managed through
-                  <a
-                    href="#section-iac"
-                    data-tippy-content="Jump to Infrastructure as Code"
-                    >OpenTofu rulesets</a
-                  >
-                  for the production domain (<code>hobbes3.com</code>) and a
-                  repository
-                  <a
-                    href="https://github.com/hobbes3/site-resume/blob/main/public/_headers"
-                    >_headers</a
-                  >
-                  file for <code>*.pages.dev</code> preview environments outside
-                  the primary
-                  <span data-tippy-content="Domain Name System">DNS</span> zone.
-                </li>
-              </ul>
+              Enforces
+              <span data-tippy-content="Content-Security-Policy">CSP</span>,
+              <span data-tippy-content="HTTP Strict Transport Security"
+                >HSTS</span
+              >, X-Frame-Options, and protective headers across all endpoints to
+              prevent
+              <span data-tippy-content="Cross-Site Scripting">XSS</span>,
+              clickjacking, and
+              <span data-tippy-content="Multipurpose Internet Mail Extensions"
+                >MIME</span
+              >-sniffing.
             </li>
             <li>
-              <strong id="section-zero-trust">Zero trust</strong>
-              <ul>
-                <li>
-                  Restricts preview deployments (<code>*.pages.dev</code>) via
-                  identity-gated access (either a GitHub
-                  <span data-tippy-content="Single Sign-On">SSO</span> login or
-                  an email one-time PIN) while keeping production public through
-                  OpenTofu rulesets.
-                </li>
-                <li>
-                  Still allows StackHawk to scan the preview deployments via
-                  Cloudflare access service tokens.
-                </li>
-              </ul>
+              Managed through
+              <a
+                href="#section-iac"
+                data-tippy-content="Jump to Infrastructure as Code"
+                >OpenTofu rulesets</a
+              >
+              for the production domain (<code>hobbes3.com</code>) and a
+              repository
+              <a
+                href="https://github.com/hobbes3/site-resume/blob/main/public/_headers"
+                >_headers</a
+              >
+              file for <code>*.pages.dev</code> preview environments outside the
+              primary
+              <span data-tippy-content="Domain Name System">DNS</span> zone.
+            </li>
+          </ul>
+          <p><strong id="section-zero-trust">Zero trust</strong></p>
+          <ul>
+            <li>
+              Restricts preview deployments (<code>*.pages.dev</code>) via
+              identity-gated access (either a GitHub
+              <span data-tippy-content="Single Sign-On">SSO</span> login or an
+              email one-time PIN) while keeping production public through
+              OpenTofu rulesets.
+            </li>
+            <li>
+              Still allows StackHawk to scan the preview deployments via
+              Cloudflare access service tokens.
             </li>
           </ul>
           <div class="center-img-container">
@@ -714,47 +695,58 @@
         <article id="section-secrets">
           <header>🔑 Secrets management</header>
           <p>
-            <strong>GitHub repository secrets</strong>: Encrypts API tokens and
-            securely injects them into GitHub Actions workflows at runtime as
-            environment variables.
+            <strong>GitHub repository secrets</strong>
           </p>
           <ul>
             <li>
-              <code>CLOUDFLARE_API_TOKEN</code> for
-              <a
-                href="#section-devops"
-                data-tippy-content="Jump to workflow jobs"
-                >deploying Pages</a
-              >
-              and detecting
-              <a
-                href="#section-iac"
-                data-tippy-content="Jump to Infrastructure as Code"
-                >configuration drifts</a
-              >
+              Encrypts API tokens and securely injects them into GitHub Actions
+              workflows at runtime as environment variables.
+              <ul>
+                <li>
+                  <code>CLOUDFLARE_API_TOKEN</code> for
+                  <a
+                    href="#section-devops"
+                    data-tippy-content="Jump to workflow jobs"
+                    >deploying Pages</a
+                  >
+                  and detecting
+                  <a
+                    href="#section-iac"
+                    data-tippy-content="Jump to Infrastructure as Code"
+                    >configuration drifts</a
+                  >
+                </li>
+                <li>
+                  <code>AWS_ACCESS_KEY_ID</code> for Cloudflare R2 buckets
+                </li>
+                <li><code>AWS_SECRET_ACCESS_KEY</code></li>
+                <li><code>HAWK_API_KEY</code> for StackHawk job</li>
+                <li>
+                  <code>CF_ACCESS_CLIENT_ID</code>* for StackHawk to bypass
+                  <a href="#section-zero-trust">Cloudflare zero trust</a>
+                </li>
+                <li><code>CF_ACCESS_CLIENT_SECRET</code></li>
+              </ul>
             </li>
-            <li><code>AWS_ACCESS_KEY_ID</code> for Cloudflare R2 buckets</li>
-            <li><code>AWS_SECRET_ACCESS_KEY</code></li>
-            <li><code>HAWK_API_KEY</code> for StackHawk job</li>
-            <li>
-              <code>CF_ACCESS_CLIENT_ID</code>* for StackHawk to bypass
-              <a href="#section-zero-trust">Cloudflare zero trust</a>
-            </li>
-            <li><code>CF_ACCESS_CLIENT_SECRET</code></li>
           </ul>
           <p>
-            <code><strong>terraform.tfvars</strong></code
-            >: Defines sensitive variables for local OpenTofu runs while keeping
-            secrets out of the repository via <code>.gitignore</code>.
+            <code><strong>terraform.tfvars</strong></code>
           </p>
           <ul>
             <li>
-              <code>cloudflare_api_token</code> for running
-              <code>tofu</code> commands to modify Cloudflare configurations
-            </li>
-            <li>
-              <code>github_client_secret</code> for GitHub
-              <span data-tippy-content="Single Sign-On">SSO</span> in zero trust
+              Defines sensitive variables for local OpenTofu runs while keeping
+              secrets out of the repository via <code>.gitignore</code>.
+              <ul>
+                <li>
+                  <code>cloudflare_api_token</code> for running
+                  <code>tofu</code> commands to modify Cloudflare configurations
+                </li>
+                <li>
+                  <code>github_client_secret</code> for GitHub
+                  <span data-tippy-content="Single Sign-On">SSO</span> in zero
+                  trust
+                </li>
+              </ul>
             </li>
           </ul>
           <footer>
@@ -777,54 +769,52 @@
             for <code>hobbes3.com</code> and its subdomains (<code>www</code>,
             <code>resume</code>, <code>fec</code>).
           </p>
+          <p>
+            <strong>Declarative infrastructure</strong> (view
+            <a
+              href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
+              >main.tf</a
+            >)
+          </p>
           <ul>
             <li>
-              <strong>Declarative infrastructure</strong> (view
-              <a
-                href="https://github.com/hobbes3/site-resume/blob/main/opentofu/main.tf"
-                >main.tf</a
-              >)
-              <ul>
-                <li>
-                  Defines Cloudflare resources, including Pages projects, custom
-                  domains,
-                  <span data-tippy-content="Domain Name System">DNS</span>
-                  records,
-                  <a href="#section-edge-headers">edge security headers</a>,
-                  <a href="#section-zero-trust">zero trust</a>, and redirect
-                  rules.
-                </li>
-              </ul>
+              Defines Cloudflare resources, including Pages projects, custom
+              domains,
+              <span data-tippy-content="Domain Name System">DNS</span>
+              records,
+              <a href="#section-edge-headers">edge security headers</a>,
+              <a href="#section-zero-trust">zero trust</a>, and redirect rules.
             </li>
+          </ul>
+
+          <p>
+            <strong
+              ><a
+                href="https://www.cloudflare.com/products/r2/"
+                class="secondary"
+                >Cloudflare R2 buckets</a
+              ></strong
+            >
+          </p>
+          <ul>
             <li>
-              <strong
-                ><a
-                  href="https://www.cloudflare.com/products/r2/"
-                  class="secondary"
-                  >Cloudflare R2 buckets</a
-                ></strong
-              >
-              <ul>
-                <li>
-                  Stores the <code>terraform.tfstate</code> file in a private R2
-                  bucket with native state locking enabled for security, state
-                  persistence, and concurrent execution safety.
-                </li>
-              </ul>
+              Stores the <code>terraform.tfstate</code> file in a private R2
+              bucket with native state locking enabled for security, state
+              persistence, and concurrent execution safety.
             </li>
+          </ul>
+          <p>
+            <strong>Automated CI/CD</strong> (view
+            <a
+              href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
+              >drift-detection.yaml</a
+            >)
+          </p>
+          <ul>
             <li>
-              <strong>Automated CI/CD</strong> (view
-              <a
-                href="https://github.com/hobbes3/site-resume/blob/main/.github/workflows/drift-detection.yaml"
-                >drift-detection.yaml</a
-              >)
-              <ul>
-                <li>
-                  Runs a daily scheduled <code>tofu plan</code> check against
-                  Cloudflare API configurations to detect state drift and
-                  automatically open GitHub issues for remediation.
-                </li>
-              </ul>
+              Runs a daily scheduled <code>tofu plan</code> check against
+              Cloudflare API configurations to detect state drift and
+              automatically open GitHub issues for remediation.
             </li>
           </ul>
         </article>
@@ -1065,7 +1055,7 @@
         Downloadable PDF available at
         <a href="https://resume.hobbes3.com">resume.hobbes3.com</a>
       </p>
-      <p>
+      <p id="contact-links">
         <svg width="1em" height="1em">
           <use href="#icon-email"></use>
         </svg>
